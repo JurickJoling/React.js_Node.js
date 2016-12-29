@@ -25,7 +25,7 @@ function ItinerariesList({ items }) {
             <LinkTo url={`itineraries/${objectId}`}>{objectId}</LinkTo>
           </td>
           <td>{title_event}</td>
-          <td>{tags}</td>
+          <td>{(tags || []).join(', ')}</td>
           <td>{renderDateTime(createdAt)}</td>
           <td>{renderDateTime(updatedAt)}</td>
           <td>

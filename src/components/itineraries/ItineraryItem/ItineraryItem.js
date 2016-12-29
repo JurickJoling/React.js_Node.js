@@ -1,12 +1,13 @@
 import last from 'lodash/last';
 import React, { PropTypes } from 'react';
 
-import { GoogleMap, BooleanField } from '../../../helpers';
+import { LinkTo, GoogleMap, BooleanField } from '../../../helpers';
 import { renderDateTime, weekDays } from '../../../utils';
 
 function ItineraryItem({
   item, item: {
     objectId,
+    bundle,
     title_event, description_event, image,
     tags, location,
     partner, start_day, count_attended, is21_age, estimated_cost, end_day,
@@ -14,7 +15,7 @@ function ItineraryItem({
     createdAt, updatedAt
   }
 }) {
-  console.log(start_day);
+  console.log(tags);
   return (
     <div>
       <h1>Itinerary #{objectId}</h1>
@@ -23,6 +24,10 @@ function ItineraryItem({
         <tr>
           <td>ObjectId</td>
           <td>{objectId}</td>
+        </tr>
+        <tr>
+          <td>Bundle</td>
+          <td>{bundle ? <LinkTo url={`bundles/${bundle.objectId}`}>{bundle.objectId}</LinkTo> : null}</td>
         </tr>
         <tr>
           <td>Title Event</td>
@@ -34,7 +39,7 @@ function ItineraryItem({
         </tr>
         <tr>
           <td>Tags</td>
-          <td>{tags}</td>
+          <td>{(tags || []).join(', ')}</td>
         </tr>
         <tr>
           <td>Partner</td>
@@ -44,7 +49,7 @@ function ItineraryItem({
         </tr>
         <tr>
           <td>Start Day</td>
-          <td>{renderDateTime(start_day.iso)}</td>
+          <td>{start_day ? renderDateTime(start_day.iso) : null}</td>
         </tr>
         <tr>
           <td>Number of Attendees</td>
@@ -66,7 +71,7 @@ function ItineraryItem({
         </tr>
         <tr>
           <td>End Date</td>
-          <td>{renderDateTime(end_day.iso)}</td>
+          <td>{end_day ? renderDateTime(end_day.iso) : null}</td>
         </tr>
         <tr>
           <td>Repeat Daily</td>
@@ -103,7 +108,7 @@ function ItineraryItem({
         <tr>
           <td>Location</td>
           <td>
-            <GoogleMap location={location} />
+            {location ? <GoogleMap location={location} /> : null}
           </td>
         </tr>
         <tr>

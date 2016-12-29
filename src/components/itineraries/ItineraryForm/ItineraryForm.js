@@ -1,18 +1,28 @@
 import isEmpty from 'lodash/isEmpty';
 import last from 'lodash/last';
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import Promise from 'bluebird';
 
-import { LinkTo, renderField, renderDropdownList } from '../../../helpers';
+import { fetchBundles } from '../../../actions/BundleActions';
+import { fetchTags } from '../../../actions/TagActions';
+
+import { LinkTo, renderField, renderDropdownList, renderMultiselect } from '../../../helpers';
 import { weekDays  } from '../../../utils';
 
 class ItineraryForm extends Component {
   componentDidMount() {
-    this.handleInitialize();
+    const { fetchBundles, fetchTags } = this.props;
+    Promise.all([
+      fetchBundles({}),
+      fetchTags({})
+    ]).then(() => this.handleInitialize());
   }
 
   handleInitialize() {
     const { item, item: {
+      bundle: { objectId },
       title_event, description_event, image,
       tags, location,
       partner, start_day, count_attended, is21_age, estimated_cost, end_day,
@@ -22,6 +32,7 @@ class ItineraryForm extends Component {
 
     if (!isEmpty(item)) {
       initialize({
+        bundle: { objectId },
         title_event, description_event, image,
         tags, location,
         partner, start_day, count_attended, is21_age, estimated_cost, end_day,
@@ -32,15 +43,27 @@ class ItineraryForm extends Component {
   }
 
   render () {
-    const { item, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, bundles, tags, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
       <form onSubmit={handleSubmit(itinerary => {onSave(itinerary)})}>
-        <div>Bundle</div>
+        <Field
+          name="bundle"
+          valueField="objectId"
+          textField="heading"
+          component={renderDropdownList}
+          data={bundles.map(({ objectId, heading }) => ({ objectId, heading }))}
+          label="Bundle"
+        />
         <Field name="image" component={renderField} label="URL of banner"/>
         <Field name="title_event" component={renderField} label="Title"/>
         <Field name="description_event" component={renderField} type="textarea" label="Description" />
-        <div>Tags - select</div>
+        <Field
+          name="tags"
+          component={renderMultiselect}
+          data={tags.map(({ tag }) => tag)}
+          label="Tags"
+        />
         <div>Location - Yelp</div>
         <Field name="partner" component={renderField} type="checkbox" label="Partner" />
         <div>start_day - Date</div>
@@ -102,4 +125,7 @@ function validate({ priority }) {
   return errors;
 }
 
-export default reduxForm({ form: 'itinerary', validate })(ItineraryForm);
+export default connect(({
+  bundles: { items: bundles },
+  tags: { items: tags }
+}) => ({ bundles, tags }), ({ fetchBundles, fetchTags }))(reduxForm({ form: 'itinerary', validate })(ItineraryForm));

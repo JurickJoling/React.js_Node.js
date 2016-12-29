@@ -53,6 +53,7 @@ export function fetchItinerary(itemId) {
 }
 
 export function createItinerary({
+  bundle: { objectId },
   title_event, description_event, image,
   tags, location,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
@@ -60,6 +61,11 @@ export function createItinerary({
   repeat_daily, featured, featured_name, featured_link, first_message
 }) {
   return dispatch => apiRequest.post('EventDetail', {
+    bundle: {
+      __type: 'Pointer',
+      className: 'EventBundle',
+      objectId
+    },
     title_event, description_event, image,
     tags, location,
     partner, start_day, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost, end_day,
@@ -71,6 +77,7 @@ export function createItinerary({
 }
 
 export function updateItinerary(itemID, {
+  bundle: { objectId },
   title_event, description_event, image,
   tags, location,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
@@ -78,6 +85,11 @@ export function updateItinerary(itemID, {
   repeat_daily, featured, featured_name, featured_link, first_message
 }) {
   return dispatch => apiRequest.put('EventDetail', itemID, {
+    bundle: {
+      __type: 'Pointer',
+      className: 'EventBundle',
+      objectId
+    },
     title_event, description_event, image,
     tags, location,
     partner, start_day, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost, end_day,
