@@ -1,6 +1,9 @@
 require('../server.babel'); // babel registration (runtime transpilation for node)
 
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const precss = require('precss');
+const autoprefixer = require('autoprefixer');
 const path = require('path');
 
 module.exports = {
@@ -28,7 +31,18 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /\/node_modules\//, loader: 'babel' }
+      { test: /\.jsx?$/, exclude: /\/node_modules\//, loader: 'babel' },
+      { test: /\.css$/, loader: 'style!css!postcss' },
+      {
+        test: /.(png|jpg|gif|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/,
+        include: /\/node_modules\//,
+        loader: 'file?name=[1].[ext]?hash=[hash:6]&regExp=node_modules/(.*)'
+      },
+      {
+        test: /.(png|jpg|gif|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/,
+        exclude: /\/node_modules\//,
+        loader: 'file?name=[path][name].[ext]?hash=[hash:6]'
+      }
     ]
   },
 
@@ -36,6 +50,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/), // include only ru|en locales in moment
     new webpack.IgnorePlugin(/moment\/min\/locales/),
+    new ExtractTextPlugin('[name].[contenthash].css', { allChunks: true }),
     new webpack.DefinePlugin({
       'process.env': {
         __CLIENT__: JSON.stringify(true),
@@ -52,5 +67,9 @@ module.exports = {
         // screw_ie8: true
       }
     })
-  ]
+  ],
+
+  postcss: function () {
+    return [precss, autoprefixer];
+  }
 };
