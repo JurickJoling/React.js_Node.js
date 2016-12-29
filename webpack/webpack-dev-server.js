@@ -8,8 +8,6 @@ const config = require('./config');
 const webpackConfig = require('./dev.config');
 const compiler = webpack(webpackConfig);
 
-console.log(config, webpackConfig.output.publicPath);
-
 const host = config.host || 'localhost';
 const port = (Number(config.port) + 1) || 3001;
 const serverOptions = {
@@ -26,10 +24,10 @@ const serverOptions = {
 
 const app = new Express();
 
-app.use(require('webpack-dev-middleware')(compiler, { noInfo: false, publicPath: webpackConfig.output.publicPath }));
+app.use(require('webpack-dev-middleware')(compiler, serverOptions));
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.get('/', function(req, res) {
+app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 

@@ -5,7 +5,12 @@ import { API_URI } from '../config';
 
 function headers() {
   return {
-    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }};
+    headers: {
+      'X-Parse-Application-Id': 'leaflets',
+      'X-Parse-Master-Key': 'a74bc3b9ca53d143da3617f138ec8158',
+      'Content-Type': 'application/json',
+    }
+  };
 }
 
 export default class apiRequest {

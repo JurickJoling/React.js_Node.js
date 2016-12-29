@@ -44,10 +44,12 @@ module.exports = {
   plugins: [
     new webpack.NoErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.ContextReplacementPlugin(/node_modules\/moment\/locale/, /en-gb/), // include only en locales in moment
+    new webpack.IgnorePlugin(/moment\/min\/locales/),
     new webpack.DefinePlugin({
       'process.env': {
         __CLIENT__: JSON.stringify(true),
-        __DEVTOOLS__: JSON.stringify(false),
+        __DEVTOOLS__: JSON.stringify(true),
         NODE_ENV: JSON.stringify('development')
       }
     }),
