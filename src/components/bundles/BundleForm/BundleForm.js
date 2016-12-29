@@ -1,29 +1,40 @@
+import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { LinkTo } from '../../../helpers';
+import { LinkTo, renderField } from '../../../helpers';
 
-function BundleForm({ handleSubmit, onSave, bundle: { objectId, heading, priority, banner } }) {
-  return (
-    <form onSubmit={handleSubmit(bundle => onSave(bundle))}>
-      <fieldset className="form-group">
-        <label>URL of banner</label>
-        <Field name="banner" component="input" className="form-control" />
-      </fieldset>
-      <fieldset className="form-group">
-        <label>Name / Title</label>
-        <Field name="heading" component="input" className="form-control" />
-      </fieldset>
-      <fieldset className="form-group">
-        <label>Priority</label>
-        <Field name="priority" component="input" type="number" className="form-control" />
-      </fieldset>
-      <div className="btn-group">
-        <LinkTo className="btn btn-default" url="bundles">Cancel</LinkTo>
-        <button action="submit" className="btn btn-primary">Create Bundle</button>
-      </div>
-    </form>
-  );
+class BundleForm extends Component {
+  componentDidMount() {
+    this.handleInitialize();
+  }
+
+  handleInitialize() {
+    const { item: { heading, priority, banner }, initialize } = this.props;
+
+    initialize({
+      heading,
+      priority,
+      banner
+    });
+  }
+
+  render () {
+    const { item, handleSubmit, onSave } = this.props;
+    return (
+      <form onSubmit={handleSubmit(bundle => onSave(bundle))}>
+        <Field name="banner" component={renderField} label="URL of banner"/>
+        <Field name="heading" component={renderField} label="Name / Title"/>
+        <Field name="priority" component={renderField} type="number" label="Priority"/>
+        <div className="btn-group">
+          <LinkTo className="btn btn-default" url="bundles">Cancel</LinkTo>
+          <button action="submit" className="btn btn-primary">
+            {isEmpty(item) ? 'Create Bundle' : 'Update Bundle'}
+          </button>
+        </div>
+      </form>
+    );
+  }
 }
 
 BundleForm.defaultProps = {

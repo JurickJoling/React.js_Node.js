@@ -8,7 +8,6 @@ const defaultState = {
 export default function BundleReducer(state = defaultState, { type, items, item, itemId }) {
   switch (type) {
     case ADD_BUNDLES:
-      console.log('items', items);
       return {
         ...state,
         items

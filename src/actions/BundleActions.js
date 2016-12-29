@@ -48,7 +48,13 @@ export function createBundle(bundle) {
     .then(() => browserHistory.push('/bundles'));
 }
 
-export function deleteBundle(bundleId) {
-  return dispatch => apiRequest.delete('EventBundle', bundleId)
-    .then(() => dispatch(removeBundle(bundleId)));
+export function updateBundle(itemID, bundle) {
+  return dispatch => apiRequest.put('EventBundle', itemID, bundle)
+    .then(() => browserHistory.push('/bundles'));
+}
+
+export function deleteBundle(itemID) {
+  return dispatch => apiRequest.delete('EventBundle', itemID)
+    .then(() => dispatch(removeBundle(itemID)))
+    .then(() => browserHistory.push('/bundles'));
 }

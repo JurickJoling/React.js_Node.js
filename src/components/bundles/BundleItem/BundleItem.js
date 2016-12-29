@@ -2,8 +2,7 @@ import React, { PropTypes } from 'react';
 
 import { renderDateTime } from '../../../utils';
 
-function BundleItem({ bundle: { objectId, heading, priority, banner, createdAt, updatedAt } }) {
-  console.log('objectId' ,objectId, heading, priority, banner, createdAt, updatedAt);
+function BundleItem({ item: { objectId, heading, priority, banner, createdAt, updatedAt } }) {
   return (
     <div>
       <h1>Bundle #{objectId}</h1>
@@ -42,7 +41,7 @@ function BundleItem({ bundle: { objectId, heading, priority, banner, createdAt, 
 }
 
 BundleItem.propTypes = {
-  bundle: PropTypes.shape({
+  item: PropTypes.shape({
     objectId: PropTypes.string.isRequired,
     heading: PropTypes.string.isRequired,
     priority: PropTypes.number.isRequired,

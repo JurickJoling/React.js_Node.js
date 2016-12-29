@@ -6,6 +6,11 @@ import { createBundle } from '../../actions/BundleActions';
 import { BundleForm } from '../../components';
 
 class BundleAddPage extends Component {
+
+  static propTypes = {
+    createBundle: PropTypes.func.isRequired
+  };
+
   render() {
     const { createBundle } = this.props;
     return (
@@ -16,4 +21,4 @@ class BundleAddPage extends Component {
   }
 }
 
-export default connect(({ bundles: { item } }) => ({ bundle: item }), { createBundle })(BundleAddPage);
+export default connect(null, { createBundle })(BundleAddPage);

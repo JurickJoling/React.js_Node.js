@@ -4,4 +4,4 @@ export { default as Error404 } from './Error404/Error404';
 
 export { default as Header } from './Header/Header';
 
-export { BundlesList, BundleItem, BundleForm } from './bundles';
+export { BundlesList, BundleItem, BundleForm, BundleDelete } from './bundles';

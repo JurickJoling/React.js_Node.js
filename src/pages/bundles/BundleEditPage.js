@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchBundle } from '../../actions/BundleActions';
+import { fetchBundle, updateBundle } from '../../actions/BundleActions';
 
-import { BundleItem } from '../../components';
+import { BundleForm } from '../../components';
 import { Loading } from '../../helpers';
 
-class BundleShowPage extends Component {
+class BundleAddPage extends Component {
 
   static propTypes = {
     item: PropTypes.object.isRequired,
@@ -24,14 +24,14 @@ class BundleShowPage extends Component {
   }
 
   render() {
-    const { item } = this.props;
+    const { params: { itemID }, item, updateBundle } = this.props;
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
-        <BundleItem item={item} />
+        <BundleForm item={item} onSave={bundle => updateBundle(itemID, bundle)} />
       </Loading>
     );
   }
 }
 
-export default connect(({ bundles: { item } }) => ({ item }), { fetchBundle })(BundleShowPage);
+export default connect(({ bundles: { item } }) => ({ item }), { updateBundle, fetchBundle })(BundleAddPage);
