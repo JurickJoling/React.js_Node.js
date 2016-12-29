@@ -15,7 +15,7 @@ function renderDateTimePicker({ input, label, meta: { touched, error, warning },
         {...input}
         format={'MM/DD/YYYY hh:mm:ss'}
         onBlur={() => input.onBlur()}
-        value={moment(input.value).toDate() || new Date()}
+        value={input.value ? moment(input.value).toDate() : null}
         {...rest}
       />
       {touched && ((error && <div className="error help-block">{error}</div>) || (warning && <div className="error">{warning}</div>))}

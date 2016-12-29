@@ -55,7 +55,7 @@ export function fetchItinerary(itemId) {
 export function createItinerary({
   bundle: { objectId },
   title_event, description_event, image,
-  tags, location,
+  tags, locations,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
   reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
   repeat_daily, featured, featured_name, featured_link, first_message
@@ -66,9 +66,17 @@ export function createItinerary({
       className: 'EventBundle',
       objectId
     },
+    start_day: start_day ? {
+      __type: 'Date',
+      iso: start_day
+    } : null,
+    end_day: end_day ? {
+      __type: 'Date',
+      iso: end_day
+    } : null,
     title_event, description_event, image,
-    tags, location,
-    partner, start_day, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost, end_day,
+    tags, locations,
+    partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost,
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     repeat_daily, featured, featured_name, featured_link, first_message
   })
@@ -79,7 +87,7 @@ export function createItinerary({
 export function updateItinerary(itemID, {
   bundle: { objectId },
   title_event, description_event, image,
-  tags, location,
+  tags, locations,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
   reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
   repeat_daily, featured, featured_name, featured_link, first_message
@@ -90,13 +98,17 @@ export function updateItinerary(itemID, {
       className: 'EventBundle',
       objectId
     },
-    start_day: {
-      __type: 'Date',
-      iso: start_day
-    },
+    start_day: start_day ? {
+        __type: 'Date',
+        iso: start_day
+      } : null,
+    end_day: end_day ? {
+        __type: 'Date',
+        iso: end_day
+      } : null,
     title_event, description_event, image,
-    tags, location,
-    partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost, end_day,
+    tags, locations,
+    partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost,
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     repeat_daily, featured, featured_name, featured_link, first_message
   })

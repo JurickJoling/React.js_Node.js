@@ -8,7 +8,14 @@ import Promise from 'bluebird';
 import { fetchBundles } from '../../../actions/BundleActions';
 import { fetchTags } from '../../../actions/TagActions';
 
-import { LinkTo, renderField, renderDateTimePicker, renderDropdownList, renderMultiselect } from '../../../helpers';
+import {
+  LinkTo,
+  renderField,
+  renderDateTimePicker,
+  renderDropdownList,
+  renderMultiselect,
+  YelpField
+} from '../../../helpers';
 import { weekDays  } from '../../../utils';
 
 class ItineraryForm extends Component {
@@ -22,9 +29,9 @@ class ItineraryForm extends Component {
 
   handleInitialize() {
     const { item, item: {
-      bundle: { objectId },
+      bundle,
       title_event, description_event, image,
-      tags, location,
+      tags, locations,
       partner, start_day, count_attended, is21_age, estimated_cost, end_day,
       reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
       repeat_daily, featured, featured_name, featured_link, first_message
@@ -32,11 +39,11 @@ class ItineraryForm extends Component {
 
     if (!isEmpty(item)) {
       initialize({
-        bundle: { objectId },
+        bundle: bundle ? { objectId: bundle.objectId } : null,
         start_day: (start_day ? start_day.iso : null),
         end_day: (end_day ? end_day.iso : null),
         title_event, description_event, image,
-        tags, location,
+        tags, locations,
         partner, count_attended, is21_age, estimated_cost,
         reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
         repeat_daily, featured, featured_name, featured_link, first_message
@@ -68,7 +75,7 @@ class ItineraryForm extends Component {
               data={tags.map(({ tag }) => tag)}
               label="Tags"
             />
-            <div>Location - Yelp</div>
+            <Field name="locations" component={YelpField} label="Location" placeholder="Select Location" />
             <Field name="partner" component={renderField} type="checkbox" label="Partner" />
             <Field
               name="start_day"

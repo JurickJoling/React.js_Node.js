@@ -3,7 +3,7 @@ const path = require('path');
 const precss = require('precss');
 const autoprefixer = require('autoprefixer');
 
-const config = require('./config');
+const config = require('../config');
 
 console.log(config);
 

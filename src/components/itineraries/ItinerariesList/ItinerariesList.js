@@ -5,7 +5,7 @@ import { renderDateTime } from '../../../utils';
 
 function ItinerariesList({ items }) {
   return (
-    <table className="table table-bordered table-hover">
+    <table className="table table-striped table-bordered table-hover">
       <thead>
       <tr>
         <th>ObjectId</th>
