@@ -30,7 +30,7 @@ class ItinerariesIndexPage extends Component {
     const { fetched } = this.state;
     return (
       <Loading className="container" ignoreLoader={(
-        <div className="row">
+        <div className="row m-b">
           <div className="col-md-6">
             <LinkTo className="btn btn-success" url="itineraries/new">Create Itinerary</LinkTo>
           </div>
