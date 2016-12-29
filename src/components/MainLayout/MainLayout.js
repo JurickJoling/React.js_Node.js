@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Header } from '../../components';
+import { Header, Footer } from '../../components';
 
 class MainLayout extends Component {
 
@@ -13,6 +13,7 @@ class MainLayout extends Component {
       <div>
         <Header />
         {this.props.children}
+        <Footer />
       </div>
     );
   }

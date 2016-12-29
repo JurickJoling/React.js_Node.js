@@ -10,8 +10,11 @@ function Tabs({ modelsName, itemID }) {
           <LinkTo button color="default" url={modelsName}>
             All Records
           </LinkTo>
+          <LinkTo button color="success" url={`${modelsName}/new`}>
+            Create
+          </LinkTo>
           {itemID ? (
-              <LinkTo button color="success" url={`${modelsName}/${itemID}`}>
+              <LinkTo button color="info" url={`${modelsName}/${itemID}`}>
                 Show
               </LinkTo>
             ) : null}

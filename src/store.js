@@ -7,13 +7,13 @@ export default function configureStore(initialState = {}) {
   let finalCreateStore;
 
   if (process.env.NODE_ENV === 'development' && process.env.__CLIENT__) {
-    const createLogger = require('redux-logger'); // eslint-disable-line global-require
+    // const createLogger = require('redux-logger'); // eslint-disable-line global-require
     const { persistState } = require('redux-devtools'); // eslint-disable-line global-require
 
     const { DevTools } = require('./components'); // eslint-disable-line global-require
 
     finalCreateStore = compose(
-      applyMiddleware(thunk, createLogger({ diff: true })),
+      applyMiddleware(thunk), //, createLogger({ diff: true })
       window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
       persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
     )(createStore);

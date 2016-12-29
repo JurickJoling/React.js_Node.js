@@ -18,4 +18,4 @@ class BundleDeletePage extends Component {
   }
 }
 
-export default connect(({ bundles: { item } }) => ({ bundle: item }), { deleteBundle })(BundleDeletePage);
+export default connect(null, { deleteBundle })(BundleDeletePage);

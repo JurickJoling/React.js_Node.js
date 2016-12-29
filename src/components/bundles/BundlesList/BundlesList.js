@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { LinkTo } from '../../../helpers';
 import { renderDateTime } from '../../../utils';
 
-function BundlesList({ bundles }) {
+function BundlesList({ items }) {
   return (
     <table className="table table-bordered table-hover">
       <thead>
@@ -19,7 +19,7 @@ function BundlesList({ bundles }) {
       </tr>
       </thead>
       <tbody>
-      {bundles.map(({ objectId, heading, priority, createdAt, updatedAt }) => (
+      {items.map(({ objectId, heading, priority, createdAt, updatedAt }) => (
         <tr key={objectId}>
           <td>
             <LinkTo url={`bundles/${objectId}`}>{objectId}</LinkTo>
@@ -29,7 +29,7 @@ function BundlesList({ bundles }) {
           <td>{renderDateTime(createdAt)}</td>
           <td>{renderDateTime(updatedAt)}</td>
           <td>
-            <LinkTo className="btn btn-success" url={`bundles/${objectId}`}>Show</LinkTo>
+            <LinkTo className="btn btn-info" url={`bundles/${objectId}`}>Show</LinkTo>
           </td>
           <td>
             <LinkTo className="btn btn-primary" url={`bundles/${objectId}/edit`}>Edit</LinkTo>
@@ -45,7 +45,7 @@ function BundlesList({ bundles }) {
 }
 
 BundlesList.propTypes = {
-  bundles: PropTypes.array.isRequired
+  items: PropTypes.array.isRequired
 };
 
 export default BundlesList;

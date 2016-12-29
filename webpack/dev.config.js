@@ -1,7 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
+const precss = require('precss');
+const autoprefixer = require('autoprefixer');
 
-const config = require('./config');
+const config = require('../config');
 
 console.log(config);
 
@@ -37,7 +39,18 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /\/node_modules\//, loaders: ['babel'] }
+      { test: /\.jsx?$/, exclude: /\/node_modules\//, loaders: ['babel'] },
+      { test: /\.css$/, loader: 'style!css!postcss' },
+      {
+        test: /.(png|jpg|gif|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/,
+        include: /\/node_modules\//,
+        loader: 'file?name=[1].[ext]?hash=[hash:6]&regExp=node_modules/(.*)'
+      },
+      {
+        test: /.(png|jpg|gif|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/,
+        exclude: /\/node_modules\//,
+        loader: 'file?name=[path][name].[ext]?hash=[hash:6]'
+      }
     ]
   },
 
@@ -54,5 +67,9 @@ module.exports = {
       }
     }),
     new webpack.optimize.DedupePlugin()
-  ]
+  ],
+
+  postcss: function () {
+    return [precss, autoprefixer];
+  }
 };
