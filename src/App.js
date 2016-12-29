@@ -1,19 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-
-import { Header } from './components';
+import { Provider } from 'react-redux';
+import { Router, browserHistory } from 'react-router';
 
 class App extends Component {
-
-  static propTypes = {
-    children: PropTypes.node.isRequired
-  };
-
   render() {
+    const { store, routes } = this.props;
     return (
-      <div>
-        <Header />
-        {this.props.children}
-      </div>
+      <Provider store={store}>
+        <Router history={browserHistory} routes={routes} />
+      </Provider>
     );
   }
 }

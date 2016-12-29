@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from '../../actions/BundleActions';
 import { BundlesList } from '../../components';
-import { Loading } from '../../helpers';
+import { LinkTo, Loading } from '../../helpers';
 
 class BundlesIndexPage extends Component {
 
@@ -24,9 +24,12 @@ class BundlesIndexPage extends Component {
     const { bundles } = this.props;
     const { fetched } = this.state;
     return (
-      <Loading className="container" loaded={fetched}>
-        <BundlesList bundles={bundles} />
-      </Loading>
+      <div className="container">
+        <LinkTo className="btn btn-success" url="bundles/new">Create Bundle</LinkTo>
+        <Loading loaded={fetched}>
+          <BundlesList bundles={bundles} />
+        </Loading>
+      </div>
     );
   }
 }

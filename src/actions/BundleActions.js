@@ -44,11 +44,11 @@ export function fetchBundle(itemId) {
 }
 
 export function createBundle(bundle) {
-  return dispatch => apiRequest.bundle('bundles', bundle)
-    .then(({ data }) => dispatch(addBundle(data)));
+  return dispatch => apiRequest.post('EventBundle', bundle)
+    .then(() => browserHistory.push('/bundles'));
 }
 
 export function deleteBundle(bundleId) {
-  return dispatch => apiRequest.delete('bundles', bundleId)
+  return dispatch => apiRequest.delete('EventBundle', bundleId)
     .then(() => dispatch(removeBundle(bundleId)));
 }

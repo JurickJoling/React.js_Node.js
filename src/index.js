@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, browserHistory } from 'react-router';
+import { AppContainer } from 'react-hot-loader';
 
+import App from './App';
 import routes from './routes';
 import configureStore from './store';
 
@@ -10,24 +11,38 @@ const store = configureStore(window.__INITIAL_STATE__); // eslint-disable-line n
 const dest = document.getElementById('root');
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={browserHistory} routes={routes} />
-  </Provider>
-  , dest);
+  <AppContainer>
+    <App store={store} routes={routes} />
+  </AppContainer>
+, dest);
 
-if (process.env.NODE_ENV === 'development' && process.env.__DEVTOOLS__) {
-  window.React = React; // enable debugger
-
-  if (!window.devToolsExtension) {
-    const DevTools = require('./components').DevTools; // eslint-disable-line global-require
-    const devToolsDest = document.createElement('div');
-
-    dest.parentNode.insertBefore(devToolsDest, dest.nextSibling);
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    // If you use Webpack 2 in ES modules mode, you can
+    // use <App /> here rather than require() a <NextApp />.
+    const NextApp = require('./App').default;
     ReactDOM.render(
-    <Provider store={store} key="provider">
-      <DevTools />
-      </Provider>,
-      devToolsDest
-  );
-  }
+      <AppContainer>
+        <NextApp store={store} routes={routes} />
+      </AppContainer>,
+      dest
+    );
+  });
 }
+
+// if (process.env.NODE_ENV === 'development' && process.env.__DEVTOOLS__) {
+//   window.React = React; // enable debugger
+//
+//   if (!window.devToolsExtension) {
+//     const DevTools = require('./components').DevTools; // eslint-disable-line global-require
+//     const devToolsDest = document.createElement('div');
+//
+//     dest.parentNode.insertBefore(devToolsDest, dest.nextSibling);
+//     ReactDOM.render(
+//       <Provider store={store} key="provider">
+//         <DevTools />
+//       </Provider>,
+//       devToolsDest
+//     );
+//   }
+// }

@@ -15,8 +15,8 @@ module.exports = {
 
   entry: {
     app: [
+      'react-hot-loader/patch',
       'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
-      'webpack/hot/only-dev-server',
       './index'
     ]
   },
@@ -37,7 +37,7 @@ module.exports = {
 
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /\/node_modules\//, loaders: ['react-hot', 'babel'] }
+      { test: /\.jsx?$/, exclude: /\/node_modules\//, loaders: ['babel'] }
     ]
   },
 
