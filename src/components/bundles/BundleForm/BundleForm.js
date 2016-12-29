@@ -55,19 +55,9 @@ BundleForm.propTypes = {
   item: PropTypes.shape({
     objectId: PropTypes.string,
     heading: PropTypes.string,
-    priority: PropTypes.string,
+    priority: PropTypes.number,
     banner: PropTypes.string,
   })
 };
 
-function validate({ priority }) {
-  const errors = {};
-
-  if (!/\d+/.test(priority)) {
-    errors.priority = 'Priority must be a number';
-  }
-
-  return errors;
-}
-
-export default reduxForm({ form: 'bundle', validate })(BundleForm);
+export default reduxForm({ form: 'bundle' })(BundleForm);

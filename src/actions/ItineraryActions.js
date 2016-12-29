@@ -52,14 +52,38 @@ export function fetchItinerary(itemId) {
     .catch(() => browserHistory.push('/not-found'));
 }
 
-export function createItinerary({ heading, priority, banner }) {
-  return dispatch => apiRequest.post('EventDetail', { heading, banner, priority: parseInt(priority, 10) })
+export function createItinerary({
+  title_event, description_event, image,
+  tags, location,
+  partner, start_day, count_attended, is21_age, estimated_cost, end_day,
+  reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
+  repeat_daily, featured, featured_name, featured_link, first_message
+}) {
+  return dispatch => apiRequest.post('EventDetail', {
+    title_event, description_event, image,
+    tags, location,
+    partner, start_day, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost, end_day,
+    reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
+    repeat_daily, featured, featured_name, featured_link, first_message
+  })
     .then(() => browserHistory.push('/itineraries'))
     .catch(({ response: { data: { error } } }) => dispatch(itineraryError(error)));
 }
 
-export function updateItinerary(itemID, itinerary) {
-  return dispatch => apiRequest.put('EventDetail', itemID, itinerary)
+export function updateItinerary(itemID, {
+  title_event, description_event, image,
+  tags, location,
+  partner, start_day, count_attended, is21_age, estimated_cost, end_day,
+  reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
+  repeat_daily, featured, featured_name, featured_link, first_message
+}) {
+  return dispatch => apiRequest.put('EventDetail', itemID, {
+    title_event, description_event, image,
+    tags, location,
+    partner, start_day, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost, end_day,
+    reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
+    repeat_daily, featured, featured_name, featured_link, first_message
+  })
     .then(() => browserHistory.push('/itineraries'))
     .catch(({ response: { data: { error } } }) => dispatch(itineraryError(error)));
 }

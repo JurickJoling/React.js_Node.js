@@ -3,7 +3,7 @@ import last from 'lodash/last';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { LinkTo, renderField } from '../../../helpers';
+import { LinkTo, renderField, renderDropdownList } from '../../../helpers';
 import { weekDays  } from '../../../utils';
 
 class ItineraryForm extends Component {
@@ -47,9 +47,13 @@ class ItineraryForm extends Component {
         <Field name="count_attended" component={renderField} type="number" label="Number of Attendees" />
         <div>Experience Type - select - Not Found!!!</div>
         <Field name="is21_age" component={renderField} type="checkbox" label="Only 21+ Allowed" />
-        <div>Estimate Cost - select</div>
+        <Field
+          name="estimated_cost"
+          component={renderDropdownList}
+          data={['FREE', '$', '$$', '$$$', '$$$$', '$$$$$']}
+          label="Estimate Cost"
+        />
         <div>end_day - Date</div>
-        <Field name="is21_age" component={renderField} type="checkbox" label="Only 21+ Allowed" />
         {weekDays.map(day => (
           <Field
             key={day}
@@ -94,10 +98,6 @@ ItineraryForm.propTypes = {
 
 function validate({ priority }) {
   const errors = {};
-
-  if (!/\d+/.test(priority)) {
-    errors.priority = 'Priority must be a number';
-  }
 
   return errors;
 }

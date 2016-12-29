@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
+import 'react-widgets/dist/css/react-widgets.css'
+
 import App from './App';
 import routes from './routes';
 import configureStore from './store';

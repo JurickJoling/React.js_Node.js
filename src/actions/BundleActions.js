@@ -58,8 +58,8 @@ export function createBundle({ heading, priority, banner }) {
     .catch(({ response: { data: { error } } }) => dispatch(bundleError(error)));
 }
 
-export function updateBundle(itemID, bundle) {
-  return dispatch => apiRequest.put('EventBundle', itemID, bundle)
+export function updateBundle(itemID, { heading, priority, banner }) {
+  return dispatch => apiRequest.put('EventBundle', itemID, { heading, banner, priority: parseInt(priority, 10) })
     .then(() => browserHistory.push('/bundles'))
     .catch(({ response: { data: { error } } }) => dispatch(bundleError(error)));
 }

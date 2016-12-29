@@ -5,3 +5,5 @@ export { default as LinkTo } from './LinkTo';
 export { default as Loading } from './Loading';
 export { default as Tabs } from './Tabs';
 export { default as renderField } from './renderField';
+export { default as renderDropdownList } from './renderDropdownList';
+export { default as renderMultiselect } from './renderMultiselect';
