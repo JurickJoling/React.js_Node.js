@@ -29,7 +29,7 @@ function ItinerariesList({ items }) {
           <td>{renderDateTime(createdAt)}</td>
           <td>{renderDateTime(updatedAt)}</td>
           <td>
-            <LinkTo className="btn btn-success" url={`itineraries/${objectId}`}>Show</LinkTo>
+            <LinkTo className="btn btn-info" url={`itineraries/${objectId}`}>Show</LinkTo>
           </td>
           <td>
             <LinkTo className="btn btn-primary" url={`itineraries/${objectId}/edit`}>Edit</LinkTo>

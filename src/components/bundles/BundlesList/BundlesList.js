@@ -29,7 +29,7 @@ function BundlesList({ items }) {
           <td>{renderDateTime(createdAt)}</td>
           <td>{renderDateTime(updatedAt)}</td>
           <td>
-            <LinkTo className="btn btn-success" url={`bundles/${objectId}`}>Show</LinkTo>
+            <LinkTo className="btn btn-info" url={`bundles/${objectId}`}>Show</LinkTo>
           </td>
           <td>
             <LinkTo className="btn btn-primary" url={`bundles/${objectId}/edit`}>Edit</LinkTo>

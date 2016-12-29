@@ -2,7 +2,7 @@ import last from 'lodash/last';
 import React, { PropTypes } from 'react';
 
 import { GoogleMap, BooleanField } from '../../../helpers';
-import { renderDateTime } from '../../../utils';
+import { renderDateTime, weekDays } from '../../../utils';
 
 function ItineraryItem({
   item, item: {
@@ -74,15 +74,7 @@ function ItineraryItem({
             <BooleanField value={repeat_daily} />
           </td>
         </tr>
-        {[
-          'reoccur_monday',
-          'reoccur_tuesday',
-          'reoccur_wednesday',
-          'reoccur_thursday',
-          'reoccur_friday',
-          'reoccur_saturday',
-          'reoccur_sunday'
-        ].map(day => (
+        {weekDays.map(day => (
           <tr key={day}>
             <td>Every {last(day.split('_')).replace(/\b\w/g, l => l.toUpperCase())}</td>
             <td>

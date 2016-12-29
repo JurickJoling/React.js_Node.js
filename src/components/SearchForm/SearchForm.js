@@ -8,10 +8,10 @@ function SearchForm({ handleSubmit, reset, onSearch }) {
     <form className="form-inline" onSubmit={handleSubmit(search => onSearch(search))}>
       <Field name="search" component={renderField} placeholder="Search"/>
       <div className="btn-group">
-        <button className="btn btn-default" onClick={reset}>Clear</button>
         <button action="submit" className="btn btn-primary">
           Search
         </button>
+        <button className="btn btn-default" onClick={reset}>Clear</button>
       </div>
     </form>
   );
