@@ -3,7 +3,6 @@ import cl from 'classnames';
 
 function renderField(props) {
   const { input, type, label, placeholder, meta: { touched, error, warning } } = props;
-  console.log(input, label, placeholder, type, touched, error, warning, props);
   return (
     <fieldset className={cl('form-group', { 'has-error': (touched && error) })}>
       {label ? <label>{label}</label> : null}

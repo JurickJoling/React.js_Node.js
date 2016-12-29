@@ -23,11 +23,12 @@ class BundleForm extends Component {
 
   render () {
     const { item, errorMessage, handleSubmit, onSave } = this.props;
+
     return (
-      <form onSubmit={handleSubmit(bundle => onSave(bundle))}>
+      <form onSubmit={handleSubmit(bundle => {onSave(bundle)})}>
         <Field name="banner" component={renderField} label="URL of banner"/>
         <Field name="heading" component={renderField} label="Name / Title"/>
-        <Field name="priority" component={renderField} type="number" label="Priority"/>
+        <Field name="priority" component={renderField} type="number" label="Priority" />
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}

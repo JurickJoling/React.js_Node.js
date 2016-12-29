@@ -52,8 +52,8 @@ export function fetchBundle(itemId) {
     .catch(() => browserHistory.push('/not-found'));
 }
 
-export function createBundle(bundle) {
-  return dispatch => apiRequest.post('EventBundle', bundle)
+export function createBundle({ heading, priority, banner }) {
+  return dispatch => apiRequest.post('EventBundle', { heading, banner, priority: parseInt(priority, 10) })
     .then(() => browserHistory.push('/bundles'))
     .catch(({ response: { data: { error } } }) => dispatch(bundleError(error)));
 }
