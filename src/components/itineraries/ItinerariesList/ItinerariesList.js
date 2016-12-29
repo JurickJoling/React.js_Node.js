@@ -3,14 +3,14 @@ import React, { PropTypes } from 'react';
 import { LinkTo } from '../../../helpers';
 import { renderDateTime } from '../../../utils';
 
-function BundlesList({ items }) {
+function ItinerariesList({ items }) {
   return (
     <table className="table table-bordered table-hover">
       <thead>
       <tr>
         <th>ObjectId</th>
-        <th>Heading</th>
-        <th>Priority</th>
+        <th>Title</th>
+        <th>Tags</th>
         <th>Created</th>
         <th>Updated</th>
         <th />
@@ -19,23 +19,23 @@ function BundlesList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, heading, priority, createdAt, updatedAt }) => (
+      {items.map(({ objectId, title_event, tags, createdAt, updatedAt }) => (
         <tr key={objectId}>
           <td>
-            <LinkTo url={`bundles/${objectId}`}>{objectId}</LinkTo>
+            <LinkTo url={`itineraries/${objectId}`}>{objectId}</LinkTo>
           </td>
-          <td>{heading}</td>
-          <td>{priority}</td>
+          <td>{title_event}</td>
+          <td>{tags}</td>
           <td>{renderDateTime(createdAt)}</td>
           <td>{renderDateTime(updatedAt)}</td>
           <td>
-            <LinkTo className="btn btn-success" url={`bundles/${objectId}`}>Show</LinkTo>
+            <LinkTo className="btn btn-success" url={`itineraries/${objectId}`}>Show</LinkTo>
           </td>
           <td>
-            <LinkTo className="btn btn-primary" url={`bundles/${objectId}/edit`}>Edit</LinkTo>
+            <LinkTo className="btn btn-primary" url={`itineraries/${objectId}/edit`}>Edit</LinkTo>
           </td>
           <td>
-            <LinkTo className="btn btn-danger" url={`bundles/${objectId}/delete`}>Delete</LinkTo>
+            <LinkTo className="btn btn-danger" url={`itineraries/${objectId}/delete`}>Delete</LinkTo>
           </td>
         </tr>
       ))}
@@ -44,8 +44,8 @@ function BundlesList({ items }) {
   );
 }
 
-BundlesList.propTypes = {
+ItinerariesList.propTypes = {
   items: PropTypes.array.isRequired
 };
 
-export default BundlesList;
+export default ItinerariesList;

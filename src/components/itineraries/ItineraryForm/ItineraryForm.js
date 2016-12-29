@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 
 import { LinkTo, renderField } from '../../../helpers';
 
-class BundleForm extends Component {
+class ItineraryForm extends Component {
   componentDidMount() {
     this.handleInitialize();
   }
@@ -25,7 +25,7 @@ class BundleForm extends Component {
     const { item, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(bundle => {onSave(bundle)})}>
+      <form onSubmit={handleSubmit(itinerary => {onSave(itinerary)})}>
         <Field name="banner" component={renderField} label="URL of banner"/>
         <Field name="heading" component={renderField} label="Name / Title"/>
         <Field name="priority" component={renderField} type="number" label="Priority" />
@@ -35,9 +35,9 @@ class BundleForm extends Component {
             </div>
           ) : null}
         <div className="btn-group">
-          <LinkTo className="btn btn-default" url="bundles">Cancel</LinkTo>
+          <LinkTo className="btn btn-default" url="itineraries">Cancel</LinkTo>
           <button action="submit" className="btn btn-primary">
-            {isEmpty(item) ? 'Create Bundle' : 'Update Bundle'}
+            {isEmpty(item) ? 'Create Itinerary' : 'Update Itinerary'}
           </button>
         </div>
       </form>
@@ -45,11 +45,11 @@ class BundleForm extends Component {
   }
 }
 
-BundleForm.defaultProps = {
+ItineraryForm.defaultProps = {
   item: {}
 };
 
-BundleForm.propTypes = {
+ItineraryForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   item: PropTypes.shape({
@@ -70,4 +70,4 @@ function validate({ priority }) {
   return errors;
 }
 
-export default reduxForm({ form: 'bundle', validate })(BundleForm);
+export default reduxForm({ form: 'itinerary', validate })(ItineraryForm);

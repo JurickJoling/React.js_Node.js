@@ -6,3 +6,4 @@ export { default as Header } from './Header/Header';
 export { default as SearchForm } from './SearchForm/SearchForm';
 
 export { BundlesList, BundleItem, BundleForm, BundleDelete } from './bundles';
+export { ItinerariesList, ItineraryItem, ItineraryForm, ItineraryDelete } from './itineraries';

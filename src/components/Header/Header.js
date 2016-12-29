@@ -13,8 +13,11 @@ function Header() {
         </div>
         <div className="collapse navbar-collapse">
           <ul className="nav navbar-nav">
-            <li className={cl({ active: isActive('posts') })}>
+            <li className={cl({ active: isActive('bundles') })}>
               <Link to="/bundles">Bundles</Link>
+            </li>
+            <li className={cl({ active: isActive('itineraries') })}>
+              <Link to="/itineraries">Itineraries</Link>
             </li>
           </ul>
         </div>
