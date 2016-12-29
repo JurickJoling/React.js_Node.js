@@ -8,7 +8,7 @@ import Promise from 'bluebird';
 import { fetchBundles } from '../../../actions/BundleActions';
 import { fetchTags } from '../../../actions/TagActions';
 
-import { LinkTo, renderField, renderDropdownList, renderMultiselect } from '../../../helpers';
+import { LinkTo, renderField, renderDateTimePicker, renderDropdownList, renderMultiselect } from '../../../helpers';
 import { weekDays  } from '../../../utils';
 
 class ItineraryForm extends Component {
@@ -33,9 +33,11 @@ class ItineraryForm extends Component {
     if (!isEmpty(item)) {
       initialize({
         bundle: { objectId },
+        start_day: (start_day ? start_day.iso : null),
+        end_day: (end_day ? end_day.iso : null),
         title_event, description_event, image,
         tags, location,
-        partner, start_day, count_attended, is21_age, estimated_cost, end_day,
+        partner, count_attended, is21_age, estimated_cost,
         reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
         repeat_daily, featured, featured_name, featured_link, first_message
       });
@@ -47,60 +49,78 @@ class ItineraryForm extends Component {
 
     return (
       <form onSubmit={handleSubmit(itinerary => {onSave(itinerary)})}>
-        <Field
-          name="bundle"
-          valueField="objectId"
-          textField="heading"
-          component={renderDropdownList}
-          data={bundles.map(({ objectId, heading }) => ({ objectId, heading }))}
-          label="Bundle"
-        />
-        <Field name="image" component={renderField} label="URL of banner"/>
-        <Field name="title_event" component={renderField} label="Title"/>
-        <Field name="description_event" component={renderField} type="textarea" label="Description" />
-        <Field
-          name="tags"
-          component={renderMultiselect}
-          data={tags.map(({ tag }) => tag)}
-          label="Tags"
-        />
-        <div>Location - Yelp</div>
-        <Field name="partner" component={renderField} type="checkbox" label="Partner" />
-        <div>start_day - Date</div>
-        <Field name="count_attended" component={renderField} type="number" label="Number of Attendees" />
-        <div>Experience Type - select - Not Found!!!</div>
-        <Field name="is21_age" component={renderField} type="checkbox" label="Only 21+ Allowed" />
-        <Field
-          name="estimated_cost"
-          component={renderDropdownList}
-          data={['FREE', '$', '$$', '$$$', '$$$$', '$$$$$']}
-          label="Estimate Cost"
-        />
-        <div>end_day - Date</div>
-        {weekDays.map(day => (
-          <Field
-            key={day}
-            name={day}
-            component={renderField}
-            type="checkbox"
-            label={`Every ${last(day.split('_')).replace(/\b\w/g, l => l.toUpperCase())}`}
-          />
-        ))}
-        <Field name="repeat_daily" component={renderField} type="checkbox" label="Repeat Daily" />
-        <Field name="featured" component={renderField} type="checkbox" label="Featured" />
-        <Field name="featured_name" component={renderField} label="Featured Name" />
-        <Field name="featured_link" component={renderField} label="Featured Link" />
-        <Field name="first_message" component={renderField} type="textarea" label="First Chat Message" />
-        {errorMessage ? (
-            <div className="alert alert-danger">
-              <strong>Oops!</strong> {errorMessage}
+        <div className="row">
+          <div className="col-md-6">
+            <Field
+              name="bundle"
+              valueField="objectId"
+              textField="heading"
+              component={renderDropdownList}
+              data={bundles.map(({ objectId, heading }) => ({ objectId, heading }))}
+              label="Bundle"
+            />
+            <Field name="image" component={renderField} label="URL of banner"/>
+            <Field name="title_event" component={renderField} label="Title"/>
+            <Field name="description_event" component={renderField} type="textarea" label="Description" />
+            <Field
+              name="tags"
+              component={renderMultiselect}
+              data={tags.map(({ tag }) => tag)}
+              label="Tags"
+            />
+            <div>Location - Yelp</div>
+            <Field name="partner" component={renderField} type="checkbox" label="Partner" />
+            <Field
+              name="start_day"
+              component={renderDateTimePicker}
+              label="Start Day"
+            />
+            <Field name="count_attended" component={renderField} type="number" label="Number of Attendees" />
+            <div>Experience Type - select - Not Found!!!</div>
+            <Field name="is21_age" component={renderField} type="checkbox" label="Only 21+ Allowed" />
+            <Field
+              name="estimated_cost"
+              component={renderDropdownList}
+              data={['FREE', '$', '$$', '$$$', '$$$$', '$$$$$']}
+              label="Estimate Cost"
+            />
+            <Field
+              name="end_day"
+              component={renderDateTimePicker}
+              label="End Day"
+            />
+          </div>
+          <div className="col-md-6">
+            {weekDays.map(day => (
+              <Field
+                key={day}
+                name={day}
+                component={renderField}
+                type="checkbox"
+                label={`Every ${last(day.split('_')).replace(/\b\w/g, l => l.toUpperCase())}`}
+              />
+            ))}
+            <Field name="repeat_daily" component={renderField} type="checkbox" label="Repeat Daily" />
+            <Field name="featured" component={renderField} type="checkbox" label="Featured" />
+            <Field name="featured_name" component={renderField} label="Featured Name" />
+            <Field name="featured_link" component={renderField} label="Featured Link" />
+            <Field name="first_message" component={renderField} type="textarea" label="First Chat Message" />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            {errorMessage ? (
+                <div className="alert alert-danger">
+                  <strong>Oops!</strong> {errorMessage}
+                </div>
+              ) : null}
+            <div className="btn-group">
+              <LinkTo className="btn btn-default" url="itineraries">Cancel</LinkTo>
+              <button action="submit" className="btn btn-primary">
+                {isEmpty(item) ? 'Create Itinerary' : 'Update Itinerary'}
+              </button>
             </div>
-          ) : null}
-        <div className="btn-group">
-          <LinkTo className="btn btn-default" url="itineraries">Cancel</LinkTo>
-          <button action="submit" className="btn btn-primary">
-            {isEmpty(item) ? 'Create Itinerary' : 'Update Itinerary'}
-          </button>
+          </div>
         </div>
       </form>
     );

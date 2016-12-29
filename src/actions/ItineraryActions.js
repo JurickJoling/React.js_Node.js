@@ -90,9 +90,13 @@ export function updateItinerary(itemID, {
       className: 'EventBundle',
       objectId
     },
+    start_day: {
+      __type: 'Date',
+      iso: start_day
+    },
     title_event, description_event, image,
     tags, location,
-    partner, start_day, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost, end_day,
+    partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost, end_day,
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     repeat_daily, featured, featured_name, featured_link, first_message
   })
