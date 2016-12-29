@@ -23,7 +23,7 @@ function BundleItem({ item: { objectId, heading, priority, banner, createdAt, up
         <tr>
           <td>Banner</td>
           <td>
-            <img className="img-responsive" src={banner} alt="" />
+            {banner ? <img className="img-responsive" src={banner} alt="" /> : null}
           </td>
         </tr>
         <tr>

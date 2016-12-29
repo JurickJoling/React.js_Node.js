@@ -12,13 +12,13 @@ class BundleAddPage extends Component {
   };
 
   render() {
-    const { createBundle } = this.props;
+    const { errorMessage, createBundle } = this.props;
     return (
       <div className="container">
-        <BundleForm onSave={bundle => createBundle(bundle)} />
+        <BundleForm errorMessage={errorMessage} onSave={bundle => createBundle(bundle)} />
       </div>
     );
   }
 }
 
-export default connect(null, { createBundle })(BundleAddPage);
+export default connect(({ bundles: { errorMessage } }) => ({ errorMessage }), { createBundle })(BundleAddPage);

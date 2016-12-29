@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchBundle } from '../../actions/BundleActions';
 
 import { BundleItem } from '../../components';
-import { Loading } from '../../helpers';
+import { Loading, Tabs } from '../../helpers';
 
 class BundleShowPage extends Component {
 
@@ -24,10 +24,11 @@ class BundleShowPage extends Component {
   }
 
   render() {
-    const { item } = this.props;
+    const { params: { itemID }, item } = this.props;
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
+        <Tabs modelsName="bundles" itemID={itemID} />
         <BundleItem item={item} />
       </Loading>
     );

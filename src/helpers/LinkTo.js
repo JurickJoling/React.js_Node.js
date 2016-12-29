@@ -1,10 +1,53 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
 import cl from 'classnames';
+import { Link } from 'react-router';
 
-function LinkTo({ className, url, children }) {
+function LinkTo({
+  className, addClass,
+  url, href,
+  button,
+  color, size, icon, buttonFix, xsButtonFix, buttonTopFix, outline, rounded, flat,
+  pureLink,
+  onClick,
+  children
+}) {
+  const linkUrl = url || href;
+
+  const buttonClass = className || cl({
+      btn: button,
+      [`btn-${color}`]: !!color,
+      [`btn-${size}`]: !!size,
+      [addClass]: !!addClass,
+      'b-button-fix': (!!icon || buttonFix),
+      'b-m-b-xs': xsButtonFix,
+      'b-button-top-fix': buttonTopFix,
+      'btn-outline': outline,
+      'btn-rounded': rounded,
+      'btn-flat': flat
+    });
+
+  const linkIcon = icon ? <i className={cl('fa', `fa-${icon}`)} /> : null;
+
+  if (pureLink) {
+    return (
+      <a
+        className={cl(buttonClass)}
+        href={linkUrl}
+        onClick={(e) => {
+          e.preventDefault();
+          onClick(e);
+        }}
+      >
+        {linkIcon}
+        {linkIcon && children ? ' ' : null}
+        {children}
+      </a>
+    );
+  }
   return (
-    <Link className={cl(className)} to={`/${url}`}>
+    <Link className={cl(buttonClass)} to={`/${linkUrl}`}>
+      {linkIcon}
+      {linkIcon && children ? ' ' : null}
       {children}
     </Link>
   );
@@ -12,8 +55,26 @@ function LinkTo({ className, url, children }) {
 
 LinkTo.propTypes = {
   className: PropTypes.string,
-  url: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  addClass: PropTypes.string,
+  url: PropTypes.string,
+  href: PropTypes.string,
+  button: PropTypes.bool,
+  color: PropTypes.string,
+  size: PropTypes.string,
+  icon: PropTypes.string,
+  buttonFix: PropTypes.bool,
+  xsButtonFix: PropTypes.bool,
+  buttonTopFix: PropTypes.bool,
+  outline: PropTypes.bool,
+  rounded: PropTypes.bool,
+  flat: PropTypes.bool,
+  pureLink: PropTypes.bool,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.object
+  ]),
+  onClick: PropTypes.func
 };
 
 export default LinkTo;

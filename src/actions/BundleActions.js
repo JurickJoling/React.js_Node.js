@@ -1,6 +1,6 @@
 import { browserHistory } from 'react-router';
 
-import { ADD_BUNDLES, ADD_BUNDLE, SHOW_BUNDLE, REMOVE_BUNDLE } from '../constants/Bundle';
+import { ADD_BUNDLES, ADD_BUNDLE, BUNDLE_ERROR, SHOW_BUNDLE, REMOVE_BUNDLE } from '../constants/Bundle';
 
 import { apiRequest } from '../utils';
 
@@ -18,6 +18,13 @@ export function addBundle(item = {}) {
   };
 }
 
+export function bundleError(errorMessage) {
+  return {
+    type: BUNDLE_ERROR,
+    errorMessage
+  };
+}
+
 export function showBundle(item = {}) {
   return {
     type: SHOW_BUNDLE,
@@ -32,8 +39,10 @@ export function removeBundle(itemId) {
   };
 }
 
-export function fetchBundles() {
-  return dispatch => apiRequest.get('EventBundle')
+export function fetchBundles({ search }) {
+  const url = `EventBundle?order=-createdAt${search ? `&where={"heading":{"$regex":"${search}"}}` : ''}`;
+
+  return dispatch => apiRequest.get(url)
     .then(({ data: { results } }) => dispatch(addBundles(results)));
 }
 
@@ -45,12 +54,14 @@ export function fetchBundle(itemId) {
 
 export function createBundle(bundle) {
   return dispatch => apiRequest.post('EventBundle', bundle)
-    .then(() => browserHistory.push('/bundles'));
+    .then(() => browserHistory.push('/bundles'))
+    .catch(({ response: { data: { error } } }) => dispatch(bundleError(error)));
 }
 
 export function updateBundle(itemID, bundle) {
   return dispatch => apiRequest.put('EventBundle', itemID, bundle)
-    .then(() => browserHistory.push('/bundles'));
+    .then(() => browserHistory.push('/bundles'))
+    .catch(({ response: { data: { error } } }) => dispatch(bundleError(error)));
 }
 
 export function deleteBundle(itemID) {

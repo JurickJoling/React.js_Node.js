@@ -10,22 +10,29 @@ class BundleForm extends Component {
   }
 
   handleInitialize() {
-    const { item: { heading, priority, banner }, initialize } = this.props;
+    const { item, item: { heading, priority, banner }, initialize } = this.props;
 
-    initialize({
-      heading,
-      priority,
-      banner
-    });
+    if (!isEmpty(item)) {
+      initialize({
+        heading,
+        priority,
+        banner
+      });
+    }
   }
 
   render () {
-    const { item, handleSubmit, onSave } = this.props;
+    const { item, errorMessage, handleSubmit, onSave } = this.props;
     return (
       <form onSubmit={handleSubmit(bundle => onSave(bundle))}>
         <Field name="banner" component={renderField} label="URL of banner"/>
         <Field name="heading" component={renderField} label="Name / Title"/>
         <Field name="priority" component={renderField} type="number" label="Priority"/>
+        {errorMessage ? (
+            <div className="alert alert-danger">
+              <strong>Oops!</strong> {errorMessage}
+            </div>
+          ) : null}
         <div className="btn-group">
           <LinkTo className="btn btn-default" url="bundles">Cancel</LinkTo>
           <button action="submit" className="btn btn-primary">
@@ -38,7 +45,7 @@ class BundleForm extends Component {
 }
 
 BundleForm.defaultProps = {
-  bundle: {}
+  item: {}
 };
 
 BundleForm.propTypes = {
@@ -52,4 +59,14 @@ BundleForm.propTypes = {
   })
 };
 
-export default reduxForm({ form: 'bundle' })(BundleForm);
+function validate({ priority }) {
+  const errors = {};
+
+  if (!/\d+/.test(priority)) {
+    errors.priority = 'Priority must be a number';
+  }
+
+  return errors;
+}
+
+export default reduxForm({ form: 'bundle', validate })(BundleForm);

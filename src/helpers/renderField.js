@@ -1,16 +1,14 @@
 import React, { PropTypes } from 'react';
+import cl from 'classnames';
 
 function renderField(props) {
-  console.log('props', props);
-  const { input, value, label, type, meta: { touched, error, warning } } = props;
-  console.log('input', input, value);
+  const { input, type, label, placeholder, meta: { touched, error, warning } } = props;
+  console.log(input, label, placeholder, type, touched, error, warning, props);
   return (
-    <fieldset className="form-group">
-      <label>{label}</label>
-      <div>
-        <input className="form-control" {...input} placeholder={label} type={type}/>
-        {touched && ((error && <div className="error">{error}</div>) || (warning && <div className="error">{warning}</div>))}
-      </div>
+    <fieldset className={cl('form-group', { 'has-error': (touched && error) })}>
+      {label ? <label>{label}</label> : null}
+      <input className="form-control" {...input} placeholder={placeholder || label} type={type} />
+      {touched && ((error && <div className="error help-block">{error}</div>) || (warning && <div className="error">{warning}</div>))}
     </fieldset>
   );
 }

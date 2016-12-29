@@ -1,11 +1,12 @@
-import { ADD_BUNDLES, ADD_BUNDLE, SHOW_BUNDLE, REMOVE_BUNDLE } from '../constants/Bundle';
+import { ADD_BUNDLES, ADD_BUNDLE, BUNDLE_ERROR, SHOW_BUNDLE, REMOVE_BUNDLE } from '../constants/Bundle';
 
 const defaultState = {
   items: [],
-  item: {}
+  item: {},
+  errorMessage: null
 };
 
-export default function BundleReducer(state = defaultState, { type, items, item, itemId }) {
+export default function BundleReducer(state = defaultState, { type, items, item, itemId, errorMessage }) {
   switch (type) {
     case ADD_BUNDLES:
       return {
@@ -20,6 +21,12 @@ export default function BundleReducer(state = defaultState, { type, items, item,
           ...state.items,
           item
         ]
+      };
+
+    case BUNDLE_ERROR:
+      return {
+        ...state,
+        errorMessage
       };
 
     case SHOW_BUNDLE:

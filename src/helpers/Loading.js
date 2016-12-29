@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Loader from 'react-loader';
 import cl from 'classnames';
 
-function Loading({ className, loaded, scale = 1, children }) {
+function Loading({ className, loaded, ignoreLoader, scale = 1, children }) {
   const options = {
     lines: 10,
     length: 5,
@@ -24,6 +24,7 @@ function Loading({ className, loaded, scale = 1, children }) {
 
   return (
     <div className={cl(className)}>
+      {ignoreLoader}
       {loaded ? children : <Loader options={options} loaded={loaded}>{children}</Loader>}
     </div>
   );
@@ -32,8 +33,9 @@ function Loading({ className, loaded, scale = 1, children }) {
 Loading.propTypes = {
   className: PropTypes.string,
   loaded: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
   scale: PropTypes.number,
-  children: PropTypes.node.isRequired
+  ignoreLoader: PropTypes.node,
 };
 
 export default Loading;

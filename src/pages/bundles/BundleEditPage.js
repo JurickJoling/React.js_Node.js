@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchBundle, updateBundle } from '../../actions/BundleActions';
 
 import { BundleForm } from '../../components';
-import { Loading } from '../../helpers';
+import { Loading, Tabs } from '../../helpers';
 
 class BundleAddPage extends Component {
 
@@ -24,14 +24,15 @@ class BundleAddPage extends Component {
   }
 
   render() {
-    const { params: { itemID }, item, updateBundle } = this.props;
+    const { params: { itemID }, item, errorMessage, updateBundle } = this.props;
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
-        <BundleForm item={item} onSave={bundle => updateBundle(itemID, bundle)} />
+        <Tabs modelsName="bundles" itemID={itemID} />
+        <BundleForm item={item} errorMessage={errorMessage} onSave={bundle => updateBundle(itemID, bundle)} />
       </Loading>
     );
   }
 }
 
-export default connect(({ bundles: { item } }) => ({ item }), { updateBundle, fetchBundle })(BundleAddPage);
+export default connect(({ bundles: { item, errorMessage } }) => ({ item, errorMessage }), { updateBundle, fetchBundle })(BundleAddPage);
