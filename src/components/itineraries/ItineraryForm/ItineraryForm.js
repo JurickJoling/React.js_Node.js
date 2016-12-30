@@ -91,7 +91,28 @@ class ItineraryForm extends Component {
               data={range(2, 21)}
               label="Number of Attendees"
             />
-            <Field name="type_event" component={renderField} label="Experience Type" />
+            <Field
+              name="type_event"
+              component={renderDropdownList}
+              data={[
+                'Adventure',
+                'Coffee',
+                'Dance',
+                'Drinks',
+                'Food',
+                'Ladies Only',
+                'Museum',
+                'Music',
+                'Relax',
+                'Sports',
+                'Theatre',
+                'VIP',
+                'Volunteer',
+                'Workout',
+                'Test'
+              ]}
+              label="Experience Type"
+            />
             <Field name="is21_age" component={renderCheckboxField} label="Only 21+ Allowed" />
             <Field
               name="estimated_cost"
