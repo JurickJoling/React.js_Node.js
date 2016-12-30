@@ -4,6 +4,7 @@ const Express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const Yelp = require('yelp');
+const path = require('path');
 
 const config = require('./config');
 const port = Number(config.port) || 3000;
@@ -32,6 +33,8 @@ app.post('/yelp', function(req, res) {
       res.status(500).send('Yelp Error!');
     });
 });
+
+app.use(Express.static('public'));
 
 app.listen(port, (err) => {
   if (err) {

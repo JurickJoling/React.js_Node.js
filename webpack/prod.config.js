@@ -18,8 +18,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, '..', 'public', 'build'),
     publicPath: '/build/',
-    filename: '[name].[hash].js',
-    chunkFilename: '[name].[chunkhash].js'
+    filename: '[name].js',
+    chunkFilename: '[name].js'
   },
 
   resolve: {
@@ -50,7 +50,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/), // include only ru|en locales in moment
     new webpack.IgnorePlugin(/moment\/min\/locales/),
-    new ExtractTextPlugin('[name].[contenthash].css', { allChunks: true }),
+    new ExtractTextPlugin('[name].css', { allChunks: true }),
     new webpack.DefinePlugin({
       'process.env': {
         __CLIENT__: JSON.stringify(true),
