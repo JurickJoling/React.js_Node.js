@@ -4,7 +4,7 @@ import { LinkTo } from '../helpers';
 
 function Tabs({ modelsName, itemID }) {
   return (
-    <div className="row">
+    <div className="row m-b">
       <div className="col-md-12">
         <div className="btn-group">
           <LinkTo button color="default" url={modelsName}>

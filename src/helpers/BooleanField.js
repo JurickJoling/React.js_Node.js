@@ -9,7 +9,7 @@ function BooleanField({ value }) {
 }
 
 BooleanField.propTypes = {
-  value: PropTypes.bool.isRequired,
+  value: PropTypes.bool
 };
 
 export default BooleanField;

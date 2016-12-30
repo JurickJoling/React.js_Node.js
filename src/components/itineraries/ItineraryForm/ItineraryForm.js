@@ -1,3 +1,4 @@
+import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import last from 'lodash/last';
 import React, { PropTypes, Component } from 'react';
@@ -11,7 +12,9 @@ import { fetchTags } from '../../../actions/TagActions';
 import {
   LinkTo,
   renderField,
-  renderDateTimePicker,
+  renderCheckboxField,
+  renderTextareaField,
+  renderDatePicker,
   renderDropdownList,
   renderMultiselect,
   YelpField
@@ -30,11 +33,11 @@ class ItineraryForm extends Component {
   handleInitialize() {
     const { item, item: {
       bundle,
-      title_event, description_event, image,
+      title_event, description_event, image, type_event,
       tags, locations,
       partner, start_day, count_attended, is21_age, estimated_cost, end_day,
       reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
-      repeat_daily, featured, featured_name, featured_link, first_message
+      featured, featured_name, featured_link, first_message
     }, initialize } = this.props;
 
     if (!isEmpty(item)) {
@@ -42,11 +45,11 @@ class ItineraryForm extends Component {
         bundle: bundle ? { objectId: bundle.objectId } : null,
         start_day: (start_day ? start_day.iso : null),
         end_day: (end_day ? end_day.iso : null),
-        title_event, description_event, image,
+        title_event, description_event, image, type_event,
         tags, locations,
         partner, count_attended, is21_age, estimated_cost,
         reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
-        repeat_daily, featured, featured_name, featured_link, first_message
+        featured, featured_name, featured_link, first_message
       });
     }
   }
@@ -68,7 +71,7 @@ class ItineraryForm extends Component {
             />
             <Field name="image" component={renderField} label="URL of banner"/>
             <Field name="title_event" component={renderField} label="Title"/>
-            <Field name="description_event" component={renderField} type="textarea" label="Description" />
+            <Field name="description_event" component={renderTextareaField} max={250} label="Description" />
             <Field
               name="tags"
               component={renderMultiselect}
@@ -76,15 +79,20 @@ class ItineraryForm extends Component {
               label="Tags"
             />
             <Field name="locations" component={YelpField} label="Location" placeholder="Select Location" />
-            <Field name="partner" component={renderField} type="checkbox" label="Partner" />
+            <Field name="partner" component={renderCheckboxField}label="Partner" />
             <Field
               name="start_day"
-              component={renderDateTimePicker}
+              component={renderDatePicker}
               label="Start Day"
             />
-            <Field name="count_attended" component={renderField} type="number" label="Number of Attendees" />
-            <div>Experience Type - select - Not Found!!!</div>
-            <Field name="is21_age" component={renderField} type="checkbox" label="Only 21+ Allowed" />
+            <Field
+              name="count_attended"
+              component={renderDropdownList}
+              data={range(2, 21)}
+              label="Number of Attendees"
+            />
+            <Field name="type_event" component={renderField} label="Experience Type" />
+            <Field name="is21_age" component={renderCheckboxField} label="Only 21+ Allowed" />
             <Field
               name="estimated_cost"
               component={renderDropdownList}
@@ -93,7 +101,7 @@ class ItineraryForm extends Component {
             />
             <Field
               name="end_day"
-              component={renderDateTimePicker}
+              component={renderDatePicker}
               label="End Day"
             />
           </div>
@@ -102,16 +110,14 @@ class ItineraryForm extends Component {
               <Field
                 key={day}
                 name={day}
-                component={renderField}
-                type="checkbox"
+                component={renderCheckboxField}
                 label={`Every ${last(day.split('_')).replace(/\b\w/g, l => l.toUpperCase())}`}
               />
             ))}
-            <Field name="repeat_daily" component={renderField} type="checkbox" label="Repeat Daily" />
-            <Field name="featured" component={renderField} type="checkbox" label="Featured" />
+            <Field name="featured" component={renderCheckboxField} label="Featured" />
             <Field name="featured_name" component={renderField} label="Featured Name" />
             <Field name="featured_link" component={renderField} label="Featured Link" />
-            <Field name="first_message" component={renderField} type="textarea" label="First Chat Message" />
+            <Field name="first_message" component={renderTextareaField} label="First Chat Message" />
           </div>
         </div>
         <div className="row">
@@ -146,8 +152,12 @@ ItineraryForm.propTypes = {
   })
 };
 
-function validate({ priority }) {
+function validate({ description_event }) {
   const errors = {};
+
+  if (description_event && description_event.length > 250) {
+    errors.description_event = 'Description must be less 250';
+  }
 
   return errors;
 }

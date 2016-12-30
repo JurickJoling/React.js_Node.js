@@ -8,10 +8,10 @@ function ItineraryItem({
   item, item: {
     objectId,
     bundle,
-    title_event, description_event, image,
+    title_event, description_event, image, type_event,
     tags, location,
     partner, start_day, count_attended, is21_age, estimated_cost, end_day,
-    repeat_daily, featured, featured_name, featured_link, first_message,
+    featured, featured_name, featured_link, first_message,
     createdAt, updatedAt
   }
 }) {
@@ -57,7 +57,7 @@ function ItineraryItem({
         </tr>
         <tr>
           <td>Experience Type</td>
-          <td>Not Found!!!</td>
+          <td>{type_event}</td>
         </tr>
         <tr>
           <td>Only 21+ Allowed</td>
@@ -72,12 +72,6 @@ function ItineraryItem({
         <tr>
           <td>End Date</td>
           <td>{end_day ? renderDateTime(end_day.iso) : null}</td>
-        </tr>
-        <tr>
-          <td>Repeat Daily</td>
-          <td>
-            <BooleanField value={repeat_daily} />
-          </td>
         </tr>
         {weekDays.map(day => (
           <tr key={day}>
