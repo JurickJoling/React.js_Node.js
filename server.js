@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const Yelp = require('yelp');
 const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const config = require('./config');
 const port = Number(config.port) || 3000;
@@ -35,6 +38,10 @@ app.post('/yelp', function(req, res) {
 });
 
 app.use(Express.static('public'));
+
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.listen(port, (err) => {
   if (err) {

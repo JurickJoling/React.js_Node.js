@@ -5,6 +5,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const precss = require('precss');
 const autoprefixer = require('autoprefixer');
 const path = require('path');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 module.exports = {
   context: path.join(__dirname, '..', 'src'),
@@ -56,6 +59,11 @@ module.exports = {
         __CLIENT__: JSON.stringify(true),
         __DEVTOOLS__: JSON.stringify(false),
         NODE_ENV: JSON.stringify('production'),
+        API_HOST: JSON.stringify(process.env.API_HOST),
+        YELP_HOST_URI: JSON.stringify(process.env.YELP_HOST_URI),
+        PARSE_APPLICATION_ID: JSON.stringify(process.env.PARSE_APPLICATION_ID),
+        PARSE_MASTER_KEY: JSON.stringify(process.env.PARSE_MASTER_KEY),
+        GOOGLE_MAP_API_KEY: JSON.stringify(process.env.GOOGLE_MAP_API_KEY)
       }
     }),
     new webpack.optimize.DedupePlugin(),

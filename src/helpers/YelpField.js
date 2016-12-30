@@ -14,15 +14,15 @@ class YelpField extends Component {
   state = {
     modalOpened: false,
     term: '',
-    city: '',
-    state: '',
+    city: 'New York',
+    state: 'NY',
     businesses: [],
-    selectedBusinesses: this.props.input.value || []
+    selectedBusinesses: this.props.input.value || [],
+    errorMessage: null
   };
 
   componentWillReceiveProps(nextProps) {
     const { input } = nextProps;
-    console.log('componentWillReceiveProps input.value', input.value);
 
     this.setState({ selectedBusinesses: input.value || [] });
   }
@@ -39,7 +39,7 @@ class YelpField extends Component {
     const { term, city, state } = this.state;
     axios.post(YELP_HOST_URI, { term, location: [city, state].join(', ') })
       .then(({ data: { businesses } }) => this.setState({ businesses }))
-      .catch((...args) => console.log('args catch', args));
+      .catch(({ errorMessage }) => this.setState({ errorMessage }));
   }
 
   isSelected(business) {
@@ -128,7 +128,9 @@ class YelpField extends Component {
                 </fieldset>
               </div>
               <div className="col-md-2">
-                <Button bsStyle="primary" onClick={() => this.search()}>Search</Button>
+                <Button bsStyle="primary" disabled={(term === '') || (city === '')} onClick={() => this.search()}>
+                  Search
+                </Button>
               </div>
             </div>
             {size(selectedBusinesses) > 0 ? (
