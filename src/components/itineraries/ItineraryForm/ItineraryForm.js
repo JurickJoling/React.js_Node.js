@@ -173,8 +173,15 @@ ItineraryForm.propTypes = {
   })
 };
 
-function validate({ description_event }) {
+function validate({
+  description_event,
+  // bundle, title_event, image, type_event, tags, locations,
+  // start_day, count_attended, estimated_cost, end_day
+}) {
   const errors = {};
+
+  // console.log( bundle, title_event, description_event, image, type_event, tags, locations,
+  //   start_day, count_attended, estimated_cost, end_day);
 
   if (description_event && description_event.length > 250) {
     errors.description_event = 'Description must be less 250';
