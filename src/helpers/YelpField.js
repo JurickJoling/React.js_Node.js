@@ -1,15 +1,26 @@
 import find from 'lodash/find';
 import filter from 'lodash/filter';
 import size from 'lodash/size';
+import omit from 'lodash/omit';
+import isObject from 'lodash/isObject';
+import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import cl from 'classnames';
 
 import axios from 'axios';
 
 import { YELP_HOST_URI } from '../config';
 
-class YelpField extends Component {
+export default class YelpField extends Component {
+
+  static propTypes = {
+    input: PropTypes.object.isRequired,
+    meta: PropTypes.object.isRequired,
+    label: PropTypes.string,
+    type: PropTypes.string
+  };
 
   state = {
     modalOpened: false,
@@ -18,13 +29,26 @@ class YelpField extends Component {
     state: 'NY',
     businesses: [],
     selectedBusinesses: this.props.input.value || [],
+    selectedTime: {},
     errorMessage: null
   };
 
   componentWillReceiveProps(nextProps) {
+    const { selectedTime } = this.state;
     const { input } = nextProps;
 
-    this.setState({ selectedBusinesses: input.value || [] });
+    (input.value || []).map(business => {
+      if (business.time) {
+        selectedTime[business.id] = business.time.iso;
+      }
+    });
+
+    this.setState({
+      selectedBusinesses: input.value || [],
+      selectedTime: {
+        ...selectedTime,
+      }
+    });
   }
 
   toggleModal() {
@@ -55,22 +79,62 @@ class YelpField extends Component {
   }
 
   removeBusiness(business) {
-    const { selectedBusinesses } = this.state;
+    const { selectedBusinesses, selectedTime } = this.state;
     this.setState({
-      selectedBusinesses: filter(selectedBusinesses, b => b.id !== business.id)
+      selectedBusinesses: filter(selectedBusinesses, b => b.id !== business.id),
+      selectedTime: omit(selectedTime, business.id)
+    });
+  }
+
+  addSelectedTime(business, value) {
+    const { selectedTime } = this.state;
+    this.setState({
+      selectedTime: {
+        ...selectedTime,
+        [business.id]: value
+      }
     });
   }
 
   selectLocation() {
     const { input } = this.props;
-    const { selectedBusinesses } = this.state;
-    input.onChange(selectedBusinesses);
+    const { selectedBusinesses, selectedTime } = this.state;
+    input.onChange(selectedBusinesses.map(selectedBusiness => {
+      if (selectedBusiness.location && !isObject(selectedBusiness.location.coordinate)) {
+        return selectedBusiness;
+      }
+
+      const {
+        id, name, image_url: preview, display_phone: phone,
+        location: { address, neighborhoods, coordinate: { latitude, longitude } }
+      } = selectedBusiness;
+
+      return {
+        preview,
+        id,
+        name,
+        address,
+        phone,
+        neighborhood: (neighborhoods || []).join(', '),
+        time: {
+          iso: selectedTime[id],
+          __type: 'Date'
+        },
+        location: {
+          longitude,
+          latitude,
+          __type: 'GeoPoint'
+        },
+        latitude,
+        longitude
+      };
+    }));
     this.toggleModal();
   }
 
   render() {
-    const { input, type, label, placeholder, meta: { touched, error, warning } } = this.props;
-    const { term, city, state, businesses, selectedBusinesses, showModal } = this.state;
+    const { input, label, placeholder, meta: { touched, error, warning } } = this.props;
+    const { term, city, state, businesses, selectedBusinesses, selectedTime, showModal } = this.state;
 
     return (
       <fieldset className={cl('form-group', { 'has-error': (touched && error) })}>
@@ -162,8 +226,13 @@ class YelpField extends Component {
                           </td>
                           <td>{business.name}</td>
                           <td>{business.rating}</td>
-                          <td>{(business.address || []).join(', ')}</td>
+                          <td>{((business.location ? business.location.address : []) || []).join(', ')}</td>
                           <td>
+                            <DateTimePicker
+                              calendar={false}
+                              defaultValue={selectedTime[business.id] ? moment(selectedTime[business.id]).toDate() : null}
+                              onChange={value => this.addSelectedTime(business, value)}
+                            />
                             {this.isSelected(business) ? (
                                 <Button bsStyle="danger" onClick={() => this.removeBusiness(business)}>Remove</Button>
                               ) : (
@@ -187,12 +256,3 @@ class YelpField extends Component {
     );
   }
 }
-
-YelpField.propTypes = {
-  input: PropTypes.object.isRequired,
-  meta: PropTypes.object.isRequired,
-  label: PropTypes.string,
-  type: PropTypes.string
-};
-
-export default YelpField;

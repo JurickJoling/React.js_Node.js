@@ -25,3 +25,7 @@ body {
 .m-b {
     margin-bottom: 30px;
 }
+
+input[type=checkbox].form-control-checkbox {
+    margin-right: 10px;
+}
