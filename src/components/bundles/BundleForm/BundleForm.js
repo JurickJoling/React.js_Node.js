@@ -22,13 +22,13 @@ class BundleForm extends Component {
   }
 
   render () {
-    const { item, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, errorMessage, isCreating, handleSubmit, onSave } = this.props;
 
     return (
       <form onSubmit={handleSubmit(bundle => {onSave(bundle)})}>
         <Field name="banner" component={renderField} label="URL of banner"/>
         <Field name="heading" component={renderField} label="Name / Title"/>
-        <Field name="priority" component={renderField} type="number" label="Priority" />
+        {isCreating ? <Field name="priority" component={renderField} type="number" label="Priority" /> : null}
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}
@@ -50,6 +50,7 @@ BundleForm.defaultProps = {
 };
 
 BundleForm.propTypes = {
+  isCreating: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   item: PropTypes.shape({

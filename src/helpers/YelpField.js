@@ -155,6 +155,7 @@ export default class YelpField extends Component {
         <Modal bsSize="lg" show={showModal} onHide={() => this.toggleModal()}>
           <Modal.Header closeButton>
             <Modal.Title>{placeholder}</Modal.Title>
+            <Button bsSize="xs" bsStyle="primary" onClick={() => this.selectLocation()}>Apply</Button>
           </Modal.Header>
           <Modal.Body>
             <div className="row">
@@ -166,6 +167,11 @@ export default class YelpField extends Component {
                     placeholder="Find a location..."
                     value={term}
                     onChange={({ target: { value } }) => this.changeValue('term', value)}
+                    onKeyPress={({ key}) => {
+                      if (key === 'Enter') {
+                        this.search()
+                      }
+                    }}
                   />
                 </fieldset>
               </div>

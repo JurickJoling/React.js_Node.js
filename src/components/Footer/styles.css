@@ -29,3 +29,11 @@ body {
 input[type=checkbox].form-control-checkbox {
     margin-right: 10px;
 }
+
+.list-image {
+    max-width: 200px;
+}
+
+textarea.form-control {
+    min-width: 95px;
+}

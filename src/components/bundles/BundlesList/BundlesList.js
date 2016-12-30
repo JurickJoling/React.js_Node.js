@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 
 import { LinkTo } from '../../../helpers';
-import { renderDateTime } from '../../../utils';
 
 function BundlesList({ items }) {
   return (
@@ -11,23 +10,19 @@ function BundlesList({ items }) {
         <th>ObjectId</th>
         <th>Heading</th>
         <th>Priority</th>
-        <th>Created</th>
-        <th>Updated</th>
         <th />
         <th />
         <th />
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, heading, priority, createdAt, updatedAt }) => (
+      {items.map(({ objectId, heading, priority }) => (
         <tr key={objectId}>
           <td>
             <LinkTo url={`bundles/${objectId}`}>{objectId}</LinkTo>
           </td>
           <td>{heading}</td>
           <td>{priority}</td>
-          <td>{renderDateTime(createdAt)}</td>
-          <td>{renderDateTime(updatedAt)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`bundles/${objectId}`}>Show</LinkTo>
           </td>

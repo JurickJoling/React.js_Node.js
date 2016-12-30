@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import { renderDateTime } from '../../../utils';
 
-function BundleItem({ item: { objectId, heading, priority, banner, createdAt, updatedAt } }) {
+function BundleItem({ item: { objectId, heading, banner, createdAt, updatedAt } }) {
   return (
     <div>
       <h1>Bundle #{objectId}</h1>
@@ -15,10 +15,6 @@ function BundleItem({ item: { objectId, heading, priority, banner, createdAt, up
         <tr>
           <td>Heading</td>
           <td>{heading}</td>
-        </tr>
-        <tr>
-          <td>Priority</td>
-          <td>{priority}</td>
         </tr>
         <tr>
           <td>Banner</td>

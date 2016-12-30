@@ -15,7 +15,7 @@ class BundleAddPage extends Component {
     const { errorMessage, createBundle } = this.props;
     return (
       <div className="container">
-        <BundleForm errorMessage={errorMessage} onSave={bundle => createBundle(bundle)} />
+        <BundleForm isCreating errorMessage={errorMessage} onSave={bundle => createBundle(bundle)} />
       </div>
     );
   }

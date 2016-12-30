@@ -21,7 +21,7 @@ import {
 } from '../../../helpers';
 import { weekDays  } from '../../../utils';
 
-class ItineraryForm extends Component {
+class PlanForm extends Component {
   componentDidMount() {
     const { fetchBundles, fetchTags } = this.props;
     Promise.all([
@@ -58,7 +58,7 @@ class ItineraryForm extends Component {
     const { item, bundles, tags, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(itinerary => {onSave(itinerary)})}>
+      <form onSubmit={handleSubmit(plan => {onSave(plan)})}>
         <div className="row">
           <div className="col-md-6">
             <Field
@@ -86,6 +86,11 @@ class ItineraryForm extends Component {
               label="Start Day"
             />
             <Field
+              name="end_day"
+              component={renderDatePicker}
+              label="End Day"
+            />
+            <Field
               name="count_attended"
               component={renderDropdownList}
               data={range(2, 21)}
@@ -106,6 +111,7 @@ class ItineraryForm extends Component {
                 'Relax',
                 'Sports',
                 'Theatre',
+                'Tours',
                 'VIP',
                 'Volunteer',
                 'Workout',
@@ -119,11 +125,6 @@ class ItineraryForm extends Component {
               component={renderDropdownList}
               data={['FREE', '$', '$$', '$$$', '$$$$', '$$$$$']}
               label="Estimate Cost"
-            />
-            <Field
-              name="end_day"
-              component={renderDatePicker}
-              label="End Day"
             />
           </div>
           <div className="col-md-6">
@@ -149,9 +150,9 @@ class ItineraryForm extends Component {
                 </div>
               ) : null}
             <div className="btn-group">
-              <LinkTo className="btn btn-default" url="itineraries">Cancel</LinkTo>
+              <LinkTo className="btn btn-default" url="plans">Cancel</LinkTo>
               <button action="submit" className="btn btn-primary">
-                {isEmpty(item) ? 'Create Itinerary' : 'Update Itinerary'}
+                {isEmpty(item) ? 'Create Plan' : 'Update Plan'}
               </button>
             </div>
           </div>
@@ -161,11 +162,11 @@ class ItineraryForm extends Component {
   }
 }
 
-ItineraryForm.defaultProps = {
+PlanForm.defaultProps = {
   item: {}
 };
 
-ItineraryForm.propTypes = {
+PlanForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   item: PropTypes.shape({
@@ -193,4 +194,4 @@ function validate({
 export default connect(({
   bundles: { items: bundles },
   tags: { items: tags }
-}) => ({ bundles, tags }), ({ fetchBundles, fetchTags }))(reduxForm({ form: 'itinerary', validate })(ItineraryForm));
+}) => ({ bundles, tags }), ({ fetchBundles, fetchTags }))(reduxForm({ form: 'plan', validate })(PlanForm));

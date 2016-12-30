@@ -40,7 +40,7 @@ export function removeTag(itemId) {
 }
 
 export function fetchTags({ search }) {
-  const url = `EventTags?order=tag${search ? `&where={"tag":{"$regex":"${search}"}}` : ''}`;
+  const url = `EventTags?order=tag&limit=500${search ? `&where={"tag":{"$regex":"${search}"}}` : ''}`;
 
   return dispatch => apiRequest.get(url)
     .then(({ data: { results } }) => dispatch(addTags(results)));
