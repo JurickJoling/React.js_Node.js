@@ -55,9 +55,7 @@ export default class YelpField extends Component {
   }
 
   changeValue(name, value) {
-    const { term } = this.state;
     this.setState({
-      term: name === 'city' ? '' : term,
       [name]: value
     });
   }
@@ -176,6 +174,13 @@ export default class YelpField extends Component {
                       }
                     }}
                   />
+                  <Button
+                    bsSize="xs"
+                    bsStyle="default"
+                    onClick={() => this.setState({ term: '', businesses: [] })}
+                  >
+                    Clear
+                  </Button>
                 </fieldset>
               </div>
               <div className="col-md-3">
