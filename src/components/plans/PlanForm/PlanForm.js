@@ -62,6 +62,21 @@ class PlanForm extends Component {
     return (
       <form onSubmit={handleSubmit(plan => {onSave(plan)})}>
         <div className="row">
+          <div className="col-md-12">
+            {errorMessage ? (
+                <div className="alert alert-danger">
+                  <strong>Oops!</strong> {errorMessage}
+                </div>
+              ) : null}
+            <div className="btn-group">
+              <LinkTo className="btn btn-default" url="plans">Cancel</LinkTo>
+              <button action="submit" className="btn btn-primary">
+                {isEmpty(item) ? 'Create Plan' : 'Update Plan'}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="row">
           <div className="col-md-6">
             <Field
               name="bundle"
