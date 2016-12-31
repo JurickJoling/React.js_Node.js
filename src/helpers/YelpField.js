@@ -8,7 +8,6 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import cl from 'classnames';
-
 import axios from 'axios';
 
 import { YELP_HOST_URI } from '../config';

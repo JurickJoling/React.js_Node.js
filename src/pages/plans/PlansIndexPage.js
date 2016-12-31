@@ -14,6 +14,7 @@ class PlansIndexPage extends Component {
 
   state = {
     fetched: false,
+    search: '',
     order: '-createdAt',
     include: 'bundle'
   };
@@ -23,15 +24,15 @@ class PlansIndexPage extends Component {
     this.fetchData({ order, include });
   }
 
-  fetchData({ search }) {
+  fetchData({ search, order, include, filters }) {
     const { fetchPlans } = this.props;
-    const { order, include } = this.state;
-    this.setState({ fetched: false }, () => fetchPlans({ order, include, search }).then(() => this.setState({ fetched: true })));
+    this.setState({ search, fetched: false }, () => fetchPlans({ order, include, search, filters })
+      .then(() => this.setState({ fetched: true })));
   }
 
   render() {
     const { items } = this.props;
-    const { fetched, order, include } = this.state;
+    const { fetched, search, order, include } = this.state;
     return (
       <Loading className="container" ignoreLoader={(
         <div className="row m-b">

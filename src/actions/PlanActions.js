@@ -40,6 +40,21 @@ export function removePlan(itemId) {
 }
 
 export function fetchPlans({ search, include, order }) {
+  // console.log('filters', filters);
+  // filters ? `&where=${JSON.stringify({
+  //     start_day: filters.start_day ? {
+  //         $gte: {
+  //           __type: Date,
+  //           iso : filters.start_day
+  //         }
+  //       } : null,
+  //     end_day: filters.end_day ? {
+  //         $lte: {
+  //           __type: Date,
+  //           iso : filters.end_day
+  //         }
+  //       } : null
+  //   })}` : null
   const url = [
     'EventDetail?',
     order ? `&order=${order}` : null,

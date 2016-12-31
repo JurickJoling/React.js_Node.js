@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 import { LinkTo } from '../../../helpers';
 import { renderDate } from '../../../utils';
 
-function PlansList({ items }) {
+function PlansList({ items, onFilterSelected }) {
   return (
     <table className="table table-striped table-bordered table-hover">
       <thead>
@@ -14,8 +14,12 @@ function PlansList({ items }) {
         <th>Title</th>
         <th>Tags</th>
         <th>Neighborhood</th>
-        <th>Start</th>
-        <th>End</th>
+        <th>
+          Start
+        </th>
+        <th>
+          End
+        </th>
         <th />
         <th />
         <th />
