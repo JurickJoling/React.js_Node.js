@@ -44,7 +44,7 @@ export function fetchBundles({ search, include, order }) {
     'EventBundle?',
     order ? `&order=${order}` : null,
     include ? `&include=${include}` : null,
-    search ? `&where=${JSON.stringify({ heading: { $regex: search } })}` : null
+    search ? `&where=${JSON.stringify({ heading: { $regex: search, $options: 'i' } })}` : null
   ].join('');
 
   return dispatch => apiRequest.get(url)

@@ -61,8 +61,8 @@ export function fetchPlans({ search, include, order }) {
     include ? `&include=${include}` : null,
     search ? `&where=${JSON.stringify({
       $or: [
-        { title_event: { $regex: search } },
-        { description_event: { $regex:  search } }
+        { title_event: { $regex: search, $options: 'i' } },
+        { description_event: { $regex:  search, $options: 'i' } }
       ]
     })}` : null
   ].join('');
