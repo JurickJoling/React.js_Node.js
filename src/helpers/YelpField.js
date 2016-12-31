@@ -8,7 +8,6 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import cl from 'classnames';
-
 import axios from 'axios';
 
 import { YELP_HOST_URI } from '../config';
@@ -56,7 +55,9 @@ export default class YelpField extends Component {
   }
 
   changeValue(name, value) {
-    this.setState({ [name]: value });
+    this.setState({
+      [name]: value
+    });
   }
 
   search() {
@@ -155,6 +156,7 @@ export default class YelpField extends Component {
         <Modal bsSize="lg" show={showModal} onHide={() => this.toggleModal()}>
           <Modal.Header closeButton>
             <Modal.Title>{placeholder}</Modal.Title>
+            <Button bsSize="xs" bsStyle="primary" onClick={() => this.selectLocation()}>Apply</Button>
           </Modal.Header>
           <Modal.Body>
             <div className="row">
@@ -166,7 +168,19 @@ export default class YelpField extends Component {
                     placeholder="Find a location..."
                     value={term}
                     onChange={({ target: { value } }) => this.changeValue('term', value)}
+                    onKeyPress={({ key}) => {
+                      if (key === 'Enter') {
+                        this.search()
+                      }
+                    }}
                   />
+                  <Button
+                    bsSize="xs"
+                    bsStyle="default"
+                    onClick={() => this.setState({ term: '', businesses: [] })}
+                  >
+                    Clear
+                  </Button>
                 </fieldset>
               </div>
               <div className="col-md-3">

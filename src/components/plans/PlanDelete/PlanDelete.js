@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import { Button, LinkTo } from '../../../helpers';
 
-function ItineraryDelete({ itemID, onDelete }) {
+function PlanDelete({ itemID, onDelete }) {
   return (
     <div className="row">
       <div className="col-lg-12">
@@ -11,11 +11,11 @@ function ItineraryDelete({ itemID, onDelete }) {
             <h1 className="panel-title">Deleting record:</h1>
           </div>
           <div className="panel-body">
-            <LinkTo url={`itineraries/${itemID}`}>Itinerary #{itemID}</LinkTo>
+            <LinkTo url={`plans/${itemID}`}>Plan #{itemID}</LinkTo>
           </div>
         </div>
         <div className="btn-group">
-          <LinkTo className="btn btn-default" url="itineraries">Cancel</LinkTo>
+          <LinkTo className="btn btn-default" url="plans">Cancel</LinkTo>
           <Button color="danger" onClick={() => onDelete(itemID)}>
             Delete
           </Button>
@@ -25,9 +25,9 @@ function ItineraryDelete({ itemID, onDelete }) {
   );
 }
 
-ItineraryDelete.propTypes = {
+PlanDelete.propTypes = {
   itemID: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired
 };
 
-export default ItineraryDelete;
+export default PlanDelete;

@@ -1,4 +1,4 @@
-import { ADD_ITINERARIES, ADD_ITINERARY, ITINERARY_ERROR, SHOW_ITINERARY, REMOVE_ITINERARY } from '../constants/Itinerary';
+import { ADD_PLANS, ADD_PLAN, PLAN_ERROR, SHOW_PLAN, REMOVE_PLAN } from '../constants/Plan';
 
 const defaultState = {
   items: [],
@@ -6,15 +6,15 @@ const defaultState = {
   errorMessage: null
 };
 
-export default function ItineraryReducer(state = defaultState, { type, items, item, itemId, errorMessage }) {
+export default function PlanReducer(state = defaultState, { type, items, item, itemId, errorMessage }) {
   switch (type) {
-    case ADD_ITINERARIES:
+    case ADD_PLANS:
       return {
         ...state,
         items
       };
 
-    case ADD_ITINERARY:
+    case ADD_PLAN:
       return {
         ...state,
         items: [
@@ -23,19 +23,19 @@ export default function ItineraryReducer(state = defaultState, { type, items, it
         ]
       };
 
-    case ITINERARY_ERROR:
+    case PLAN_ERROR:
       return {
         ...state,
         errorMessage
       };
 
-    case SHOW_ITINERARY:
+    case SHOW_PLAN:
       return {
         ...state,
         item
       };
 
-    case REMOVE_ITINERARY:
+    case REMOVE_PLAN:
       return {
         ...state,
         items: state.items.filter(i => i.id !== itemId)

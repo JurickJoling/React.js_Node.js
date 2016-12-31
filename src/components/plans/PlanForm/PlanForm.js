@@ -1,6 +1,8 @@
+import first from 'lodash/first';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import last from 'lodash/last';
+import size from 'lodash/size';
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
@@ -21,7 +23,7 @@ import {
 } from '../../../helpers';
 import { weekDays  } from '../../../utils';
 
-class ItineraryForm extends Component {
+class PlanForm extends Component {
   componentDidMount() {
     const { fetchBundles, fetchTags } = this.props;
     Promise.all([
@@ -58,7 +60,7 @@ class ItineraryForm extends Component {
     const { item, bundles, tags, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(itinerary => {onSave(itinerary)})}>
+      <form onSubmit={handleSubmit(plan => {onSave(plan)})}>
         <div className="row">
           <div className="col-md-6">
             <Field
@@ -86,23 +88,45 @@ class ItineraryForm extends Component {
               label="Start Day"
             />
             <Field
+              name="end_day"
+              component={renderDatePicker}
+              label="End Day"
+            />
+            <Field
               name="count_attended"
               component={renderDropdownList}
               data={range(2, 21)}
               label="Number of Attendees"
             />
-            <Field name="type_event" component={renderField} label="Experience Type" />
+            <Field
+              name="type_event"
+              component={renderDropdownList}
+              data={[
+                'Adventure',
+                'Coffee',
+                'Dance',
+                'Drinks',
+                'Food',
+                'Ladies Only',
+                'Museum',
+                'Music',
+                'Relax',
+                'Sports',
+                'Theatre',
+                'Tours',
+                'VIP',
+                'Volunteer',
+                'Workout',
+                'Test'
+              ]}
+              label="Experience Type"
+            />
             <Field name="is21_age" component={renderCheckboxField} label="Only 21+ Allowed" />
             <Field
               name="estimated_cost"
               component={renderDropdownList}
               data={['FREE', '$', '$$', '$$$', '$$$$', '$$$$$']}
               label="Estimate Cost"
-            />
-            <Field
-              name="end_day"
-              component={renderDatePicker}
-              label="End Day"
             />
           </div>
           <div className="col-md-6">
@@ -128,9 +152,9 @@ class ItineraryForm extends Component {
                 </div>
               ) : null}
             <div className="btn-group">
-              <LinkTo className="btn btn-default" url="itineraries">Cancel</LinkTo>
+              <LinkTo className="btn btn-default" url="plans">Cancel</LinkTo>
               <button action="submit" className="btn btn-primary">
-                {isEmpty(item) ? 'Create Itinerary' : 'Update Itinerary'}
+                {isEmpty(item) ? 'Create Plan' : 'Update Plan'}
               </button>
             </div>
           </div>
@@ -140,11 +164,11 @@ class ItineraryForm extends Component {
   }
 }
 
-ItineraryForm.defaultProps = {
+PlanForm.defaultProps = {
   item: {}
 };
 
-ItineraryForm.propTypes = {
+PlanForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   item: PropTypes.shape({
@@ -152,12 +176,41 @@ ItineraryForm.propTypes = {
   })
 };
 
-function validate({ description_event }) {
+function validate(values) {
+  const { bundle, description_event, tags, locations } = values;
+
   const errors = {};
+
+  if (!bundle || isEmpty(bundle)) {
+    errors.bundle = 'Bundle is required';
+  }
+
+  if (size(tags) === 0) {
+    errors.tags = 'Tags are required';
+  }
+
+  if (size(locations) === 0) {
+    errors.locations = 'Location is required';
+  }
 
   if (description_event && description_event.length > 250) {
     errors.description_event = 'Description must be less 250';
   }
+
+  [
+    'title_event',
+    'description_event',
+    'image',
+    'start_day',
+    'end_day',
+    'count_attended',
+    'type_event',
+    'estimated_cost'
+  ].map(field => {
+    if (!values[field]) {
+      errors[field] = `${first(field.split('_')).replace(/\b\w/g, l => l.toUpperCase())} is required`;
+    }
+  });
 
   return errors;
 }
@@ -165,4 +218,4 @@ function validate({ description_event }) {
 export default connect(({
   bundles: { items: bundles },
   tags: { items: tags }
-}) => ({ bundles, tags }), ({ fetchBundles, fetchTags }))(reduxForm({ form: 'itinerary', validate })(ItineraryForm));
+}) => ({ bundles, tags }), ({ fetchBundles, fetchTags }))(reduxForm({ form: 'plan', validate })(PlanForm));

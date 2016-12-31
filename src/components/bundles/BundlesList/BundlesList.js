@@ -1,33 +1,25 @@
+import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
 import { LinkTo } from '../../../helpers';
-import { renderDateTime } from '../../../utils';
 
 function BundlesList({ items }) {
   return (
     <table className="table table-bordered table-hover">
       <thead>
       <tr>
-        <th>ObjectId</th>
         <th>Heading</th>
-        <th>Priority</th>
-        <th>Created</th>
-        <th>Updated</th>
+        <th>Number of Plans</th>
         <th />
         <th />
         <th />
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, heading, priority, createdAt, updatedAt }) => (
+      {items.map(({ objectId, heading, events }) => (
         <tr key={objectId}>
-          <td>
-            <LinkTo url={`bundles/${objectId}`}>{objectId}</LinkTo>
-          </td>
           <td>{heading}</td>
-          <td>{priority}</td>
-          <td>{renderDateTime(createdAt)}</td>
-          <td>{renderDateTime(updatedAt)}</td>
+          <td>{size(events)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`bundles/${objectId}`}>Show</LinkTo>
           </td>

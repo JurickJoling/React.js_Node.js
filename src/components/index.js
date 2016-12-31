@@ -7,4 +7,4 @@ export { default as Footer } from './Footer/Footer';
 export { default as SearchForm } from './SearchForm/SearchForm';
 
 export { BundlesList, BundleItem, BundleForm, BundleDelete } from './bundles';
-export { ItinerariesList, ItineraryItem, ItineraryForm, ItineraryDelete } from './itineraries';
+export { PlansList, PlanItem, PlanForm, PlanDelete } from './plans';
