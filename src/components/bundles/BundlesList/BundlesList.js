@@ -1,3 +1,4 @@
+import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
 import { LinkTo } from '../../../helpers';
@@ -7,22 +8,18 @@ function BundlesList({ items }) {
     <table className="table table-bordered table-hover">
       <thead>
       <tr>
-        <th>ObjectId</th>
         <th>Heading</th>
-        <th>Priority</th>
+        <th>Number of Plans</th>
         <th />
         <th />
         <th />
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, heading, priority }) => (
+      {items.map(({ objectId, heading, events }) => (
         <tr key={objectId}>
-          <td>
-            <LinkTo url={`bundles/${objectId}`}>{objectId}</LinkTo>
-          </td>
           <td>{heading}</td>
-          <td>{priority}</td>
+          <td>{size(events)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`bundles/${objectId}`}>Show</LinkTo>
           </td>

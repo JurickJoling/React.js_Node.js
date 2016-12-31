@@ -1,6 +1,8 @@
+import first from 'lodash/first';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import last from 'lodash/last';
+import size from 'lodash/size';
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
@@ -174,19 +176,41 @@ PlanForm.propTypes = {
   })
 };
 
-function validate({
-  description_event,
-  // bundle, title_event, image, type_event, tags, locations,
-  // start_day, count_attended, estimated_cost, end_day
-}) {
+function validate(values) {
+  const { bundle, description_event, tags, locations } = values;
+
   const errors = {};
 
-  // console.log( bundle, title_event, description_event, image, type_event, tags, locations,
-  //   start_day, count_attended, estimated_cost, end_day);
+  if (!bundle || isEmpty(bundle)) {
+    errors.bundle = 'Bundle is required';
+  }
+
+  if (size(tags) === 0) {
+    errors.tags = 'Tags are required';
+  }
+
+  if (size(locations) === 0) {
+    errors.locations = 'Location is required';
+  }
 
   if (description_event && description_event.length > 250) {
     errors.description_event = 'Description must be less 250';
   }
+
+  [
+    'title_event',
+    'description_event',
+    'image',
+    'start_day',
+    'end_day',
+    'count_attended',
+    'type_event',
+    'estimated_cost'
+  ].map(field => {
+    if (!values[field]) {
+      errors[field] = `${first(field.split('_')).replace(/\b\w/g, l => l.toUpperCase())} is required`;
+    }
+  });
 
   return errors;
 }

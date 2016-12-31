@@ -10,25 +10,23 @@ class BundleForm extends Component {
   }
 
   handleInitialize() {
-    const { item, item: { heading, priority, banner }, initialize } = this.props;
+    const { item, item: { heading, banner }, initialize } = this.props;
 
     if (!isEmpty(item)) {
       initialize({
         heading,
-        priority,
         banner
       });
     }
   }
 
   render () {
-    const { item, errorMessage, isCreating, handleSubmit, onSave } = this.props;
+    const { item, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
       <form onSubmit={handleSubmit(bundle => {onSave(bundle)})}>
         <Field name="banner" component={renderField} label="URL of banner"/>
         <Field name="heading" component={renderField} label="Name / Title"/>
-        {isCreating ? <Field name="priority" component={renderField} type="number" label="Priority" /> : null}
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}
@@ -56,7 +54,6 @@ BundleForm.propTypes = {
   item: PropTypes.shape({
     objectId: PropTypes.string,
     heading: PropTypes.string,
-    priority: PropTypes.number,
     banner: PropTypes.string,
   })
 };

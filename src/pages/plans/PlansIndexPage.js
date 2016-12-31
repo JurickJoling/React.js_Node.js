@@ -13,21 +13,25 @@ class PlansIndexPage extends Component {
   };
 
   state = {
-    fetched: false
+    fetched: false,
+    order: '-createdAt',
+    include: 'bundle'
   };
 
   componentDidMount() {
-    this.fetchData({});
+    const { order, include } = this.state;
+    this.fetchData({ order, include });
   }
 
   fetchData({ search }) {
     const { fetchPlans } = this.props;
-    this.setState({ fetched: false }, () => fetchPlans({ search }).then(() => this.setState({ fetched: true })));
+    const { order, include } = this.state;
+    this.setState({ fetched: false }, () => fetchPlans({ order, include, search }).then(() => this.setState({ fetched: true })));
   }
 
   render() {
     const { items } = this.props;
-    const { fetched } = this.state;
+    const { fetched, order, include } = this.state;
     return (
       <Loading className="container" ignoreLoader={(
         <div className="row m-b">
@@ -35,7 +39,7 @@ class PlansIndexPage extends Component {
             <LinkTo className="btn btn-success" url="plans/new">Create Plan</LinkTo>
           </div>
           <div className="col-md-6 text-right">
-            <SearchForm onSearch={search => this.fetchData(search)} />
+            <SearchForm onSearch={({ search }) => this.fetchData({ search, order, include })} />
           </div>
         </div>
       )} loaded={fetched}>

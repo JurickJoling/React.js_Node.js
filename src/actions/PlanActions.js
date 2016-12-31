@@ -39,10 +39,18 @@ export function removePlan(itemId) {
   };
 }
 
-export function fetchPlans({ search }) {
-  const url = `EventDetail?order=-createdAt${search 
-    ? `&where={"$or":[{"title_event":{"$regex":"${search}"}}, {"description_event":{"$regex":"${search}"}}]}` 
-    : ''}`;
+export function fetchPlans({ search, include, order }) {
+  const url = [
+    'EventDetail?',
+    order ? `&order=${order}` : null,
+    include ? `&include=${include}` : null,
+    search ? `&where=${JSON.stringify({
+      $or: [
+        { title_event: { $regex: search } },
+        { description_event: { $regex:  search } }
+      ]
+    })}` : null
+  ].join('');
 
   return dispatch => apiRequest.get(url)
     .then(({ data: { results } }) => dispatch(addPlans(results)));
@@ -55,7 +63,7 @@ export function fetchPlan(itemId) {
 }
 
 export function createPlan({
-  bundle: { objectId },
+  bundle,
   title_event, description_event, image, type_event,
   tags, locations,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
@@ -63,11 +71,11 @@ export function createPlan({
   featured, featured_name, featured_link, first_message
 }) {
   return dispatch => apiRequest.post('EventDetail', {
-    bundle: {
+    bundle: bundle ? {
       __type: 'Pointer',
       className: 'EventBundle',
-      objectId
-    },
+      objectId: bundle.objectId
+    } : null,
     start_day: start_day ? {
       __type: 'Date',
       iso: start_day

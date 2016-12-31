@@ -9,7 +9,8 @@ function PlansList({ items }) {
     <table className="table table-striped table-bordered table-hover">
       <thead>
       <tr>
-        <th />
+        <th>Banner</th>
+        <th>Bundle</th>
         <th>Title</th>
         <th>Tags</th>
         <th>Neighborhood</th>
@@ -21,12 +22,19 @@ function PlansList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, image, title_event, tags, locations, start_day, end_day }) => (
+      {items.map(({ objectId, image, bundle, title_event, tags, locations, start_day, end_day }) => (
         <tr key={objectId}>
           <td>
             {image ? (
                 <LinkTo url={`plans/${objectId}`}>
                   <img className="list-image img-responsive" src={image} alt="" />
+                </LinkTo>
+              ) : null}
+          </td>
+          <td>
+            {bundle ? (
+                <LinkTo url={`bundles/${bundle.objectId}`}>
+                  {bundle.heading}
                 </LinkTo>
               ) : null}
           </td>

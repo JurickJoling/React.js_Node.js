@@ -19,7 +19,7 @@ function BundleItem({ item: { objectId, heading, banner, createdAt, updatedAt } 
         <tr>
           <td>Banner</td>
           <td>
-            {banner ? <img className="img-responsive" src={banner} alt="" /> : null}
+            {banner ? <img className="show-image img-responsive" src={banner} alt="" /> : null}
           </td>
         </tr>
         <tr>
@@ -40,7 +40,6 @@ BundleItem.propTypes = {
   item: PropTypes.shape({
     objectId: PropTypes.string.isRequired,
     heading: PropTypes.string.isRequired,
-    priority: PropTypes.number.isRequired,
     banner: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired,

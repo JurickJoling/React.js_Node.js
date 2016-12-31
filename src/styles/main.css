@@ -31,9 +31,13 @@ input[type=checkbox].form-control-checkbox {
 }
 
 .list-image {
-    max-width: 200px;
+    max-width: 100px;
+}
+
+.show-image {
+    max-width: 550px;
 }
 
 textarea.form-control {
-    min-width: 95px;
+    min-height: 95px;
 }

@@ -39,8 +39,13 @@ export function removeBundle(itemId) {
   };
 }
 
-export function fetchBundles({ search }) {
-  const url = `EventBundle?order=-createdAt${search ? `&where={"heading":{"$regex":"${search}"}}` : ''}`;
+export function fetchBundles({ search, include, order }) {
+  const url = [
+    'EventBundle?',
+    order ? `&order=${order}` : null,
+    include ? `&include=${include}` : null,
+    search ? `&where=${JSON.stringify({ heading: { $regex: search } })}` : null
+  ].join('');
 
   return dispatch => apiRequest.get(url)
     .then(({ data: { results } }) => dispatch(addBundles(results)));
@@ -52,14 +57,14 @@ export function fetchBundle(itemId) {
     .catch(() => browserHistory.push('/not-found'));
 }
 
-export function createBundle({ heading, priority, banner }) {
-  return dispatch => apiRequest.post('EventBundle', { heading, banner, priority: parseInt(priority, 10) })
+export function createBundle({ heading, banner }) {
+  return dispatch => apiRequest.post('EventBundle', { heading, banner })
     .then(() => browserHistory.push('/bundles'))
     .catch(({ response: { data: { error } } }) => dispatch(bundleError(error)));
 }
 
-export function updateBundle(itemID, { heading, priority, banner }) {
-  return dispatch => apiRequest.put('EventBundle', itemID, { heading, banner, priority: parseInt(priority, 10) })
+export function updateBundle(itemID, { heading, banner }) {
+  return dispatch => apiRequest.put('EventBundle', itemID, { heading, banner })
     .then(() => browserHistory.push('/bundles'))
     .catch(({ response: { data: { error } } }) => dispatch(bundleError(error)));
 }

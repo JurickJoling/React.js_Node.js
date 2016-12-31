@@ -56,7 +56,11 @@ export default class YelpField extends Component {
   }
 
   changeValue(name, value) {
-    this.setState({ [name]: value });
+    const { term } = this.state;
+    this.setState({
+      term: name === 'city' ? '' : term,
+      [name]: value
+    });
   }
 
   search() {
