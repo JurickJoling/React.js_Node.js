@@ -6,7 +6,7 @@ function renderDropdownList({ input, label, meta: { touched, error, warning }, .
   return (
     <fieldset className={cl('form-group', { 'has-error': (touched && error) })}>
       {label ? <label>{label}</label> : null}
-      <DropdownList {...input} {...rest} />
+      <DropdownList {...input} {...rest} filter="contains" />
       {touched && ((error && <div className="error help-block">{error}</div>) || (warning && <div className="error">{warning}</div>))}
     </fieldset>
   );
