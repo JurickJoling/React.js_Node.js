@@ -13,7 +13,9 @@ class BundlesIndexPage extends Component {
   };
 
   state = {
-    fetched: false
+    fetched: false,
+    order: '-createdAt',
+    include: 'event_detail'
   };
 
   componentDidMount() {
@@ -22,12 +24,13 @@ class BundlesIndexPage extends Component {
 
   fetchData({ search }) {
     const { fetchBundles } = this.props;
-    this.setState({ fetched: false }, () => fetchBundles({ search }).then(() => this.setState({ fetched: true })));
+    const { order, include } = this.state;
+    this.setState({ fetched: false }, () => fetchBundles({ order, include, search }).then(() => this.setState({ fetched: true })));
   }
 
   render() {
     const { items } = this.props;
-    const { fetched } = this.state;
+    const { fetched, order, include } = this.state;
     return (
       <Loading className="container" ignoreLoader={(
         <div className="row m-b">
@@ -35,7 +38,7 @@ class BundlesIndexPage extends Component {
             <LinkTo className="btn btn-success" url="bundles/new">Create Bundle</LinkTo>
           </div>
           <div className="col-md-6 text-right">
-            <SearchForm onSearch={search => this.fetchData(search)} />
+            <SearchForm onSearch={({ search }) => this.fetchData({ search, order, include})} />
           </div>
         </div>
       )} loaded={fetched}>

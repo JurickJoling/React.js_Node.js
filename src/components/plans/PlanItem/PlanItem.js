@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 import { LinkTo, GoogleMap, BooleanField } from '../../../helpers';
 import { renderDateTime, weekDays } from '../../../utils';
 
-function ItineraryItem({
+function PlanItem({
   item, item: {
     objectId,
     bundle,
@@ -18,7 +18,7 @@ function ItineraryItem({
   console.log(tags);
   return (
     <div>
-      <h1>Itinerary #{objectId}</h1>
+      <h1>Plan #{objectId}</h1>
       <table className="table table-bordered table-hover">
         <tbody>
         <tr>
@@ -125,7 +125,7 @@ function ItineraryItem({
   );
 }
 
-ItineraryItem.propTypes = {
+PlanItem.propTypes = {
   item: PropTypes.shape({
     objectId: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
@@ -133,4 +133,4 @@ ItineraryItem.propTypes = {
   }).isRequired
 };
 
-export default ItineraryItem;
+export default PlanItem;
