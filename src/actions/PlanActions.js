@@ -1,3 +1,5 @@
+import uniqWith from 'lodash/uniqWith';
+import isEqual from 'lodash/isEqual';
 import { browserHistory } from 'react-router';
 
 import { ADD_PLANS, ADD_PLAN, PLAN_ERROR, SHOW_PLAN, REMOVE_PLAN } from '../constants/Plan';
@@ -105,12 +107,30 @@ export function createPlan({
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     featured, featured_name, featured_link, first_message
   })
+    .then(({ data }) => {
+      const eventId = data.objectId;
+      const objectId = bundle ? bundle.objectId : null;
+
+      if (objectId) {
+        apiRequest.get(`EventBundle/${objectId}?include=event`, objectId).then(({ data }) =>
+          apiRequest.put('EventBundle', objectId, {
+          events: uniqWith([
+            ...(data.events || []),
+            {
+              __type: 'Pointer',
+              className: 'EventDetail',
+              objectId: eventId
+            }
+          ], isEqual)
+        }));
+      }
+    })
     .then(() => browserHistory.push('/plans'))
     .catch(({ response: { data: { error } } }) => dispatch(planError(error)));
 }
 
 export function updatePlan(itemID, {
-  bundle: { objectId },
+  bundle,
   title_event, description_event, image, type_event,
   tags, locations,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
@@ -118,11 +138,11 @@ export function updatePlan(itemID, {
   featured, featured_name, featured_link, first_message
 }) {
   return dispatch => apiRequest.put('EventDetail', itemID, {
-    bundle: {
-      __type: 'Pointer',
-      className: 'EventBundle',
-      objectId
-    },
+    bundle: bundle ? {
+        __type: 'Pointer',
+        className: 'EventBundle',
+        objectId: bundle.objectId
+      } : null,
     start_day: start_day ? {
         __type: 'Date',
         iso: start_day
@@ -137,6 +157,24 @@ export function updatePlan(itemID, {
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     featured, featured_name, featured_link, first_message
   })
+    .then(() => {
+      const objectId = bundle ? bundle.objectId : null;
+
+      if (objectId) {
+        apiRequest.get(`EventBundle/${objectId}?include=event`, objectId).then(({ data }) =>
+          apiRequest.put('EventBundle', objectId, {
+            events: uniqWith([
+              ...(data.events || []),
+              {
+                __type: 'Pointer',
+                className: 'EventDetail',
+                objectId: itemID
+              }
+            ], isEqual)
+          })
+        );
+      }
+    })
     .then(() => browserHistory.push('/plans'))
     .catch(({ response: { data: { error } } }) => dispatch(planError(error)));
 }
