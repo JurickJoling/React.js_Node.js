@@ -1,3 +1,4 @@
+import filter from 'lodash/filter';
 import uniqWith from 'lodash/uniqWith';
 import isEqual from 'lodash/isEqual';
 import { browserHistory } from 'react-router';
@@ -136,7 +137,7 @@ export function updatePlan(itemID, {
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
   reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
   featured, featured_name, featured_link, first_message
-}) {
+}, item) {
   return dispatch => apiRequest.put('EventDetail', itemID, {
     bundle: bundle ? {
         __type: 'Pointer',
@@ -158,20 +159,32 @@ export function updatePlan(itemID, {
     featured, featured_name, featured_link, first_message
   })
     .then(() => {
-      const objectId = bundle ? bundle.objectId : null;
+      const objectId = item.bundle.objectId;
 
       if (objectId) {
         apiRequest.get(`EventBundle/${objectId}?include=event`, objectId).then(({ data }) =>
           apiRequest.put('EventBundle', objectId, {
-            events: uniqWith([
-              ...(data.events || []),
-              {
-                __type: 'Pointer',
-                className: 'EventDetail',
-                objectId: itemID
-              }
-            ], isEqual)
+            events: filter((data.events || []), (e => e.objectId !== itemID))
           })
+        );
+      }
+    })
+    .then(() => {
+      const objectId = bundle ? bundle.objectId : null;
+
+      if (objectId) {
+        apiRequest.get(`EventBundle/${objectId}?include=event`, objectId).then(({ data }) => {
+            apiRequest.put('EventBundle', objectId, {
+              events: uniqWith([
+                ...(data.events || []),
+                {
+                  __type: 'Pointer',
+                  className: 'EventDetail',
+                  objectId: itemID
+                }
+              ], isEqual)
+            })
+          }
         );
       }
     })
