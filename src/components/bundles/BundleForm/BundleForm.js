@@ -48,7 +48,6 @@ BundleForm.defaultProps = {
 };
 
 BundleForm.propTypes = {
-  isCreating: PropTypes.bool,
   handleSubmit: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   item: PropTypes.shape({
