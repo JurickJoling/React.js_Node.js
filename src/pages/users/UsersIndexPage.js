@@ -30,14 +30,17 @@ class UsersIndexPage extends Component {
   }
 
   render() {
-    const { items } = this.props;
+    const { items, count } = this.props;
     const { fetched, order } = this.state;
 
     return (
       <Loading className="container" ignoreLoader={(
         <div className="row m-b">
-          <div className="col-md-6">
+          <div className="col-md-2">
             <LinkTo className="btn btn-success" url="users/new">Create User</LinkTo>
+          </div>
+          <div className="col-md-4">
+            <h4>Users ({count})</h4>
           </div>
           <div className="col-md-6 text-right">
             <SearchForm onSearch={({ search }) => this.fetchData({ search, order })} />
@@ -50,4 +53,4 @@ class UsersIndexPage extends Component {
   }
 }
 
-export default connect(({ users: { items } }) => ({ items }), { fetchUsers })(UsersIndexPage);
+export default connect(({ users: { items, count } }) => ({ items, count }), { fetchUsers })(UsersIndexPage);

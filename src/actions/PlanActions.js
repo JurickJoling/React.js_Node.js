@@ -7,10 +7,11 @@ import { ADD_PLANS, ADD_PLAN, PLAN_ERROR, SHOW_PLAN, REMOVE_PLAN } from '../cons
 
 import { apiRequest } from '../utils';
 
-export function addPlans(items = []) {
+export function addPlans(items = [], count = 0) {
   return {
     type: ADD_PLANS,
-    items
+    items,
+    count
   };
 }
 
@@ -43,23 +44,8 @@ export function removePlan(itemId) {
 }
 
 export function fetchPlans({ search, include, order }) {
-  // console.log('filters', filters);
-  // filters ? `&where=${JSON.stringify({
-  //     start_day: filters.start_day ? {
-  //         $gte: {
-  //           __type: Date,
-  //           iso : filters.start_day
-  //         }
-  //       } : null,
-  //     end_day: filters.end_day ? {
-  //         $lte: {
-  //           __type: Date,
-  //           iso : filters.end_day
-  //         }
-  //       } : null
-  //   })}` : null
   const url = [
-    'EventDetail?',
+    'EventDetail?count=1',
     order ? `&order=${order}` : null,
     include ? `&include=${include}` : null,
     search ? `&where=${JSON.stringify({
@@ -71,7 +57,7 @@ export function fetchPlans({ search, include, order }) {
   ].join('');
 
   return dispatch => apiRequest.get(url)
-    .then(({ data: { results } }) => dispatch(addPlans(results)));
+    .then(({ data: { results, count } }) => dispatch(addPlans(results, count)));
 }
 
 export function fetchPlan(itemId) {

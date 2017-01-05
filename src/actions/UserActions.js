@@ -5,10 +5,11 @@ import { ADD_USERS, ADD_USER, USER_ERROR, SHOW_USER, REMOVE_USER } from '../cons
 
 import { apiRequest } from '../utils';
 
-export function addUsers(items = []) {
+export function addUsers(items = [], count = 0) {
   return {
     type: ADD_USERS,
-    items
+    items,
+    count
   };
 }
 
@@ -42,7 +43,7 @@ export function removeUser(itemId) {
 
 export function fetchUsers({ search, include, order }) {
   const url = [
-    'User?',
+    'User?count=1',
     order ? `&order=${order}` : null,
     include ? `&include=${include}` : null,
     search ? `&where=${JSON.stringify({
@@ -55,7 +56,7 @@ export function fetchUsers({ search, include, order }) {
   ].join('');
 
   return dispatch => apiRequest.get(url)
-    .then(({ data: { results } }) => dispatch(addUsers(results)));
+    .then(({ data: { results, count } }) => dispatch(addUsers(results, count)));
 }
 
 export function fetchUser(itemId) {

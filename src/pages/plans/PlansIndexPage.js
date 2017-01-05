@@ -31,13 +31,16 @@ class PlansIndexPage extends Component {
   }
 
   render() {
-    const { items } = this.props;
-    const { fetched, search, order, include } = this.state;
+    const { items, count } = this.props;
+    const { fetched, order, include } = this.state;
     return (
       <Loading className="container" ignoreLoader={(
         <div className="row m-b">
-          <div className="col-md-6">
+          <div className="col-md-2">
             <LinkTo className="btn btn-success" url="plans/new">Create Plan</LinkTo>
+          </div>
+          <div className="col-md-4">
+            <h4>Plans ({count})</h4>
           </div>
           <div className="col-md-6 text-right">
             <SearchForm onSearch={({ search }) => this.fetchData({ search, order, include })} />
@@ -50,4 +53,4 @@ class PlansIndexPage extends Component {
   }
 }
 
-export default connect(({ plans: { items } }) => ({ items }), { fetchPlans })(PlansIndexPage);
+export default connect(({ plans: { items, count } }) => ({ items, count }), { fetchPlans })(PlansIndexPage);

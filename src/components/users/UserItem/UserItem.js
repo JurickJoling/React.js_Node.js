@@ -1,12 +1,14 @@
+import compact from 'lodash/compact';
+import isObject from 'lodash/isObject';
 import React, { PropTypes } from 'react';
 
 import { BooleanField } from '../../../helpers';
-import { renderDate, renderDateTime } from '../../../utils';
+import { renderDateTime } from '../../../utils';
 
 function UserItem({
   item: {
-    objectId, full_name, user_email, gender, age_count, bio, birthday, education_history, phone, tags, verified,
-    is_admin, createdAt
+    objectId, full_name, user_email, gender, age_count, bio, birthday, education_history, phone, tags, location,
+    verified, is_admin, createdAt
   }
 }) {
   return (
@@ -49,6 +51,10 @@ function UserItem({
         <tr>
           <td>Phone</td>
           <td>{phone}</td>
+        </tr>
+        <tr>
+          <td>Location</td>
+          <td>{isObject(location.ipLocation) ? compact([location.ipLocation.city, location.ipLocation.region, location.ipLocation.country]).join(', ') : null}</td>
         </tr>
         <tr>
           <td>Tags</td>

@@ -6,12 +6,13 @@ const defaultState = {
   errorMessage: null
 };
 
-export default function UserReducer(state = defaultState, { type, items, item, itemId, errorMessage }) {
+export default function UserReducer(state = defaultState, { type, items, count, item, itemId, errorMessage }) {
   switch (type) {
     case ADD_USERS:
       return {
         ...state,
-        items
+        items,
+        count
       };
 
     case ADD_USER:
