@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react';
 
+import { toBool } from '../utils';
+
 function BooleanField({ value }) {
   return (
     <span>
-      {value ? 'Yes' : 'No'}
+      {toBool(value) ? 'Yes' : 'No'}
     </span>
   );
 }

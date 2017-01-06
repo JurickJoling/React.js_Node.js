@@ -6,12 +6,13 @@ const defaultState = {
   errorMessage: null
 };
 
-export default function PlanReducer(state = defaultState, { type, items, item, itemId, errorMessage }) {
+export default function PlanReducer(state = defaultState, { type, items, count, item, itemId, errorMessage }) {
   switch (type) {
     case ADD_PLANS:
       return {
         ...state,
-        items
+        items,
+        count
       };
 
     case ADD_PLAN:

@@ -8,3 +8,7 @@ export { default as SearchForm } from './SearchForm/SearchForm';
 
 export { BundlesList, BundleItem, BundleForm, BundleDelete } from './bundles';
 export { PlansList, PlanItem, PlanForm, PlanDelete } from './plans';
+export { EventsList, EventItem, EventForm, EventDelete } from './events';
+export { SpecialsList, SpecialItem, SpecialForm, SpecialDelete } from './specials';
+export { LocationsList, LocationItem, LocationForm, LocationDelete } from './locations';
+export { UsersList, UserItem, UserForm, UserDelete } from './users';

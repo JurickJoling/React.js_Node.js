@@ -29,7 +29,7 @@ class PlanAddPage extends Component {
     return (
       <Loading className="container" loaded={fetched}>
         <Tabs modelsName="plans" itemID={itemID} />
-        <PlanForm item={item} errorMessage={errorMessage} onSave={plan => updatePlan(itemID, plan)} />
+        <PlanForm item={item} errorMessage={errorMessage} onSave={plan => updatePlan(itemID, plan, item)} />
       </Loading>
     );
   }
