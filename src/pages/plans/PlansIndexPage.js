@@ -40,7 +40,7 @@ class PlansIndexPage extends Component {
             <LinkTo className="btn btn-success" url="plans/new">Create Plan</LinkTo>
           </div>
           <div className="col-md-4">
-            <h4>Plans ({count})</h4>
+            {fetched ? <h4>Plans ({count})</h4> : null}
           </div>
           <div className="col-md-6 text-right">
             <SearchForm onSearch={({ search }) => this.fetchData({ search, order, include })} />

@@ -62,6 +62,7 @@ class UserForm extends Component {
         />
         <Field name="education_history" component={renderField} label="Education History"/>
         <Field name="phone" component={renderField} label="Phone"/>
+        <h2>Location</h2>
         <Field
           name="tags"
           component={renderMultiselect}

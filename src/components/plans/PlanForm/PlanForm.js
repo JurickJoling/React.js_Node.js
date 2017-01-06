@@ -1,7 +1,6 @@
 import first from 'lodash/first';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
-import last from 'lodash/last';
 import size from 'lodash/size';
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
@@ -148,9 +147,9 @@ class PlanForm extends Component {
             {weekDays.map(day => (
               <Field
                 key={day}
-                name={day}
+                name={`reoccur_${day}`}
                 component={renderCheckboxField}
-                label={`Every ${last(day.split('_')).replace(/\b\w/g, l => l.toUpperCase())}`}
+                label={`Every ${day.replace(/\b\w/g, l => l.toUpperCase())}`}
               />
             ))}
             <Field name="featured" component={renderCheckboxField} label="Featured" />

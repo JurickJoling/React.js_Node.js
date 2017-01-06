@@ -75,9 +75,9 @@ function PlanItem({
         </tr>
         {weekDays.map(day => (
           <tr key={day}>
-            <td>Every {last(day.split('_')).replace(/\b\w/g, l => l.toUpperCase())}</td>
+            <td>Every {day.replace(/\b\w/g, l => l.toUpperCase())}</td>
             <td>
-              <BooleanField value={item[day]} />
+              <BooleanField value={item[`reoccur_${day}`]} />
             </td>
           </tr>
         ))}
