@@ -19,6 +19,9 @@ function Header() {
             <li className={cl({ active: isActive('plans') })}>
               <Link to="/plans">Plans</Link>
             </li>
+            <li className={cl({ active: isActive('events') })}>
+              <Link to="/events">Events</Link>
+            </li>
             <li className={cl({ active: isActive('specials') })}>
               <Link to="/specials">Specials</Link>
             </li>
