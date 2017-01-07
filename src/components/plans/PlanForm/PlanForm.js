@@ -20,7 +20,7 @@ import {
   renderMultiselect,
   YelpField
 } from '../../../helpers';
-import { weekDays  } from '../../../utils';
+import { weekDays, capitalize } from '../../../utils';
 
 class PlanForm extends Component {
   componentDidMount() {
@@ -149,7 +149,7 @@ class PlanForm extends Component {
                 key={day}
                 name={`reoccur_${day}`}
                 component={renderCheckboxField}
-                label={`Every ${day.replace(/\b\w/g, l => l.toUpperCase())}`}
+                label={`Every ${capitalize(day)}`}
               />
             ))}
             <Field name="featured" component={renderCheckboxField} label="Featured" />
@@ -222,7 +222,7 @@ function validate(values) {
     'estimated_cost'
   ].map(field => {
     if (!values[field]) {
-      errors[field] = `${first(field.split('_')).replace(/\b\w/g, l => l.toUpperCase())} is required`;
+      errors[field] = `${capitalize(first(field.split('_')))} is required`;
     }
   });
 

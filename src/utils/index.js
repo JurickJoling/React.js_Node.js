@@ -1,4 +1,5 @@
 export { default as apiRequest } from './apiRequest';
+export { default as capitalize } from './capitalize';
 export { default as isActive } from './isActive';
 export { default as renderDateTime } from './renderDateTime';
 export { default as renderDate } from './renderDate';

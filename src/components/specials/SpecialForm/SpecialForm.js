@@ -2,20 +2,13 @@ import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
-import Promise from 'bluebird';
-
-import { fetchTags } from '../../../actions/TagActions';
 
 import { LinkTo, renderField, renderTextareaField, renderDropdownList, renderMultiselect, renderDatePicker, renderCheckboxField } from '../../../helpers';
-import { weekDays  } from '../../../utils';
+import { weekDays, capitalize  } from '../../../utils';
 
 class SpecialForm extends Component {
   componentDidMount() {
-    const { fetchTags } = this.props;
-    Promise.all([
-      fetchTags({})
-    ]).then(() => this.handleInitialize());
+    this.handleInitialize();
   }
 
   handleInitialize() {
@@ -35,13 +28,38 @@ class SpecialForm extends Component {
   }
 
   render () {
-    const { item, tags, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(special => {onSave(special)})}>
+      <form onSubmit={handleSubmit(special => onSave(special))}>
         <Field name="incentive_name" component={renderField} label="Incentive Name" />
-        <h2>Category</h2>
-        <h2>Incentive Type</h2>
+        <Field
+          name="category"
+          valueField="value"
+          textField="name"
+          component={renderDropdownList}
+          data={[
+            {name: 'Group Rate', value: 'group_rate'},
+            {name: 'Special Event', value: 'special_event'},
+            {name: 'Birthday', value: 'birthday'},
+            {name: 'Happy Hour', value: 'happy_hour'},
+            {name: 'Brunch', value: 'brunch'}
+          ]}
+          label="Category"
+        />
+        <Field
+          name="incentive_type"
+          valueField="value"
+          textField="name"
+          component={renderDropdownList}
+          data={[
+            {name: 'Fixed Amount', value: 'fixed_amount'},
+            {name: '% Discount', value: 'per_cent_discount'},
+            {name: 'Free Item', value: 'free_item'},
+            {name: 'VIP Benefits', value: 'vip_benefits'}
+          ]}
+          label="Incentive Type"
+        />
         <Field
           name="attendee_min"
           component={renderDropdownList}
@@ -52,17 +70,30 @@ class SpecialForm extends Component {
           name="attendee_max"
           component={renderDropdownList}
           data={range(1, 21)}
-          label="Attendee Minimum"
+          label="Attendee Maximum"
         />
         <Field name="amount" component={renderField} type="number" label="Amount" />
         <Field name="item_name" component={renderField} label="Item Name" />
         <Field name="description" component={renderTextareaField} label="Description" />
-        <h2>Redemption Options</h2>
+        <Field
+          name="redemption_options"
+          valueField="value"
+          textField="name"
+          component={renderDropdownList}
+          data={[
+            {name: 'Mobile Image', value: 'mobile_image'},
+            {name: 'Not Required', value: 'not_required'},
+            {name: 'Promo Code', value: 'promo_code'}
+          ]}
+          label="Redemption Options"
+        />
         <Field name="promo_code" component={renderField} label="Promo Code" />
         <Field
           name="days"
+          valueField="value"
+          textField="name"
           component={renderMultiselect}
-          data={weekDays}
+          data={weekDays.map(day => ({ name: capitalize(day), value: day }))}
           label="Day of week"
         />
         <h2>Start Time</h2>
@@ -114,6 +145,4 @@ SpecialForm.propTypes = {
 };
 
 
-export default connect(({
-  tags: { items: tags }
-}) => ({ tags }), ({ fetchTags }))(reduxForm({ form: 'special' })(SpecialForm));
+export default reduxForm({ form: 'special' })(SpecialForm);

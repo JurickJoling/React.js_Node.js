@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 import Promise from 'bluebird';
 
 import { fetchLocations } from '../../../actions/LocationActions';
-import { fetchTags } from '../../../actions/TagActions';
+import { fetchSpecials } from '../../../actions/SpecialActions';
 
-import { LinkTo, renderField, renderTextareaField, renderDropdownList, renderMultiselect, renderDatePicker, renderDateTimePicker, renderCheckboxField } from '../../../helpers';
+import { LinkTo, renderField, renderTextareaField, renderDropdownList, renderDateTimePicker, renderCheckboxField } from '../../../helpers';
 
 class EventForm extends Component {
   componentDidMount() {
-    const { fetchLocations, fetchTags } = this.props;
+    const { fetchLocations, fetchSpecials } = this.props;
     Promise.all([
       fetchLocations({}),
-      fetchTags({})
+      fetchSpecials({})
     ]).then(() => this.handleInitialize());
   }
 
@@ -35,11 +35,29 @@ class EventForm extends Component {
   }
 
   render () {
-    const { item, tags, locations, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, locations, specials, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
       <form onSubmit={handleSubmit(event => {onSave(event)})}>
-        <h2>Event Type</h2>
+        <Field
+          name="event_type"
+          valueField="value"
+          textField="name"
+          component={renderDropdownList}
+          data={[
+            {name: 'Birthday', value: 'birthday'},
+            {name: 'Live Music', value: 'live_music'},
+            {name: 'Theatre', value: 'theatre'},
+            {name: 'Comedy', value: 'comedy'},
+            {name: 'Improv', value: 'improv'},
+            {name: 'Sports', value: 'sports'},
+            {name: 'VIP', value: 'vip'},
+            {name: 'Ladies Night', value: 'ladies_night'},
+            {name: 'Holiday', value: 'holiday'},
+            {name: 'Special Event', value: 'special_event'},
+          ]}
+          label="Event Type"
+        />
         <h2>Date + Event Name</h2>
         <Field
           name="start_time"
@@ -60,8 +78,20 @@ class EventForm extends Component {
           label="Location"
         />
         <Field name="description" component={renderTextareaField} label="Description"/>
-        <h2>Redemption</h2>
-        <h2>Evenbrite</h2>
+        <Field
+          name="redemption"
+          valueField="value"
+          textField="name"
+          component={renderDropdownList}
+          data={[
+            {name: 'Advance Tickets', value: 'advance_tickets'},
+            {name: 'Only Pay at Door', value: 'only_pay_at_door'},
+            {name: 'Not Required', value: 'not_required'}
+          ]}
+          label="Redemption"
+        />
+        <h2>Eventbrite - reference</h2>
+        <h2>Cost - price box</h2>
         <Field name="free" component={renderCheckboxField} label="Free?"/>
         <Field name="add_criteria" component={renderCheckboxField} label="Add Criteria?"/>
         <Field
@@ -77,13 +107,44 @@ class EventForm extends Component {
           label="Age Criteria"
         />
         <Field name="boost" component={renderCheckboxField} label="Boost?"/>
-        <h2>Boost Type</h2>
+        <Field
+          name="boost_type"
+          valueField="value"
+          textField="name"
+          component={renderDropdownList}
+          data={[
+            {name: 'Invites Sent', value: 'invites_sent'},
+            {name: 'Invites Accepted', value: 'invites_accepted'},
+            {name: 'Tickets Purchased', value: 'tickets_purchased'},
+            {name: 'Attendees', value: 'attendees'}
+          ]}
+          label="Boost Type"
+        />
         <Field name="comments_for_reviewer" component={renderField} label="Comments For Reviewer" />
-        <h2>Boost Status</h2>
+        <Field
+          name="boost_status"
+          valueField="value"
+          textField="name"
+          component={renderDropdownList}
+          data={[
+            {name: 'Approved', value: 'approved'},
+            {name: 'Active', value: 'active'},
+            {name: 'Pending Approval', value: 'pending_approval'},
+            {name: 'Expired', value: 'expired'}
+          ]}
+          label="Boost Status"
+        />
         <Field name="boost_invites_sent" component={renderField} type="number" label="Boost Invites Sent" />
         <Field name="boost_invites_accepted" component={renderField} type="number" label="Boost Invites Accepted" />
         <Field name="boost_attendees" component={renderField} type="number" label="Boost Attendees" />
-        <h2>Special Reference</h2>
+        <Field
+          name="special_id"
+          valueField="objectId"
+          textField="name"
+          component={renderDropdownList}
+          data={specials.map(({ objectId, name }) => ({ objectId, name }))}
+          label="Special"
+        />
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}
@@ -114,6 +175,6 @@ EventForm.propTypes = {
 
 
 export default connect(({
-  tags: { items: tags },
+  specials: { items: specials },
   locations: { items: locations },
-}) => ({ tags, locations }), ({ fetchLocations, fetchTags }))(reduxForm({ form: 'event' })(EventForm));
+}) => ({ specials, locations }), ({ fetchLocations, fetchSpecials }))(reduxForm({ form: 'event' })(EventForm));
