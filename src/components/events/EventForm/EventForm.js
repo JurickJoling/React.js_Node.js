@@ -140,9 +140,9 @@ class EventForm extends Component {
         <Field
           name="special_id"
           valueField="objectId"
-          textField="name"
+          textField="incentive_name"
           component={renderDropdownList}
-          data={specials.map(({ objectId, name }) => ({ objectId, name }))}
+          data={specials.map(({ objectId, incentive_name }) => ({ objectId, incentive_name }))}
           label="Special"
         />
         {errorMessage ? (

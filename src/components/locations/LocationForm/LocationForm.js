@@ -54,7 +54,6 @@ class LocationForm extends Component {
           ]}
           label="Location Type"
         />
-        <h2>Appearing</h2>
         <Field name="verified" component={renderCheckboxField} label="Verified?"/>
         {errorMessage ? (
             <div className="alert alert-danger">

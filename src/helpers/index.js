@@ -6,6 +6,7 @@ export { default as Loading } from './Loading';
 export { default as Tabs } from './Tabs';
 export { default as YelpField } from './YelpField';
 export { default as renderField } from './renderField';
+export { default as MultipleKeyValueList } from './MultipleKeyValueList';
 export { default as renderFileUploadField } from './renderFileUploadField';
 export { default as renderCheckboxField } from './renderCheckboxField';
 export { default as renderTextareaField } from './renderTextareaField';

@@ -1,12 +1,17 @@
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
 import React, { PropTypes, Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { getFormValues, Field, reduxForm } from 'redux-form';
 
-import { LinkTo, renderField, renderFileUploadField, renderTextareaField, renderDropdownList, renderMultiselect, renderDatePicker, renderCheckboxField } from '../../../helpers';
-import { weekDays, capitalize  } from '../../../utils';
+import { LinkTo, renderField, renderFileUploadField, renderTextareaField, MultipleKeyValueList, renderDropdownList, renderMultiselect, renderDatePicker, renderCheckboxField } from '../../../helpers';
 
 class SpecialForm extends Component {
+
+  state = {
+
+  };
+
   componentDidMount() {
     this.handleInitialize();
   }
@@ -15,25 +20,36 @@ class SpecialForm extends Component {
     const {
       item,
       item: {
-        incentive_name, image
+        incentive_name, category, incentive_type, attendee_min, attendee_max, amount, description, redemption_options,
+        promo_code, start_time, end_date, without_end_date, image, status
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
-      console.log('image', item, image);
+      this.setState({
+        category: isObject(category) ? category.value : null,
+        incentive_type: isObject(incentive_type) ? incentive_type.value : null,
+        redemption_options: isObject(redemption_options) ? redemption_options.value : null
+      });
       initialize({
-        incentive_name, image
+        incentive_name, category, incentive_type, attendee_min, attendee_max, amount, description, redemption_options,
+        promo_code, start_time, end_date, without_end_date, image, status
       });
     }
   }
 
   render () {
     const { item, errorMessage, handleSubmit, onSave } = this.props;
+    const { category, incentive_type, redemption_options } = this.state;
 
     return (
       <form onSubmit={handleSubmit(special => onSave(special))}>
-        <Field name="incentive_name" component={renderField} label="Incentive Name" />
+        <Field
+          name="incentive_name"
+          component={renderField}
+          label="Incentive Name"
+        />
         <Field
           name="category"
           valueField="value"
@@ -47,6 +63,7 @@ class SpecialForm extends Component {
             {name: 'Brunch', value: 'brunch'}
           ]}
           label="Category"
+          afterChange={({ value }) => this.setState({ category: value })}
         />
         <Field
           name="incentive_type"
@@ -60,51 +77,57 @@ class SpecialForm extends Component {
             {name: 'VIP Benefits', value: 'vip_benefits'}
           ]}
           label="Incentive Type"
+          afterChange={({ value }) => this.setState({ incentive_type: value })}
         />
-        <Field
-          name="attendee_min"
-          component={renderDropdownList}
-          data={range(1, 21)}
-          label="Attendee Minimum"
-        />
-        <Field
-          name="attendee_max"
-          component={renderDropdownList}
-          data={range(1, 21)}
-          label="Attendee Maximum"
-        />
+        {category === 'group_rate' ? (
+            <Field
+              name="attendee_min"
+              component={renderDropdownList}
+              data={range(1, 21)}
+              label="Attendee Minimum"
+            />
+          ) : null}
+        {category === 'group_rate' ? (
+            <Field
+              name="attendee_max"
+              component={renderDropdownList}
+              data={range(1, 21)}
+              label="Attendee Maximum"
+            />
+          ) : null}
         <Field name="amount" component={renderField} type="number" label="Amount" />
-        <Field name="item_name" component={renderField} label="Item Name" />
+        {incentive_type === 'free_item' || incentive_type === 'vip_benefits' ? (
+            <Field name="item_name" component={renderField} label="Item Name" />
+          ) : null}
         <Field name="description" component={renderTextareaField} label="Description" />
         <Field
           name="redemption_options"
           valueField="value"
           textField="name"
           component={renderDropdownList}
-          data={[
+          data={incentive_type === 'vip_benefits' ? [{name: 'Mobile Image', value: 'mobile_image'}] : [
             {name: 'Mobile Image', value: 'mobile_image'},
             {name: 'Not Required', value: 'not_required'},
             {name: 'Promo Code', value: 'promo_code'}
           ]}
           label="Redemption Options"
+          afterChange={({ value }) => this.setState({ redemption_options: value })}
         />
         <Field name="promo_code" component={renderField} label="Promo Code" />
         <Field
-          name="days"
-          valueField="value"
-          textField="name"
-          component={renderMultiselect}
-          data={weekDays.map(day => ({ name: capitalize(day), value: day }))}
-          label="Day of week"
+          name="start_time"
+          component={MultipleKeyValueList}
+          label="Start Time"
         />
-        <h2>Start Time</h2>
         <Field
           name="end_date"
           component={renderDatePicker}
           label="End Date"
         />
         <Field name="without_end_date" component={renderCheckboxField} label="No End Date" />
-        <Field name="image" component={renderFileUploadField} label="Image Upload" />
+        {redemption_options === 'mobile_image' ? (
+            <Field name="image" component={renderFileUploadField} label="Image Upload" />
+          ) : null}
         <Field
           name="status"
           valueField="value"
