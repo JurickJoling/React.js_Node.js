@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { LinkTo, renderField, renderTextareaField, renderDropdownList, renderMultiselect, renderDatePicker, renderCheckboxField } from '../../../helpers';
+import { LinkTo, renderField, renderFileUploadField, renderTextareaField, renderDropdownList, renderMultiselect, renderDatePicker, renderCheckboxField } from '../../../helpers';
 import { weekDays, capitalize  } from '../../../utils';
 
 class SpecialForm extends Component {
@@ -15,14 +15,15 @@ class SpecialForm extends Component {
     const {
       item,
       item: {
-        incentive_name
+        incentive_name, image
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
+      console.log('image', item, image);
       initialize({
-        incentive_name
+        incentive_name, image
       });
     }
   }
@@ -103,7 +104,7 @@ class SpecialForm extends Component {
           label="End Date"
         />
         <Field name="without_end_date" component={renderCheckboxField} label="No End Date" />
-        <h2>Image Upload</h2>
+        <Field name="image" component={renderFileUploadField} label="Image Upload" />
         <Field
           name="status"
           valueField="value"

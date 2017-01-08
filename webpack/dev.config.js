@@ -69,6 +69,7 @@ module.exports = {
         NODE_ENV: JSON.stringify('development'),
         API_HOST: JSON.stringify(process.env.API_HOST),
         YELP_HOST: JSON.stringify(process.env.YELP_HOST),
+        UPLOAD_HOST: JSON.stringify(process.env.UPLOAD_HOST),
         PARSE_APPLICATION_ID: JSON.stringify(process.env.PARSE_APPLICATION_ID),
         PARSE_MASTER_KEY: JSON.stringify(process.env.PARSE_MASTER_KEY),
         GOOGLE_MAP_API_KEY: JSON.stringify(process.env.GOOGLE_MAP_API_KEY)

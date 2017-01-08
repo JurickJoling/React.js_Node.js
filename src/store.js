@@ -13,7 +13,7 @@ export default function configureStore(initialState = {}) {
     const { DevTools } = require('./components'); // eslint-disable-line global-require
 
     finalCreateStore = compose(
-      applyMiddleware(thunk), //, createLogger({ diff: true })
+      applyMiddleware(thunk), // , createLogger({ diff: true })
       window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
       persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
     )(createStore);
