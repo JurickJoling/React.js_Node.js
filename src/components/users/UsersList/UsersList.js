@@ -1,3 +1,7 @@
+import first from 'lodash/first';
+import last from 'lodash/last';
+import compact from 'lodash/compact';
+import isObject from 'lodash/isObject';
 import React, { PropTypes } from 'react';
 
 import { LinkTo } from '../../../helpers';
@@ -11,6 +15,9 @@ function UsersList({ items }) {
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email</th>
+        <th>Gender</th>
+        <th>Age</th>
+        <th>Location</th>
         <th>Created</th>
         <th />
         <th />
@@ -18,11 +25,14 @@ function UsersList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, first_name, last_name, user_email, createdAt }) => (
+      {items.map(({ objectId, first_name, last_name, full_name, user_email, gender, age_count, location, createdAt }) => (
         <tr key={objectId}>
-          <td>{first_name}</td>
-          <td>{last_name}</td>
+          <td>{first_name || first(full_name.split(' '))}</td>
+          <td>{last_name || last(full_name.split(' '))}</td>
           <td>{user_email}</td>
+          <td>{gender}</td>
+          <td>{age_count}</td>
+          <td>{location && isObject(location.ipLocation) ? compact([location.ipLocation.city, location.ipLocation.region, location.ipLocation.country]).join(', ') : null}</td>
           <td>{renderDate(createdAt)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`users/${objectId}`}>Show</LinkTo>

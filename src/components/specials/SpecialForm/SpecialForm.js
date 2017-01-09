@@ -20,8 +20,8 @@ class SpecialForm extends Component {
     const {
       item,
       item: {
-        incentive_name, category, incentive_type, attendee_min, attendee_max, amount, description, redemption_options,
-        promo_code, start_time, end_date, without_end_date, image, status
+        incentive_name, category, incentive_type, attendee_min, attendee_max, amount, item_name, description,
+        redemption_options, promo_code, start_time, end_date, without_end_date, image, status
       },
       initialize
     } = this.props;
@@ -33,8 +33,8 @@ class SpecialForm extends Component {
         redemption_options: isObject(redemption_options) ? redemption_options.value : null
       });
       initialize({
-        incentive_name, category, incentive_type, attendee_min, attendee_max, amount, description, redemption_options,
-        promo_code, start_time, end_date, without_end_date, image, status
+        incentive_name, category, incentive_type, attendee_min, attendee_max, amount, item_name, description,
+        redemption_options, promo_code, start_time, end_date, without_end_date, image, status
       });
     }
   }
