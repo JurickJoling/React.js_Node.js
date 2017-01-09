@@ -106,7 +106,7 @@ function PlanItem({
         <tr>
           <td>Banner</td>
           <td>
-            {image ? <img className="img-responsive" src={image} alt="" /> : null}
+            {image ? <img className="show-image img-responsive" src={image} alt="" /> : null}
           </td>
         </tr>
         <tr>

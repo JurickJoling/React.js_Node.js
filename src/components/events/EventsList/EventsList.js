@@ -1,14 +1,24 @@
 import React, { PropTypes } from 'react';
 
-import { LinkTo } from '../../../helpers';
-import { renderDate } from '../../../utils';
+import { LinkTo, BooleanField } from '../../../helpers';
+import { renderDate, renderDateTime } from '../../../utils';
+
+// Special Added (yes/no), Boost (yes/no},
 
 function EventsList({ items }) {
   return (
     <table className="table table-bordered table-hover">
       <thead>
       <tr>
-        <th>Description</th>
+        <th>Event Type</th>
+        <th>Dates</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Location</th>
+        <th>Redemption</th>
+        <th>Cost</th>
+        <th>Special Added</th>
+        <th>Boost</th>
         <th>Created</th>
         <th />
         <th />
@@ -16,9 +26,30 @@ function EventsList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, description, createdAt }) => (
+      {items.map(({ objectId, event_type, dates, start_time, end_time, redemption, cost, special_id, boost, createdAt }) => (
         <tr key={objectId}>
-          <td>{description}</td>
+          <td>{event_type ? event_type.name : null}</td>
+          <td>
+            <table className="table table-bordered table-striped table-hover">
+              <tbody>
+              {dates.map(({ date, name, start, end }, index) => (
+                <tr key={index}>
+                  <td>{date}</td>
+                  <td>{name}</td>
+                  <td>{start}</td>
+                  <td>{end}</td>
+                </tr>
+              ))}
+              </tbody>
+            </table>
+          </td>
+          <td>{renderDateTime(start_time)}</td>
+          <td>{renderDateTime(end_time)}</td>
+          <td>Location</td>
+          <td>{redemption ? redemption.name : null}</td>
+          <td>{cost ? cost : 'Free'}</td>
+          <td>Special</td>
+          <td><BooleanField value={boost} /></td>
           <td>{renderDate(createdAt)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`events/${objectId}`}>Show</LinkTo>

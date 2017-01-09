@@ -2,11 +2,11 @@ import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import React, { PropTypes, Component } from 'react';
-import { getFormValues, Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
 import {
   LinkTo,
-  MultipleKeyValueList,
+  WeekdayStartEndList,
   renderField,
   renderFileUploadField,
   renderTextareaField,
@@ -117,7 +117,7 @@ class SpecialForm extends Component {
         <Field name="promo_code" component={renderField} label="Promo Code" />
         <Field
           name="days"
-          component={MultipleKeyValueList}
+          component={WeekdayStartEndList}
           label="Start Time"
         />
         <Field

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FacebookLogin } from 'react-facebook-login-component';
+import FacebookLogin from 'react-facebook-login';
 
 class FacebookLoginPage extends Component{
 
@@ -7,14 +7,11 @@ class FacebookLoginPage extends Component{
     return (
       <div>
         <FacebookLogin
-          xfbml
-          socialId="245755372526951"
-          language="en_US"
-          scope="public_profile,email"
-          responseHandler={(...args) => console.log('argsargs', args)}
-          version="v2.5"
-          class="facebook-login"
-          buttonText="Login With Facebook"
+          autoLoad
+          appId="420009571539693"
+          fields="name,email,picture"
+          callback={(...args) => console.log('argsargsargsargs', args)}
+          cssClass="btn btn-primary"
         />
       </div>
     );

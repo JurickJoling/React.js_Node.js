@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
 
-import { renderDateTime } from '../../../utils';
+import { BooleanField } from '../../../helpers';
+import { capitalize, renderDateTime } from '../../../utils';
 
 function LocationItem({
   item: {
-    objectId, name, address, phone, category, neighborhood, metro_city, reservations, latitude, longitude, rating,
-    groups, outdoor, type, verified, createdAt
+    objectId, name, address, phone, category, neighborhood, metro_city, hours, reservations, latitude, longitude, rating,
+    groups, outdoor, location_type, verified, createdAt
   }
 }) {
   return (
@@ -42,8 +43,24 @@ function LocationItem({
           <td>{metro_city}</td>
         </tr>
         <tr>
+          <td>Hours</td>
+          <td>
+            <table className="table table-bordered table-striped table-hover">
+              <tbody>
+              {hours.map(({ day, start, end }, index) => (
+                <tr key={index}>
+                  <td>{capitalize(day)}</td>
+                  <td>{start}</td>
+                  <td>{end}</td>
+                </tr>
+              ))}
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
           <td>Takes Reservations</td>
-          <td>{reservations}</td>
+          <td><BooleanField value={reservations} /></td>
         </tr>
         <tr>
           <td>Latitude</td>
@@ -59,19 +76,19 @@ function LocationItem({
         </tr>
         <tr>
           <td>Good for Groups</td>
-          <td>{groups}</td>
+          <td><BooleanField value={groups} /></td>
         </tr>
         <tr>
           <td>Outdoor Seating</td>
-          <td>{outdoor}</td>
+          <td><BooleanField value={outdoor} /></td>
         </tr>
         <tr>
           <td>Location Type</td>
-          <td>{type}</td>
+          <td>{location_type ? location_type.name : null}</td>
         </tr>
         <tr>
           <td>Verified?</td>
-          <td>{verified}</td>
+          <td><BooleanField value={verified} /></td>
         </tr>
         <tr>
           <td>Created</td>

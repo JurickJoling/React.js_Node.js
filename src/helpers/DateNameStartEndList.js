@@ -12,7 +12,14 @@ import { weekDays, capitalize } from '../utils';
 
 momentLocalizer(moment);
 
-class MultipleKeyValueList extends Component {
+export default class DateNameStartEndList extends Component {
+
+  static propTypes = {
+    input: PropTypes.object.isRequired,
+    meta: PropTypes.object.isRequired,
+    label: PropTypes.string,
+    type: PropTypes.string
+  };
 
   state = {
     value: {},
@@ -26,7 +33,7 @@ class MultipleKeyValueList extends Component {
   }
 
   render() {
-    const { input, label, meta: { touched, error, warning } } = this.props;
+    const { input, label, placeholder, meta: { touched, error, warning } } = this.props;
     const { value, values } = this.state;
 
     return (
@@ -36,33 +43,38 @@ class MultipleKeyValueList extends Component {
           <tbody>
           <tr>
             <td>
-              <DropdownList
-                valueField="value"
-                textField="name"
-                data={weekDays.map(day => ({ name: capitalize(day), value: day }))}
-                filter="contains"
-                value={value.day}
-                onChange={day => this.setState({ value: { ...value, day: day.value } })}
+              <DateTimePicker
+                time={false}
+                format={'MM/DD/YYYY'}
+                value={value.date ? moment(value.date, 'MM/DD/YYYY').toDate() : null}
+                onChange={(_, date) => this.setState({ value: { ...value, date } })}
+              />
+            </td>
+            <td>
+              <input
+                className="form-control"
+                placeholder={placeholder}
+                onChange={({ target }) => this.setState({ value: { ...value, name: target.value } })}
               />
             </td>
             <td>
               <DateTimePicker
-                format={'MM/DD/YYYY hh:mm:ss'}
-                value={value.start ? moment(value.start, 'MM/DD/YYYY hh:mm:ss').toDate() : null}
+                calendar={false}
+                value={value.start ? moment(value.start, 'hh:mm A').toDate() : null}
                 onChange={(_, start) => this.setState({ value: { ...value, start } })}
               />
             </td>
             <td>
               <DateTimePicker
-                format={'MM/DD/YYYY hh:mm:ss'}
-                value={value.end ? moment(value.end, 'MM/DD/YYYY hh:mm:ss').toDate() : null}
+                calendar={false}
+                value={value.end ? moment(value.end, 'hh:mm A').toDate() : null}
                 onChange={(_, end) => this.setState({ value: { ...value, end } })}
               />
             </td>
             <td>
               <Button
                 color="primary"
-                disabled={!value.day || !value.start || !value.end}
+                disabled={!value.date || !value.name || !value.start || !value.end}
                 onClick={() => this.setState({ value: {}, values: [...values, value] }, () => input.onChange(this.state.values))}
               >
                 Add
@@ -71,7 +83,8 @@ class MultipleKeyValueList extends Component {
           </tr>
           {values.map((val, index) => (
             <tr key={index}>
-              <td>{capitalize(val.day)}</td>
+              <td>{val.date}</td>
+              <td>{val.name}</td>
               <td>{val.start}</td>
               <td>{val.end}</td>
               <td>
@@ -95,12 +108,3 @@ class MultipleKeyValueList extends Component {
     );
   }
 }
-
-MultipleKeyValueList.propTypes = {
-  input: PropTypes.object.isRequired,
-  meta: PropTypes.object.isRequired,
-  label: PropTypes.string,
-  type: PropTypes.string
-};
-
-export default MultipleKeyValueList;
