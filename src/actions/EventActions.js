@@ -60,7 +60,7 @@ export function fetchEvents({ search, include, order }) {
 }
 
 export function fetchEvent(itemId) {
-  return dispatch => apiRequest.get('Event', itemId)
+  return dispatch => apiRequest.get('Event', itemId, '?include=location,special')
     .then(({ data }) => dispatch(showEvent(data)))
     .catch(() => browserHistory.push('/not-found'));
 }
@@ -68,7 +68,16 @@ export function fetchEvent(itemId) {
 export function createEvent(event) {
   return dispatch => apiRequest.post('Event', {
     ...event,
-    birthday: event.birthday ? moment(event.birthday).format('MM/DD/YYYY') : null
+    location: event.location ? {
+        __type: 'Pointer',
+        className: 'Location',
+        objectId: event.location.objectId
+      } : null,
+    special: event.special ? {
+        __type: 'Pointer',
+        className: 'Special',
+        objectId: event.special.objectId
+      } : null,
   })
     .then(() => browserHistory.push('/events'))
     .catch(({ response: { data: { error } } }) => dispatch(eventError(error)));
@@ -77,7 +86,16 @@ export function createEvent(event) {
 export function updateEvent(itemID, event) {
   return dispatch => apiRequest.put('Event', itemID, {
     ...event,
-    birthday: event.birthday ? moment(event.birthday).format('MM/DD/YYYY') : null
+    location: event.location ? {
+        __type: 'Pointer',
+        className: 'Location',
+        objectId: event.location.objectId
+      } : null,
+    special: event.special ? {
+        __type: 'Pointer',
+        className: 'Special',
+        objectId: event.special.objectId
+      } : null,
   })
     .then(() => browserHistory.push('/events'))
     .catch(({ response: { data: { error } } }) => dispatch(eventError(error)));

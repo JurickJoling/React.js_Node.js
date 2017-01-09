@@ -31,18 +31,18 @@ class EventForm extends Component {
     const {
       item,
       item: {
-        event_type, dates, start_time, end_time, location_id, description, redemption, cost,
+        event_type, dates, start_time, end_time, location, description, redemption, cost,
         add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
-        boost_invites_sent, boost_invites_accepted, boost_attendees, special_id
+        boost_invites_sent, boost_invites_accepted, boost_attendees, special
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
       initialize({
-        event_type, dates, start_time, end_time, location_id, description, redemption, cost,
+        event_type, dates, start_time, end_time, location, description, redemption, cost,
         add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
-        boost_invites_sent, boost_invites_accepted, boost_attendees, special_id
+        boost_invites_sent, boost_invites_accepted, boost_attendees, special
       });
     }
   }
@@ -88,7 +88,7 @@ class EventForm extends Component {
           label="End Time"
         />
         <Field
-          name="location_id"
+          name="location"
           valueField="objectId"
           textField="name"
           component={renderDropdownList}
@@ -168,7 +168,7 @@ class EventForm extends Component {
         <Field name="boost_invites_accepted" component={renderField} type="number" label="Boost Invites Accepted" />
         <Field name="boost_attendees" component={renderField} type="number" label="Boost Attendees" />
         <Field
-          name="special_id"
+          name="special"
           valueField="objectId"
           textField="incentive_name"
           component={renderDropdownList}

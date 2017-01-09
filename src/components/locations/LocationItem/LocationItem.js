@@ -1,3 +1,4 @@
+import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
 import { BooleanField } from '../../../helpers';
@@ -45,17 +46,19 @@ function LocationItem({
         <tr>
           <td>Hours</td>
           <td>
-            <table className="table table-bordered table-striped table-hover">
-              <tbody>
-              {hours.map(({ day, start, end }, index) => (
-                <tr key={index}>
-                  <td>{capitalize(day)}</td>
-                  <td>{start}</td>
-                  <td>{end}</td>
-                </tr>
-              ))}
-              </tbody>
-            </table>
+            {size(hours || []) > 0 ? (
+                <table className="table table-bordered table-striped table-hover">
+                  <tbody>
+                  {hours.map(({ day, start, end }, index) => (
+                    <tr key={index}>
+                      <td>{capitalize(day)}</td>
+                      <td>{start}</td>
+                      <td>{end}</td>
+                    </tr>
+                  ))}
+                  </tbody>
+                </table>
+              ) : null}
           </td>
         </tr>
         <tr>

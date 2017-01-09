@@ -1,3 +1,4 @@
+import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
 import { capitalize, fileUrl, renderDateTime } from '../../../utils';
@@ -56,8 +57,9 @@ function SpecialItem({
         <tr>
           <td>Days</td>
           <td>
-            <table className="table table-bordered table-striped table-hover">
-              <tbody>
+            {size(days || []) > 0 ? (
+              <table className="table table-bordered table-striped table-hover">
+                <tbody>
                 {days.map(({ day, start, end }, index) => (
                   <tr key={index}>
                     <td>{capitalize(day)}</td>
@@ -65,8 +67,9 @@ function SpecialItem({
                     <td>{end}</td>
                   </tr>
                 ))}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+              ) : null}
           </td>
         </tr>
         <tr>
