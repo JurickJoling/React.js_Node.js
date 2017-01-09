@@ -2,7 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { LinkTo, renderField, renderDropdownList, renderCheckboxField } from '../../../helpers';
+import { LinkTo, MultipleKeyValueList, renderField, renderDropdownList, renderCheckboxField } from '../../../helpers';
 
 class LocationForm extends Component {
   componentDidMount() {
@@ -13,16 +13,16 @@ class LocationForm extends Component {
     const {
       item,
       item: {
-        name, address, phone, category, neighborhood, metro_city, reservations, latitude, longitude, rating,
-        groups, outdoor, type, verified
+        name, address, phone, category, neighborhood, metro_city, hours, reservations, latitude, longitude, rating,
+        groups, outdoor, location_type, verified
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
       initialize({
-        name, address, phone, category, neighborhood, metro_city, reservations, latitude, longitude, rating,
-        groups, outdoor, type, verified
+        name, address, phone, category, neighborhood, metro_city, hours, reservations, latitude, longitude, rating,
+        groups, outdoor, location_type, verified
       });
     }
   }
@@ -39,7 +39,12 @@ class LocationForm extends Component {
         <Field name="category" component={renderField} label="Category"/>
         <Field name="neighborhood" component={renderField} label="Neighborhood"/>
         <Field name="metro_city" component={renderField} label="Metro City"/>
-        <h2>Hours of operations</h2>
+        <Field
+          time
+          name="hours"
+          component={MultipleKeyValueList}
+          label="Hours of operations"
+        />
         <Field name="reservations" component={renderCheckboxField} label="Takes Reservations?"/>
         <Field name="latitude" component={renderField} label="Latitude"/>
         <Field name="longitude" component={renderField} label="Longitude"/>
@@ -47,12 +52,14 @@ class LocationForm extends Component {
         <Field name="groups" component={renderCheckboxField} label="Good For Group?"/>
         <Field name="outdoor" component={renderCheckboxField} label="Outdoor Seating?"/>
         <Field
-          name="type"
+          name="location_type"
+          valueField="value"
+          textField="name"
           component={renderDropdownList}
           data={[
-            'Restaurant',
-            'Theatre',
-            'Event Organizer',
+            {name: 'Restaurant', value: 'restaurant'},
+            {name: 'Theatre', value: 'theatre'},
+            {name: 'Event Organizer', value: 'event_organizer'}
           ]}
           label="Location Type"
         />

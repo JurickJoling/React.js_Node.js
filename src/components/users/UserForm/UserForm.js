@@ -1,5 +1,6 @@
 import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
@@ -22,16 +23,17 @@ class UserForm extends Component {
     const {
       item,
       item: {
-        first_name, last_name, user_email, gender, age_count, bio, birthday, education_history, phone, tags, verified, is_admin
+        first_name, last_name, user_email, gender, age_count, bio, birthday, education_history, phone, tags, verified,
+        latitude, longitude, is_admin
       },
       initialize
     } = this.props;
 
-    console.log('birthday', birthday);
-
     if (!isEmpty(item)) {
       initialize({
         first_name, last_name, user_email, gender, age_count, bio, education_history, phone, tags,
+        latitude: latitude || (isObject(item.location) ? item.location.latitude : null),
+        longitude: longitude || (isObject(item.location) ? item.location.longitude : null),
         verified: toBool(verified),
         is_admin: toBool(is_admin),
         birthday: birthday ? moment(birthday, 'MM/DD/YYYY').utc() : null
@@ -62,7 +64,8 @@ class UserForm extends Component {
         />
         <Field name="education_history" component={renderField} label="Education History"/>
         <Field name="phone" component={renderField} label="Phone"/>
-        <h2>Location</h2>
+        <Field name="latitude" component={renderField} type="number" label="Latitude"/>
+        <Field name="longitude" component={renderField} type="number" label="Longitude"/>
         <Field
           name="tags"
           component={renderMultiselect}

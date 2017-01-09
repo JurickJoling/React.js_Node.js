@@ -26,7 +26,7 @@ class MultipleKeyValueList extends Component {
   }
 
   render() {
-    const { input, label, meta: { touched, error, warning } } = this.props;
+    const { input, label, time, meta: { touched, error, warning } } = this.props;
     const { value, values } = this.state;
 
     return (
@@ -46,18 +46,34 @@ class MultipleKeyValueList extends Component {
               />
             </td>
             <td>
-              <DateTimePicker
-                format={'MM/DD/YYYY hh:mm:ss'}
-                value={value.start ? moment(value.start, 'MM/DD/YYYY hh:mm:ss').toDate() : null}
-                onChange={(_, start) => this.setState({ value: { ...value, start } })}
-              />
+              {time ? (
+                  <DateTimePicker
+                    calendar={false}
+                    value={value.start ? moment(value.start, 'hh:mm A').toDate() : null}
+                    onChange={(_, start) => this.setState({ value: { ...value, start } })}
+                  />
+                ) : (
+                  <DateTimePicker
+                    format={'MM/DD/YYYY hh:mm:ss'}
+                    value={value.start ? moment(value.start, 'MM/DD/YYYY hh:mm:ss').toDate() : null}
+                    onChange={(_, start) => this.setState({ value: { ...value, start } })}
+                  />
+                )}
             </td>
             <td>
-              <DateTimePicker
-                format={'MM/DD/YYYY hh:mm:ss'}
-                value={value.end ? moment(value.end, 'MM/DD/YYYY hh:mm:ss').toDate() : null}
-                onChange={(_, end) => this.setState({ value: { ...value, end } })}
-              />
+              {time ? (
+                  <DateTimePicker
+                    calendar={false}
+                    value={value.end ? moment(value.end, 'hh:mm A').toDate() : null}
+                    onChange={(_, end) => this.setState({ value: { ...value, end } })}
+                  />
+                ) : (
+                  <DateTimePicker
+                    format={'MM/DD/YYYY hh:mm:ss'}
+                    value={value.end ? moment(value.end, 'MM/DD/YYYY hh:mm:ss').toDate() : null}
+                    onChange={(_, end) => this.setState({ value: { ...value, end } })}
+                  />
+                )}
             </td>
             <td>
               <Button

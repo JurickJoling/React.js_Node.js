@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import { LinkTo } from '../../../helpers';
+import { LinkTo, BooleanField } from '../../../helpers';
 import { renderDate } from '../../../utils';
 
 function LocationsList({ items }) {
@@ -26,7 +26,7 @@ function LocationsList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, name, address, phone, category, neighborhood, metro_city, reservations, rating, groups, outdoor, type, createdAt }) => (
+      {items.map(({ objectId, name, address, phone, category, neighborhood, metro_city, reservations, rating, groups, outdoor, location_type, createdAt }) => (
         <tr key={objectId}>
           <td>{name}</td>
           <td>{address}</td>
@@ -34,11 +34,11 @@ function LocationsList({ items }) {
           <td>{category}</td>
           <td>{neighborhood}</td>
           <td>{metro_city}</td>
-          <td>{reservations}</td>
+          <td><BooleanField value={reservations} /></td>
           <td>{rating}</td>
-          <td>{groups}</td>
-          <td>{outdoor}</td>
-          <td>{type}</td>
+          <td><BooleanField value={groups} /></td>
+          <td><BooleanField value={outdoor} /></td>
+          <td>{location_type ? location_type.name : null}</td>
           <td>{renderDate(createdAt)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`locations/${objectId}`}>Show</LinkTo>

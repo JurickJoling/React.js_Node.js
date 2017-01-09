@@ -2,7 +2,7 @@ import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import React, { PropTypes, Component } from 'react';
-import { getFormValues, Field, reduxForm } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
 import {
   LinkTo,
