@@ -26,7 +26,7 @@ class MultipleKeyValueList extends Component {
   }
 
   render() {
-    const { input, type, label, placeholder, meta: { touched, error, warning } } = this.props;
+    const { input, label, meta: { touched, error, warning } } = this.props;
     const { value, values } = this.state;
 
     return (
@@ -48,14 +48,21 @@ class MultipleKeyValueList extends Component {
             <td>
               <DateTimePicker
                 format={'MM/DD/YYYY hh:mm:ss'}
-                value={value.time ? moment(value.time, 'MM/DD/YYYY hh:mm:ss').toDate() : null}
-                onChange={(_, time) => this.setState({ value: { ...value, time } })}
+                value={value.start ? moment(value.start, 'MM/DD/YYYY hh:mm:ss').toDate() : null}
+                onChange={(_, start) => this.setState({ value: { ...value, start } })}
+              />
+            </td>
+            <td>
+              <DateTimePicker
+                format={'MM/DD/YYYY hh:mm:ss'}
+                value={value.end ? moment(value.end, 'MM/DD/YYYY hh:mm:ss').toDate() : null}
+                onChange={(_, end) => this.setState({ value: { ...value, end } })}
               />
             </td>
             <td>
               <Button
                 color="primary"
-                disabled={!value.day || !value.time}
+                disabled={!value.day || !value.start || !value.end}
                 onClick={() => this.setState({ value: {}, values: [...values, value] }, () => input.onChange(this.state.values))}
               >
                 Add
@@ -65,13 +72,14 @@ class MultipleKeyValueList extends Component {
           {values.map((val, index) => (
             <tr key={index}>
               <td>{capitalize(val.day)}</td>
-              <td>{val.time}</td>
+              <td>{val.start}</td>
+              <td>{val.end}</td>
               <td>
                 <Button
                   color="danger"
                   onClick={() =>
                     this.setState({
-                      values: values.filter(({ day, time }) => (val.day !== day && val.time !== time))
+                      values: values.filter(({ day, start, end }) => (val.day !== day && val.start !== start && val.end !== end))
                     }, () => input.onChange(this.state.values))
                   }
                 >
@@ -82,8 +90,7 @@ class MultipleKeyValueList extends Component {
           ))}
           </tbody>
         </table>
-        {touched && ((error && <div className="error help-block">{error}</div>) || (warning &&
-        <div className="error">{warning}</div>))}
+        {touched && ((error && <div className="error help-block">{error}</div>) || (warning && <div className="error">{warning}</div>))}
       </fieldset>
     );
   }

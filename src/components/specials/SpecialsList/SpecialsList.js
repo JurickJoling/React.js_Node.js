@@ -15,8 +15,7 @@ function SpecialsList({ items }) {
         <th>Item Name</th>
         <th>Redemption Options</th>
         <th>Promo Code</th>
-        <th>Start time</th>
-        <th>End time</th>
+        <th>Days</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Status</th>
@@ -27,7 +26,7 @@ function SpecialsList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, incentive_name, category, incentive_type, attendee_min, item_name, redemption_options, promo_code, start_time, end_date, status, createdAt }) => (
+      {items.map(({objectId, incentive_name, category, incentive_type, attendee_min, item_name, redemption_options, promo_code, days, start_date, end_date, status, createdAt}) => (
         <tr key={objectId}>
           <td>{incentive_name}</td>
           <td>{category ? category.name : null}</td>
@@ -36,9 +35,8 @@ function SpecialsList({ items }) {
           <td>{item_name}</td>
           <td>{redemption_options ? redemption_options.name : null}</td>
           <td>{promo_code}</td>
-          <td>{(start_time || []).map(({ day, time }) => [capitalize(day), time].join(', ')).join('; ')}</td>
-          <td></td>
-          <td></td>
+          <td>{(days || []).map(({day, start, end}) => [capitalize(day), start, end].join(' - ')).join('; ')}</td>
+          <td>{renderDateTime(start_date)}</td>
           <td>{renderDateTime(end_date)}</td>
           <td>{status ? status.name : null}</td>
           <td>{renderDate(createdAt)}</td>

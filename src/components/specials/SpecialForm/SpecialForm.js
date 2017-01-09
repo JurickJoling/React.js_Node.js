@@ -4,7 +4,16 @@ import isObject from 'lodash/isObject';
 import React, { PropTypes, Component } from 'react';
 import { getFormValues, Field, reduxForm } from 'redux-form';
 
-import { LinkTo, renderField, renderFileUploadField, renderTextareaField, MultipleKeyValueList, renderDropdownList, renderMultiselect, renderDatePicker, renderCheckboxField } from '../../../helpers';
+import {
+  LinkTo,
+  MultipleKeyValueList,
+  renderField,
+  renderFileUploadField,
+  renderTextareaField,
+  renderDropdownList,
+  renderDatePicker,
+  renderCheckboxField
+} from '../../../helpers';
 
 class SpecialForm extends Component {
 
@@ -20,8 +29,8 @@ class SpecialForm extends Component {
     const {
       item,
       item: {
-        incentive_name, category, incentive_type, attendee_min, attendee_max, amount, item_name, description,
-        redemption_options, promo_code, start_time, end_date, without_end_date, image, status
+        incentive_name, category, incentive_type, attendee_min, amount, item_name, description,
+        redemption_options, promo_code, days, start_date, end_date, without_end_date, image, status
       },
       initialize
     } = this.props;
@@ -33,8 +42,8 @@ class SpecialForm extends Component {
         redemption_options: isObject(redemption_options) ? redemption_options.value : null
       });
       initialize({
-        incentive_name, category, incentive_type, attendee_min, attendee_max, amount, item_name, description,
-        redemption_options, promo_code, start_time, end_date, without_end_date, image, status
+        incentive_name, category, incentive_type, attendee_min, amount, item_name, description,
+        redemption_options, promo_code, days, start_date, end_date, without_end_date, image, status
       });
     }
   }
@@ -83,16 +92,8 @@ class SpecialForm extends Component {
             <Field
               name="attendee_min"
               component={renderDropdownList}
-              data={range(1, 21)}
+              data={range(2, 21)}
               label="Attendee Minimum"
-            />
-          ) : null}
-        {category === 'group_rate' ? (
-            <Field
-              name="attendee_max"
-              component={renderDropdownList}
-              data={range(1, 21)}
-              label="Attendee Maximum"
             />
           ) : null}
         <Field name="amount" component={renderField} type="number" label="Amount" />
@@ -115,9 +116,14 @@ class SpecialForm extends Component {
         />
         <Field name="promo_code" component={renderField} label="Promo Code" />
         <Field
-          name="start_time"
+          name="days"
           component={MultipleKeyValueList}
           label="Start Time"
+        />
+        <Field
+          name="start_date"
+          component={renderDatePicker}
+          label="Start Date"
         />
         <Field
           name="end_date"
