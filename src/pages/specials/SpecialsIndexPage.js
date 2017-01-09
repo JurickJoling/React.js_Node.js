@@ -15,7 +15,7 @@ class SpecialsIndexPage extends Component {
   state = {
     fetched: false,
     search: '',
-    order: '-createdAt'
+    order: '-createdAt',
   };
 
   componentDidMount() {
@@ -23,8 +23,9 @@ class SpecialsIndexPage extends Component {
     this.fetchData({ order });
   }
 
-  fetchData({ search, order, filters }) {
+  fetchData({ search, order, filters, include }) {
     const { fetchSpecials } = this.props;
+    console.log('include', include);
     this.setState({ search, fetched: false }, () => fetchSpecials({ order, search, filters })
       .then(() => this.setState({ fetched: true })));
   }

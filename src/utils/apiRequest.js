@@ -14,8 +14,8 @@ function headers() {
 }
 
 export default class apiRequest {
-  static get(path, id = null) {
-    return axios.get(`${API_URI}/${compact([path, id]).join('/')}`, headers());
+  static get(path, id = null, params = null) {
+    return axios.get(`${API_URI}/${[compact([path, id]).join('/'), params].join('')}`, headers());
   }
 
   static post(path, data) {

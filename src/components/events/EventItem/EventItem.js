@@ -1,16 +1,17 @@
+import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
-import { BooleanField } from '../../../helpers';
+import { LinkTo, BooleanField } from '../../../helpers';
 import { renderDateTime } from '../../../utils';
 
 function EventItem({
   item: {
-    objectId, event_type, dates, start_time, end_time, location_id, description, redemption, cost,
+    objectId, event_type, dates, start_time, end_time, location, description, redemption, cost,
     add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
-    boost_invites_sent, boost_invites_accepted, boost_attendees, special_id, createdAt
+    boost_invites_sent, boost_invites_accepted, boost_attendees, special, createdAt
   }
 }) {
-  console.log(location_id, special_id);
+  console.log(location, special);
   return (
     <div>
       <h1>Event #{objectId}</h1>
@@ -27,18 +28,20 @@ function EventItem({
         <tr>
           <td>Dates</td>
           <td>
-            <table className="table table-bordered table-striped table-hover">
-              <tbody>
-              {dates.map(({ date, name, start, end }, index) => (
-                <tr key={index}>
-                  <td>{date}</td>
-                  <td>{name}</td>
-                  <td>{start}</td>
-                  <td>{end}</td>
-                </tr>
-              ))}
-              </tbody>
-            </table>
+            {size(dates || []) > 0 ? (
+                <table className="table table-bordered table-striped table-hover">
+                  <tbody>
+                  {dates.map(({ date, name, start, end }, index) => (
+                    <tr key={index}>
+                      <td>{date}</td>
+                      <td>{name}</td>
+                      <td>{start}</td>
+                      <td>{end}</td>
+                    </tr>
+                  ))}
+                  </tbody>
+                </table>
+              ) : null}
           </td>
         </tr>
         <tr>
@@ -51,7 +54,7 @@ function EventItem({
         </tr>
         <tr>
           <td>Location</td>
-          <td></td>
+          <td>{location ? <LinkTo url={`locations/${location.objectId}`}>{location.name}</LinkTo> : null}</td>
         </tr>
         <tr>
           <td>Description</td>
@@ -107,7 +110,7 @@ function EventItem({
         </tr>
         <tr>
           <td>Special</td>
-          <td></td>
+          <td>{special ? <LinkTo url={`specials/${special.objectId}`}>{special.incentive_name}</LinkTo> : null}</td>
         </tr>
         <tr>
           <td>Created</td>
