@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form';
 
 import {
   LinkTo,
-  MultipleKeyValueList,
+  WeekdayStartEndList,
   renderField,
   renderFileUploadField,
   renderTextareaField,
@@ -117,7 +117,7 @@ class SpecialForm extends Component {
         <Field name="promo_code" component={renderField} label="Promo Code" />
         <Field
           name="days"
-          component={MultipleKeyValueList}
+          component={WeekdayStartEndList}
           label="Start Time"
         />
         <Field

@@ -7,7 +7,16 @@ import Promise from 'bluebird';
 import { fetchLocations } from '../../../actions/LocationActions';
 import { fetchSpecials } from '../../../actions/SpecialActions';
 
-import { LinkTo, renderField, renderTextareaField, renderDropdownList, renderDateTimePicker, renderCheckboxField } from '../../../helpers';
+import {
+  LinkTo,
+  DateNameStartEndList,
+  TextCheckboxField,
+  renderField,
+  renderTextareaField,
+  renderDropdownList,
+  renderDateTimePicker,
+  renderCheckboxField
+} from '../../../helpers';
 
 class EventForm extends Component {
   componentDidMount() {
@@ -22,14 +31,18 @@ class EventForm extends Component {
     const {
       item,
       item: {
-        description
+        event_type, dates, start_time, end_time, location_id, description, redemption, cost,
+        add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
+        boost_invites_sent, boost_invites_accepted, boost_attendees, special_id
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
       initialize({
-        description
+        event_type, dates, start_time, end_time, location_id, description, redemption, cost,
+        add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
+        boost_invites_sent, boost_invites_accepted, boost_attendees, special_id
       });
     }
   }
@@ -58,7 +71,12 @@ class EventForm extends Component {
           ]}
           label="Event Type"
         />
-        <h2>Date + Event Name</h2>
+        <Field
+          name="dates"
+          component={DateNameStartEndList}
+          label="Dates"
+          placeholder="Event Name"
+        />
         <Field
           name="start_time"
           component={renderDateTimePicker}
@@ -91,19 +109,31 @@ class EventForm extends Component {
           label="Redemption"
         />
         <h2>Eventbrite - reference</h2>
-        <h2>Cost - price box</h2>
-        <Field name="free" component={renderCheckboxField} label="Free?"/>
+        <Field name="cost" component={TextCheckboxField} label="Cost" addon=".00" />
         <Field name="add_criteria" component={renderCheckboxField} label="Add Criteria?"/>
         <Field
-          name="gender_criteria"
+          name="gender"
+          valueField="value"
+          textField="name"
           component={renderDropdownList}
-          data={['male', 'female', 'any']}
+          data={[
+            {name: 'Male', value: 'male'},
+            {name: 'Female', value: 'female'},
+            {name: 'Any', value: 'any'},
+          ]}
           label="Gender Criteria"
         />
         <Field
-          name="age_criteria"
+          name="age"
+          valueField="value"
+          textField="name"
           component={renderDropdownList}
-          data={['18-24', '25-35', '35+', 'any']}
+          data={[
+            {name: '18-24', value: '18-24'},
+            {name: '25-35', value: '25-35'},
+            {name: '35+', value: '35+'},
+            {name: 'Any', value: 'any'}
+          ]}
           label="Age Criteria"
         />
         <Field name="boost" component={renderCheckboxField} label="Boost?"/>

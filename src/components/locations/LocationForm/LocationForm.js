@@ -2,7 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { LinkTo, MultipleKeyValueList, renderField, renderDropdownList, renderCheckboxField } from '../../../helpers';
+import { LinkTo, WeekdayStartEndList, renderField, renderDropdownList, renderCheckboxField } from '../../../helpers';
 
 class LocationForm extends Component {
   componentDidMount() {
@@ -42,7 +42,7 @@ class LocationForm extends Component {
         <Field
           time
           name="hours"
-          component={MultipleKeyValueList}
+          component={WeekdayStartEndList}
           label="Hours of operations"
         />
         <Field name="reservations" component={renderCheckboxField} label="Takes Reservations?"/>
