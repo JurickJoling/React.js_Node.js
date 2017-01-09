@@ -1,4 +1,4 @@
-import { ADD_USERS, ADD_USER, USER_ERROR, SHOW_USER, REMOVE_USER } from '../constants/User';
+import { ADD_LOCATIONS, ADD_LOCATION, LOCATION_ERROR, SHOW_LOCATION, REMOVE_LOCATION } from '../constants/Location';
 
 const defaultState = {
   items: [],
@@ -6,16 +6,16 @@ const defaultState = {
   errorMessage: null
 };
 
-export default function UserReducer(state = defaultState, { type, items, count, item, itemId, errorMessage }) {
+export default function LocationReducer(state = defaultState, { type, items, count, item, itemId, errorMessage }) {
   switch (type) {
-    case ADD_USERS:
+    case ADD_LOCATIONS:
       return {
         ...state,
         items,
         count
       };
 
-    case ADD_USER:
+    case ADD_LOCATION:
       return {
         ...state,
         items: [
@@ -24,19 +24,19 @@ export default function UserReducer(state = defaultState, { type, items, count, 
         ]
       };
 
-    case USER_ERROR:
+    case LOCATION_ERROR:
       return {
         ...state,
         errorMessage
       };
 
-    case SHOW_USER:
+    case SHOW_LOCATION:
       return {
         ...state,
         item
       };
 
-    case REMOVE_USER:
+    case REMOVE_LOCATION:
       return {
         ...state,
         items: state.items.filter(i => i.id !== itemId)
