@@ -7,7 +7,7 @@ import { renderDateTime } from '../../../utils';
 
 function UserItem({
   item: {
-    objectId, full_name, user_email, gender, age_count, bio, birthday, education_history, phone, tags, location,
+    objectId, first_name, last_name, full_name, user_email, gender, age_count, bio, birthday, education_history, phone, tags, location,
     verified, is_admin, createdAt
   }
 }) {
@@ -19,6 +19,14 @@ function UserItem({
         <tr>
           <td>ObjectId</td>
           <td>{objectId}</td>
+        </tr>
+        <tr>
+          <td>First Name</td>
+          <td>{first_name}</td>
+        </tr>
+        <tr>
+          <td>Last Name</td>
+          <td>{last_name}</td>
         </tr>
         <tr>
           <td>Full Name</td>
@@ -54,7 +62,7 @@ function UserItem({
         </tr>
         <tr>
           <td>Location</td>
-          <td>{isObject(location.ipLocation) ? compact([location.ipLocation.city, location.ipLocation.region, location.ipLocation.country]).join(', ') : null}</td>
+          <td>{location && isObject(location.ipLocation) ? compact([location.ipLocation.city, location.ipLocation.region, location.ipLocation.country]).join(', ') : null}</td>
         </tr>
         <tr>
           <td>Tags</td>

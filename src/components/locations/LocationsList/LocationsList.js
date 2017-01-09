@@ -11,6 +11,14 @@ function LocationsList({ items }) {
         <th>Name</th>
         <th>Address</th>
         <th>Phone</th>
+        <th>Category</th>
+        <th>Neighborhood</th>
+        <th>Metro City</th>
+        <th>Takes Reservations</th>
+        <th>Rating</th>
+        <th>Good for Groups</th>
+        <th>Outdoor Seating</th>
+        <th>Location Type</th>
         <th>Created</th>
         <th />
         <th />
@@ -18,11 +26,19 @@ function LocationsList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, name, address, phone, createdAt }) => (
+      {items.map(({ objectId, name, address, phone, category, neighborhood, metro_city, reservations, rating, groups, outdoor, type, createdAt }) => (
         <tr key={objectId}>
           <td>{name}</td>
           <td>{address}</td>
           <td>{phone}</td>
+          <td>{category}</td>
+          <td>{neighborhood}</td>
+          <td>{metro_city}</td>
+          <td>{reservations}</td>
+          <td>{rating}</td>
+          <td>{groups}</td>
+          <td>{outdoor}</td>
+          <td>{type}</td>
           <td>{renderDate(createdAt)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`locations/${objectId}`}>Show</LinkTo>

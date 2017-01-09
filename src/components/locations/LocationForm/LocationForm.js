@@ -13,14 +13,16 @@ class LocationForm extends Component {
     const {
       item,
       item: {
-        name, address, phone
+        name, address, phone, category, neighborhood, metro_city, reservations, latitude, longitude, rating,
+        groups, outdoor, type, verified
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
       initialize({
-        name, address, phone
+        name, address, phone, category, neighborhood, metro_city, reservations, latitude, longitude, rating,
+        groups, outdoor, type, verified
       });
     }
   }
