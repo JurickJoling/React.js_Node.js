@@ -1,8 +1,7 @@
-import last from 'lodash/last';
 import React, { PropTypes } from 'react';
 
 import { LinkTo, GoogleMap, BooleanField } from '../../../helpers';
-import { renderDateTime, weekDays } from '../../../utils';
+import { renderDateTime, weekDays, capitalize } from '../../../utils';
 
 function PlanItem({
   item, item: {
@@ -15,7 +14,6 @@ function PlanItem({
     createdAt, updatedAt
   }
 }) {
-  console.log(tags);
   return (
     <div>
       <h1>Plan #{objectId}</h1>
@@ -75,9 +73,9 @@ function PlanItem({
         </tr>
         {weekDays.map(day => (
           <tr key={day}>
-            <td>Every {last(day.split('_')).replace(/\b\w/g, l => l.toUpperCase())}</td>
+            <td>Every {capitalize(day)}</td>
             <td>
-              <BooleanField value={item[day]} />
+              <BooleanField value={item[`reoccur_${day}`]} />
             </td>
           </tr>
         ))}

@@ -2,40 +2,30 @@ require('./server.babel'); // babel registration (runtime transpilation for node
 
 const Express = require('express');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+const morgan = require('morgan');
 const cors = require('cors');
-const Yelp = require('yelp');
+const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const config = require('./config');
+const router = require('./server/router');
+
 const port = Number(config.port) || 3000;
 
 const app = new Express();
 
-const yelp = new Yelp({
-  consumer_key: config.yelpConsumerKey,
-  consumer_secret: config.yelpConsumerSecret,
-  token: config.yelpToken,
-  token_secret: config.yelpTokenSecret
-});
+mongoose.connect(config.mongodb);
 
+app.use(morgan('combined'));
 app.use(bodyParser.json());
+app.use(fileUpload());
 app.use(cors());
 
-app.post('/yelp', function(req, res) {
-  const { term, location } = req.body;
-
-  console.log(term, location);
-
-  yelp.search({ term, location })
-    .then(data => res.send(data))
-    .catch(function (err) {
-      console.log('err', err);
-      res.status(500).send('Yelp Error!');
-    });
-});
+router(app);
 
 app.use(Express.static('public'));
 

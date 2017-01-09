@@ -1,13 +1,17 @@
+import filter from 'lodash/filter';
+import uniqWith from 'lodash/uniqWith';
+import isEqual from 'lodash/isEqual';
 import { browserHistory } from 'react-router';
 
 import { ADD_PLANS, ADD_PLAN, PLAN_ERROR, SHOW_PLAN, REMOVE_PLAN } from '../constants/Plan';
 
 import { apiRequest } from '../utils';
 
-export function addPlans(items = []) {
+export function addPlans(items = [], count = 0) {
   return {
     type: ADD_PLANS,
-    items
+    items,
+    count
   };
 }
 
@@ -40,23 +44,8 @@ export function removePlan(itemId) {
 }
 
 export function fetchPlans({ search, include, order }) {
-  // console.log('filters', filters);
-  // filters ? `&where=${JSON.stringify({
-  //     start_day: filters.start_day ? {
-  //         $gte: {
-  //           __type: Date,
-  //           iso : filters.start_day
-  //         }
-  //       } : null,
-  //     end_day: filters.end_day ? {
-  //         $lte: {
-  //           __type: Date,
-  //           iso : filters.end_day
-  //         }
-  //       } : null
-  //   })}` : null
   const url = [
-    'EventDetail?',
+    'EventDetail?count=1',
     order ? `&order=${order}` : null,
     include ? `&include=${include}` : null,
     search ? `&where=${JSON.stringify({
@@ -68,7 +57,7 @@ export function fetchPlans({ search, include, order }) {
   ].join('');
 
   return dispatch => apiRequest.get(url)
-    .then(({ data: { results } }) => dispatch(addPlans(results)));
+    .then(({ data: { results, count } }) => dispatch(addPlans(results, count)));
 }
 
 export function fetchPlan(itemId) {
@@ -105,24 +94,42 @@ export function createPlan({
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     featured, featured_name, featured_link, first_message
   })
+    .then(({ data }) => {
+      const eventId = data.objectId;
+      const objectId = bundle ? bundle.objectId : null;
+
+      if (objectId) {
+        apiRequest.get(`EventBundle/${objectId}?include=event`, objectId).then(({ data }) =>
+          apiRequest.put('EventBundle', objectId, {
+          events: uniqWith([
+            ...(data.events || []),
+            {
+              __type: 'Pointer',
+              className: 'EventDetail',
+              objectId: eventId
+            }
+          ], isEqual)
+        }));
+      }
+    })
     .then(() => browserHistory.push('/plans'))
     .catch(({ response: { data: { error } } }) => dispatch(planError(error)));
 }
 
 export function updatePlan(itemID, {
-  bundle: { objectId },
+  bundle,
   title_event, description_event, image, type_event,
   tags, locations,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
   reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
   featured, featured_name, featured_link, first_message
-}) {
+}, item) {
   return dispatch => apiRequest.put('EventDetail', itemID, {
-    bundle: {
-      __type: 'Pointer',
-      className: 'EventBundle',
-      objectId
-    },
+    bundle: bundle ? {
+        __type: 'Pointer',
+        className: 'EventBundle',
+        objectId: bundle.objectId
+      } : null,
     start_day: start_day ? {
         __type: 'Date',
         iso: start_day
@@ -137,6 +144,36 @@ export function updatePlan(itemID, {
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     featured, featured_name, featured_link, first_message
   })
+    .then(() => {
+      const objectId = item.bundle.objectId;
+
+      if (objectId) {
+        apiRequest.get(`EventBundle/${objectId}?include=event`, objectId).then(({ data }) =>
+          apiRequest.put('EventBundle', objectId, {
+            events: filter((data.events || []), (e => e.objectId !== itemID))
+          })
+        );
+      }
+    })
+    .then(() => {
+      const objectId = bundle ? bundle.objectId : null;
+
+      if (objectId) {
+        apiRequest.get(`EventBundle/${objectId}?include=event`, objectId).then(({ data }) => {
+            apiRequest.put('EventBundle', objectId, {
+              events: uniqWith([
+                ...(data.events || []),
+                {
+                  __type: 'Pointer',
+                  className: 'EventDetail',
+                  objectId: itemID
+                }
+              ], isEqual)
+            })
+          }
+        );
+      }
+    })
     .then(() => browserHistory.push('/plans'))
     .catch(({ response: { data: { error } } }) => dispatch(planError(error)));
 }

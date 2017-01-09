@@ -1,7 +1,6 @@
 import first from 'lodash/first';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
-import last from 'lodash/last';
 import size from 'lodash/size';
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
@@ -21,7 +20,7 @@ import {
   renderMultiselect,
   YelpField
 } from '../../../helpers';
-import { weekDays  } from '../../../utils';
+import { weekDays, capitalize } from '../../../utils';
 
 class PlanForm extends Component {
   componentDidMount() {
@@ -148,9 +147,9 @@ class PlanForm extends Component {
             {weekDays.map(day => (
               <Field
                 key={day}
-                name={day}
+                name={`reoccur_${day}`}
                 component={renderCheckboxField}
-                label={`Every ${last(day.split('_')).replace(/\b\w/g, l => l.toUpperCase())}`}
+                label={`Every ${capitalize(day)}`}
               />
             ))}
             <Field name="featured" component={renderCheckboxField} label="Featured" />
@@ -223,7 +222,7 @@ function validate(values) {
     'estimated_cost'
   ].map(field => {
     if (!values[field]) {
-      errors[field] = `${first(field.split('_')).replace(/\b\w/g, l => l.toUpperCase())} is required`;
+      errors[field] = `${capitalize(first(field.split('_')))} is required`;
     }
   });
 
