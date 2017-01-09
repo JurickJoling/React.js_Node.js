@@ -18,7 +18,7 @@ const port = Number(config.port) || 3000;
 
 const app = new Express();
 
-mongoose.connect(config.mongodb);
+mongoose.connect(config.mongodb, { auth: { authdb: 'admin' } });
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());

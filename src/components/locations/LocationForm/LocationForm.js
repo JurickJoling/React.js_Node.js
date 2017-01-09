@@ -1,8 +1,17 @@
+import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { LinkTo, WeekdayStartEndList, renderField, renderDropdownList, renderCheckboxField } from '../../../helpers';
+import {
+  LinkTo,
+  WeekdayStartEndList,
+  YelpFinder,
+  renderField,
+  renderDropdownList,
+  renderCheckboxField
+} from '../../../helpers';
 
 class LocationForm extends Component {
   componentDidMount() {
@@ -28,11 +37,30 @@ class LocationForm extends Component {
   }
 
   render () {
-    const { item, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, errorMessage, handleSubmit, onSave, initialize } = this.props;
 
     return (
       <form onSubmit={handleSubmit(location => {onSave(location)})}>
-        <h2>Yelp</h2>
+
+        <Field
+          name="yelp"
+          component={YelpFinder}
+          label="Add from Yelp"
+          onSelect={({ name, categories, location, display_phone, rating }) => {
+            initialize({
+              name,
+              address: isObject(location) ? (location.address || []).join(', ') : null,
+              phone: display_phone,
+              category: (categories || []).join(', '),
+              neighborhood: isObject(location) ? (location.neighborhoods || []).join(', ') : null,
+              metro_city: isObject(location) ? compact([location.city, location.country_code]).join(', ') : null,
+              latitude: isObject(location) && isObject(location.coordinate) ? location.coordinate.latitude : null,
+              longitude: isObject(location) && isObject(location.coordinate) ? location.coordinate.longitude : null,
+              rating
+            });
+          }}
+        />
+
         <Field name="name" component={renderField} label="Location Name"/>
         <Field name="address" component={renderField} label="Address"/>
         <Field name="phone" component={renderField} label="Phone"/>
