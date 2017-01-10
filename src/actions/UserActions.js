@@ -41,9 +41,11 @@ export function removeUser(itemId) {
   };
 }
 
-export function fetchUsers({ search, include, order }) {
+export function fetchUsers({ search, include, order, limit, page }) {
   const url = [
     'User?count=1',
+    limit ? `&limit=${limit}` : null,
+    page && (page > 1) ? `&skip=${page * limit}` : null,
     order ? `&order=${order}` : null,
     include ? `&include=${include}` : null,
     search ? `&where=${JSON.stringify({

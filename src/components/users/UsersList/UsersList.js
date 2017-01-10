@@ -27,8 +27,8 @@ function UsersList({ items }) {
       <tbody>
       {items.map(({ objectId, first_name, last_name, full_name, user_email, gender, age_count, location, createdAt }) => (
         <tr key={objectId}>
-          <td>{first_name || first(full_name.split(' '))}</td>
-          <td>{last_name || last(full_name.split(' '))}</td>
+          <td>{first_name || (full_name ? first(full_name.split(' ')) : null)}</td>
+          <td>{last_name || (full_name ? last(full_name.split(' ')) : null)}</td>
           <td>{user_email}</td>
           <td>{gender}</td>
           <td>{age_count}</td>

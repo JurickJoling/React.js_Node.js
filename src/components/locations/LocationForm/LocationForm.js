@@ -46,7 +46,7 @@ class LocationForm extends Component {
           name="yelp"
           component={YelpFinder}
           label="Add from Yelp"
-          onSelect={({ name, categories, location, display_phone, rating }) => {
+          onSelect={({ name, categories, location, display_phone, rating }) =>
             initialize({
               name,
               address: isObject(location) ? (location.address || []).join(', ') : null,
@@ -57,8 +57,8 @@ class LocationForm extends Component {
               latitude: isObject(location) && isObject(location.coordinate) ? location.coordinate.latitude : null,
               longitude: isObject(location) && isObject(location.coordinate) ? location.coordinate.longitude : null,
               rating
-            });
-          }}
+            })
+          }
         />
 
         <Field name="name" component={renderField} label="Location Name"/>
@@ -85,9 +85,23 @@ class LocationForm extends Component {
           textField="name"
           component={renderDropdownList}
           data={[
+            {name: 'Dance Studio', value: 'dance_studio'},
+            {name: 'Cinema', value: 'cinema'},
             {name: 'Restaurant', value: 'restaurant'},
-            {name: 'Theatre', value: 'theatre'},
-            {name: 'Event Organizer', value: 'event_organizer'}
+            {name: 'Theater', value: 'theater'},
+            {name: 'Bar', value: 'bar'},
+            {name: 'Gym', value: 'gym'},
+            {name: 'Amusement Park', value: 'amusement_park'},
+            {name: 'City Park', value: 'city_park'},
+            {name: 'Zoo', value: 'zoo'},
+            {name: 'Haunted House', value: 'haunted_house'},
+            {name: 'Pool Hall', value: 'pool_hall'},
+            {name: 'Recreational Center', value: 'recreational_center'},
+            {name: 'Game Room', value: 'game_room'},
+            {name: 'Jazz Club', value: 'jazz_club'},
+            {name: 'Music Cafe', value: 'music_cafe'},
+            {name: 'Coffee Shop', value: 'coffee_shop'},
+            {name: 'Karaoke Hall', value: 'karaoke_hall'}
           ]}
           label="Location Type"
         />

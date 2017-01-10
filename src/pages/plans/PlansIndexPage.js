@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { fetchPlans } from '../../actions/PlanActions';
@@ -15,24 +16,26 @@ class PlansIndexPage extends Component {
   state = {
     fetched: false,
     search: '',
+    limit: 30,
+    page: 1,
     order: '-createdAt',
     include: 'bundle'
   };
 
   componentDidMount() {
-    const { order, include } = this.state;
-    this.fetchData({ order, include });
+    const { order, include, limit, page } = this.state;
+    this.fetchData({ order, include, limit, page });
   }
 
-  fetchData({ search, order, include, filters }) {
+  fetchData({ search, order, include, filters, limit, page }) {
     const { fetchPlans } = this.props;
-    this.setState({ search, fetched: false }, () => fetchPlans({ order, include, search, filters })
+    this.setState({ search, fetched: false }, () => fetchPlans({ order, include, search, filters, limit, page })
       .then(() => this.setState({ fetched: true })));
   }
 
   render() {
     const { items, count } = this.props;
-    const { fetched, order, include } = this.state;
+    const { fetched, order, include, limit, page } = this.state;
     return (
       <Loading className="container" ignoreLoader={(
         <div className="row m-b">
@@ -43,11 +46,26 @@ class PlansIndexPage extends Component {
             {fetched ? <h4>Plans ({count})</h4> : null}
           </div>
           <div className="col-md-6 text-right">
-            <SearchForm onSearch={({ search }) => this.fetchData({ search, order, include })} />
+            <SearchForm onSearch={({ search }) => this.fetchData({ search, order, include, limit, page: 1 })} />
           </div>
         </div>
       )} loaded={fetched}>
         <PlansList items={items} />
+        {count > limit ? (
+            <Pagination
+              prev
+              next
+              first
+              last
+              ellipsis
+              boundaryLinks
+              bsSize="medium"
+              items={Math.floor(count / limit)}
+              maxButtons={5}
+              activePage={page}
+              onSelect={p => this.setState({ page: p }, () => this.fetchData({ order, limit, page: this.state.page }))}
+            />
+          ) : null}
       </Loading>
     );
   }
