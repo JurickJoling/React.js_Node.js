@@ -1,3 +1,4 @@
+import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
@@ -42,7 +43,7 @@ class EventForm extends Component {
     } = this.props;
 
     if (!isEmpty(item)) {
-      this.setState({ add_criteria, boost }, () => initialize({
+      this.setState({ add_criteria, boost, redemption }, () => initialize({
         event_type, dates, start_time, end_time, location, description, redemption, cost,
         add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
         boost_invites_sent, boost_invites_accepted, boost_attendees, special
@@ -52,7 +53,7 @@ class EventForm extends Component {
 
   render () {
     const { item, locations, specials, errorMessage, handleSubmit, onSave } = this.props;
-    const { add_criteria, boost } = this.state;
+    const { add_criteria, boost, redemption, free } = this.state;
 
     return (
       <form onSubmit={handleSubmit(event => {onSave(event)})}>
@@ -111,9 +112,16 @@ class EventForm extends Component {
             {name: 'Not Required', value: 'not_required'}
           ]}
           label="Redemption"
+          afterChange={({ value }) => this.setState({ redemption: value })}
         />
-        <h2>Eventbrite - reference</h2>
-        <Field name="cost" component={TextCheckboxField} label="Cost" addon=".00" />
+        {redemption === 'advance_tickets' ? <h2>Eventbrite - reference</h2> : null}
+        <Field
+          name="cost"
+          component={TextCheckboxField}
+          label="Cost"
+          addon=".00"
+          afterCheckboxChange={free => this.setState({ free })}
+        />
         <Field
           name="add_criteria"
           component={renderCheckboxField}
@@ -161,12 +169,12 @@ class EventForm extends Component {
             valueField="value"
             textField="name"
             component={renderDropdownList}
-            data={[
+            data={compact([
               {name: 'Invites Sent', value: 'invites_sent'},
               {name: 'Invites Accepted', value: 'invites_accepted'},
-              {name: 'Tickets Purchased', value: 'tickets_purchased'},
+              (free ? null : {name: 'Tickets Purchased', value: 'tickets_purchased'}),
               {name: 'Attendees', value: 'attendees'}
-            ]}
+            ])}
             label="Boost Type"
           />
           ) : null}

@@ -8,7 +8,7 @@ class TextCheckboxField extends Component {
   };
 
   render() {
-    const { input, type, label, placeholder, addon, meta: { touched, error, warning }, afterChange } = this.props;
+    const { input, type, label, placeholder, addon, meta: { touched, error, warning }, afterChange, afterCheckboxChange } = this.props;
     const { disabled } = this.state;
 
     const inputView = (
@@ -35,7 +35,12 @@ class TextCheckboxField extends Component {
             <input
               type="checkbox"
               checked={disabled}
-              onChange={() => this.setState({ disabled: !disabled }, () => input.onChange(null))}
+              onChange={() => this.setState({ disabled: !disabled }, () => {
+                input.onChange(null);
+                if (afterCheckboxChange) {
+                  afterCheckboxChange(this.state.disabled);
+                }
+              })}
             />
             &nbsp;Free
           </div>
