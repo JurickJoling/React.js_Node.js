@@ -14,7 +14,6 @@ import {
   renderDatePicker,
   renderCheckboxField
 } from '../../../helpers';
-import { toBool } from '../../../utils';
 
 class SpecialForm extends Component {
 
@@ -36,6 +35,7 @@ class SpecialForm extends Component {
 
     if (!isEmpty(item)) {
       this.setState({
+        without_end_date,
         category: isObject(category) ? category.value : null,
         incentive_type: isObject(incentive_type) ? incentive_type.value : null,
         redemption_options: isObject(redemption_options) ? redemption_options.value : null
@@ -149,6 +149,7 @@ class SpecialForm extends Component {
           name="without_end_date"
           component={renderCheckboxField}
           label="No End Date"
+          afterChange={({ target: { checked } }) => this.setState({ without_end_date: checked })}
         />
         {errorMessage ? (
             <div className="alert alert-danger">

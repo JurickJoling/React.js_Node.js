@@ -60,25 +60,13 @@ class LocationForm extends Component {
             })
           }
         />
+        <div className="btn-group m-b">
+          <LinkTo className="btn btn-default" url="locations">Cancel</LinkTo>
+          <button action="submit" className="btn btn-primary">
+            {isEmpty(item) ? 'Create Location' : 'Update Location'}
+          </button>
+        </div>
 
-        <Field name="name" component={renderField} label="Location Name"/>
-        <Field name="address" component={renderField} label="Address"/>
-        <Field name="phone" component={renderField} label="Phone"/>
-        <Field name="category" component={renderField} label="Category"/>
-        <Field name="neighborhood" component={renderField} label="Neighborhood"/>
-        <Field name="metro_city" component={renderField} label="Metro City"/>
-        <Field
-          time
-          name="hours"
-          component={WeekdayStartEndList}
-          label="Hours of operations"
-        />
-        <Field name="reservations" component={renderCheckboxField} label="Takes Reservations?"/>
-        <Field name="latitude" component={renderField} label="Latitude"/>
-        <Field name="longitude" component={renderField} label="Longitude"/>
-        <Field name="rating" component={renderField} label="Rating"/>
-        <Field name="groups" component={renderCheckboxField} label="Good For Group?"/>
-        <Field name="outdoor" component={renderCheckboxField} label="Outdoor Seating?"/>
         <Field
           name="location_type"
           valueField="value"
@@ -105,6 +93,24 @@ class LocationForm extends Component {
           ]}
           label="Location Type"
         />
+        <Field name="name" component={renderField} label="Location Name"/>
+        <Field name="address" component={renderField} label="Address"/>
+        <Field name="phone" component={renderField} label="Phone"/>
+        <Field name="category" component={renderField} label="Category"/>
+        <Field name="neighborhood" component={renderField} label="Neighborhood"/>
+        <Field name="metro_city" component={renderField} label="Metro City"/>
+        <Field
+          time
+          name="hours"
+          component={WeekdayStartEndList}
+          label="Hours of operations"
+        />
+        <Field name="reservations" component={renderCheckboxField} label="Takes Reservations?"/>
+        <Field name="latitude" component={renderField} label="Latitude"/>
+        <Field name="longitude" component={renderField} label="Longitude"/>
+        <Field name="rating" component={renderField} label="Rating"/>
+        <Field name="groups" component={renderCheckboxField} label="Good For Group?"/>
+        <Field name="outdoor" component={renderCheckboxField} label="Outdoor Seating?"/>
         <Field name="verified" component={renderCheckboxField} label="Verified?"/>
         {errorMessage ? (
             <div className="alert alert-danger">
@@ -134,5 +140,14 @@ LocationForm.propTypes = {
   })
 };
 
+function validate({ location_type }) {
+  const errors = {};
 
-export default reduxForm({ form: 'location' })(LocationForm);
+  if (!location_type) {
+    errors.location_type = 'Location Type is required';
+  }
+
+  return errors;
+}
+
+export default reduxForm({ form: 'location', validate })(LocationForm);
