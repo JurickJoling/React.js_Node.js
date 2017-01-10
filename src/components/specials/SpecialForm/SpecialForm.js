@@ -14,12 +14,11 @@ import {
   renderDatePicker,
   renderCheckboxField
 } from '../../../helpers';
+import { toBool } from '../../../utils';
 
 class SpecialForm extends Component {
 
-  state = {
-
-  };
+  state = {};
 
   componentDidMount() {
     this.handleInitialize();
@@ -30,7 +29,7 @@ class SpecialForm extends Component {
       item,
       item: {
         incentive_name, category, incentive_type, attendee_min, amount, item_name, description,
-        redemption_options, promo_code, days, start_date, end_date, without_end_date, image, status
+        redemption_options, promo_code, days, start_date, end_date, without_end_date, image
       },
       initialize
     } = this.props;
@@ -43,14 +42,14 @@ class SpecialForm extends Component {
       });
       initialize({
         incentive_name, category, incentive_type, attendee_min, amount, item_name, description,
-        redemption_options, promo_code, days, start_date, end_date, without_end_date, image, status
+        redemption_options, promo_code, days, start_date, end_date, without_end_date, image
       });
     }
   }
 
   render () {
     const { item, errorMessage, handleSubmit, onSave } = this.props;
-    const { category, incentive_type, redemption_options } = this.state;
+    const { category, incentive_type, redemption_options, without_end_date } = this.state;
 
     return (
       <form onSubmit={handleSubmit(special => onSave(special))}>
@@ -96,7 +95,16 @@ class SpecialForm extends Component {
               label="Attendee Minimum"
             />
           ) : null}
-        <Field name="amount" component={renderField} type="number" label="Amount" />
+        {(incentive_type === 'vip_benefits') || (incentive_type === 'free_item') ? null : (
+            <Field
+              name="amount"
+              component={renderField}
+              type="number"
+              label="Amount"
+              prefix={incentive_type === 'fixed_amount' ? '$' : null}
+              addon={incentive_type === 'per_cent_discount' ? '% off' : null}
+            />
+          )}
         {incentive_type === 'free_item' || incentive_type === 'vip_benefits' ? (
             <Field name="item_name" component={renderField} label="Item Name" />
           ) : null}
@@ -114,8 +122,14 @@ class SpecialForm extends Component {
           label="Redemption Options"
           afterChange={({ value }) => this.setState({ redemption_options: value })}
         />
-        <Field name="promo_code" component={renderField} label="Promo Code" />
+        {redemption_options === 'mobile_image' ? (
+            <Field name="image" component={renderFileUploadField} label="Image Upload" />
+          ) : null}
+        {redemption_options === 'promo_code' ? (
+            <Field name="promo_code" component={renderField} label="Promo Code" />
+          ) : null}
         <Field
+          time
           name="days"
           component={WeekdayStartEndList}
           label="Start Time"
@@ -127,24 +141,14 @@ class SpecialForm extends Component {
         />
         <Field
           name="end_date"
+          disabled={without_end_date}
           component={renderDatePicker}
           label="End Date"
         />
-        <Field name="without_end_date" component={renderCheckboxField} label="No End Date" />
-        {redemption_options === 'mobile_image' ? (
-            <Field name="image" component={renderFileUploadField} label="Image Upload" />
-          ) : null}
         <Field
-          name="status"
-          valueField="value"
-          textField="name"
-          component={renderDropdownList}
-          data={[
-            {name: 'Active', value: 'active'},
-            {name: 'Pending Approval', value: 'pending_approval'},
-            {name: 'Expired', value: 'expired'}
-          ]}
-          label="Status"
+          name="without_end_date"
+          component={renderCheckboxField}
+          label="No End Date"
         />
         {errorMessage ? (
             <div className="alert alert-danger">

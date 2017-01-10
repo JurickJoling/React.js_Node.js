@@ -68,7 +68,7 @@ export function fetchSpecial(itemId) {
 export function createSpecial(special) {
   return dispatch => apiRequest.post('Special', {
     ...special,
-    birthday: special.birthday ? moment(special.birthday).format('MM/DD/YYYY') : null
+    status: 'active'
   })
     .then(() => browserHistory.push('/specials'))
     .catch(({ response: { data: { error } } }) => dispatch(specialError(error)));
@@ -77,7 +77,7 @@ export function createSpecial(special) {
 export function updateSpecial(itemID, special) {
   return dispatch => apiRequest.put('Special', itemID, {
     ...special,
-    birthday: special.birthday ? moment(special.birthday).format('MM/DD/YYYY') : null
+    status: 'active'
   })
     .then(() => browserHistory.push('/specials'))
     .catch(({ response: { data: { error } } }) => dispatch(specialError(error)));

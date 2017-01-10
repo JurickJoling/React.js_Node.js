@@ -1,3 +1,4 @@
+import isObject from 'lodash/isObject';
 import React, { PropTypes } from 'react';
 
 import { LinkTo } from '../../../helpers';
@@ -38,7 +39,7 @@ function SpecialsList({ items }) {
           <td>{(days || []).map(({day, start, end}) => [capitalize(day), start, end].join(' - ')).join('; ')}</td>
           <td>{renderDateTime(start_date)}</td>
           <td>{renderDateTime(end_date)}</td>
-          <td>{status ? status.name : null}</td>
+          <td>{isObject(status) ? status.name : status}</td>
           <td>{renderDate(createdAt)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`specials/${objectId}`}>Show</LinkTo>

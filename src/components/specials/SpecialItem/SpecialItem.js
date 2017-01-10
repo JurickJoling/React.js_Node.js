@@ -1,3 +1,4 @@
+import isObject from 'lodash/isObject';
 import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
@@ -86,7 +87,7 @@ function SpecialItem({
         </tr>
         <tr>
           <td>Status</td>
-          <td>{status ? status.name : null}</td>
+          <td>{isObject(status) ? status.name : status}</td>
         </tr>
         <tr>
           <td>Created</td>

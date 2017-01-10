@@ -43,9 +43,11 @@ export function removePlan(itemId) {
   };
 }
 
-export function fetchPlans({ search, include, order }) {
+export function fetchPlans({ search, include, order, limit, page }) {
   const url = [
     'EventDetail?count=1',
+    limit ? `&limit=${limit}` : null,
+    page && (page > 1) ? `&skip=${page * limit}` : null,
     order ? `&order=${order}` : null,
     include ? `&include=${include}` : null,
     search ? `&where=${JSON.stringify({
