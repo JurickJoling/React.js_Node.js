@@ -1,3 +1,8 @@
+const isNaN = require('lodash/isNaN');
+const fromPairs = require('lodash/fromPairs');
+const last = require('lodash/last');
+const sortBy = require('lodash/sortBy');
+const toPairs = require('lodash/toPairs');
 const Promise = require('bluebird');
 
 const User = require('../models/user');
@@ -12,11 +17,30 @@ module.exports = function(req, res) {
 
         const query = User.find().select({ age_count: 1 });
 
-        query.exec(function(err, ages) {
+        query.exec(function(err, users) {
           if (err) { return reject(err); }
 
-          console.log('ages', ages);
-          resolve({ users_count });
+          const ageCount = {};
+
+          users.map(user => {
+            const age_count = Number(user.get('age_count'));
+            if (ageCount[age_count]) {
+              ageCount[age_count]++;
+            } else {
+              ageCount[age_count] = 1;
+            }
+          });
+
+          const users_ages = [];
+
+          sortBy(toPairs(ageCount), a => -(last(a))).map(sortedAge => {
+
+            if (!isNaN(sortedAge[0]) && sortedAge[0] && sortedAge[1]) {
+              users_ages.push({ age: [sortedAge[0]], per_cent: sortedAge[1] * 100 / users_count });
+            }
+          });
+
+          resolve({ users_count, users_ages });
         });
       });
     })
@@ -25,8 +49,8 @@ module.exports = function(req, res) {
 
     res.send({
       tags: [],
-      users_count: null,
-      users_ages: 0,
+      users_count: values[0].users_count,
+      users_ages: values[0].users_ages,
       available_itineraries: 0,
       plans_expiring: 0
     });
