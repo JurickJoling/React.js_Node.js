@@ -37,6 +37,18 @@ class DataTable extends Component {
               </table>
             </td>
           </tr>
+          <tr>
+            <td>This Month Users</td>
+            <td>{item.new_users_count}</td>
+          </tr>
+          <tr>
+            <td>Available Itineraries</td>
+            <td>{item.available_itineraries}</td>
+          </tr>
+          <tr>
+            <td>Plans Expiring</td>
+            <td>{item.plans_expiring_count}</td>
+          </tr>
         </tbody>
       </table>
     );
