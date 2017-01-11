@@ -43,7 +43,7 @@ export function removeUser(itemId) {
 
 export function fetchUsers({ search, include, order, limit, page }) {
   const url = [
-    'Users?count=1',
+    'User?count=1',
     limit ? `&limit=${limit}` : null,
     page && (page > 1) ? `&skip=${page * limit}` : null,
     order ? `&order=${order}` : null,
@@ -62,13 +62,13 @@ export function fetchUsers({ search, include, order, limit, page }) {
 }
 
 export function fetchUser(itemId) {
-  return dispatch => apiRequest.get('Users', itemId)
+  return dispatch => apiRequest.get('User', itemId)
     .then(({ data }) => dispatch(showUser(data)))
     .catch(() => browserHistory.push('/not-found'));
 }
 
 export function createUser(user) {
-  return dispatch => apiRequest.post('Users', {
+  return dispatch => apiRequest.post('User', {
     ...user,
     birthday: user.birthday ? moment(user.birthday).format('MM/DD/YYYY') : null
   })
@@ -77,7 +77,7 @@ export function createUser(user) {
 }
 
 export function updateUser(itemID, user) {
-  return dispatch => apiRequest.put('Users', itemID, {
+  return dispatch => apiRequest.put('User', itemID, {
     ...user,
     birthday: user.birthday ? moment(user.birthday).format('MM/DD/YYYY') : null
   })
@@ -86,7 +86,7 @@ export function updateUser(itemID, user) {
 }
 
 export function deleteUser(itemID) {
-  return dispatch => apiRequest.delete('Users', itemID)
+  return dispatch => apiRequest.delete('User', itemID)
     .then(() => dispatch(removeUser(itemID)))
     .then(() => browserHistory.push('/users'));
 }

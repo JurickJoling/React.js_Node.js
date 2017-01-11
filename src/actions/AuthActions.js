@@ -27,7 +27,7 @@ export function validateToken() {
 
   return dispatch => {
     if (email && accessToken) {
-      const url = `Users?count=1&where=${JSON.stringify({ user_email: email })}`;
+      const url = `User?count=1&where=${JSON.stringify({ user_email: email })}`;
       return apiRequest.get(url)
         .then(({ data: { results, count } }) => {
 
@@ -46,7 +46,7 @@ export function validateToken() {
 }
 
 export function loginUser({ email, accessToken }) {
-  const url = `Users?count=1&where=${JSON.stringify({ user_email: email })}`;
+  const url = `User?count=1&where=${JSON.stringify({ user_email: email })}`;
   return dispatch => apiRequest.get(url)
     .then(({ data: { results, count } }) => {
 
