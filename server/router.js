@@ -5,6 +5,8 @@ const max = require('lodash/max');
 
 const config = require('../config');
 
+const dataController = require('./controllers/data');
+
 const yelp = new Yelp({
   consumer_key: config.yelpConsumerKey,
   consumer_secret: config.yelpConsumerSecret,
@@ -13,6 +15,8 @@ const yelp = new Yelp({
 });
 
 module.exports = app => {
+  app.get('/data', dataController);
+
   app.post('/upload', function(req, res) {
     let sampleFile;
 

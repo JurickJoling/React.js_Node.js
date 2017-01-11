@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+
+import { validateToken, logoutUser } from '../../actions/AuthActions';
 
 import { Header, Footer } from '../../components';
 
@@ -8,15 +11,39 @@ class MainLayout extends Component {
     children: PropTypes.node.isRequired
   };
 
+  state = {
+    fetched: false
+  };
+
+  componentWillMount() {
+    const { validateToken } = this.props;
+    validateToken().then(() => this.setState({ fetched: true }));
+  }
+
   render() {
+    const { isAuthenticated, logoutUser } = this.props;
+    const { fetched } = this.state;
+
+    if (fetched) {
+      return (
+        <div>
+          <Header isAuthenticated={isAuthenticated} logoutUser={logoutUser} />
+          {this.props.children}
+          <Footer />
+        </div>
+      );
+    }
+
     return (
-      <div>
-        <Header />
-        {this.props.children}
-        <Footer />
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12 text-center">
+            <h1>Loading...</h1>
+          </div>
+        </div>
       </div>
     );
   }
 }
 
-export default MainLayout;
+export default connect(({ auth: { isAuthenticated } }) => ({ isAuthenticated }), { validateToken, logoutUser })(MainLayout);
