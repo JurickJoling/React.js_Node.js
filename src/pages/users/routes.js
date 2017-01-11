@@ -7,12 +7,14 @@ import UserShowPage from './UserShowPage';
 import UserEditPage from './UserEditPage';
 import UserDeletePage from './UserDeletePage';
 
+import { RequireAuth } from '../../utils';
+
 export default (
   <Route path="users">
-    <IndexRoute component={UsersIndexPage} />
-    <Route path="new" component={UserAddPage} />
-    <Route path=":itemID/edit" component={UserEditPage} />
-    <Route path=":itemID/delete" component={UserDeletePage} />
-    <Route path=":itemID" component={UserShowPage} />
+    <IndexRoute component={RequireAuth(UsersIndexPage)} />
+    <Route path="new" component={RequireAuth(UserAddPage)} />
+    <Route path=":itemID/edit" component={RequireAuth(UserEditPage)} />
+    <Route path=":itemID/delete" component={RequireAuth(UserDeletePage)} />
+    <Route path=":itemID" component={RequireAuth(UserShowPage)} />
   </Route>
 );
