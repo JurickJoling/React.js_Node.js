@@ -2,7 +2,7 @@ import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
 import { BooleanField } from '../../../helpers';
-import { capitalize, renderDateTime } from '../../../utils';
+import { capitalize, renderDateTime, renderHours, weekDays } from '../../../utils';
 
 function LocationItem({
   item: {
@@ -51,9 +51,9 @@ function LocationItem({
                   <tbody>
                   {hours.map(({ day, start, end }, index) => (
                     <tr key={index}>
-                      <td>{capitalize(day)}</td>
-                      <td>{start}</td>
-                      <td>{end}</td>
+                      <td>{capitalize(weekDays[day])}</td>
+                      <td>{renderHours(start)}</td>
+                      <td>{renderHours(end)}</td>
                     </tr>
                   ))}
                   </tbody>

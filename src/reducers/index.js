@@ -1,5 +1,6 @@
 export { reducer as form } from 'redux-form'; // eslint-disable-line
 export { default as auth } from './AuthReducer';
+export { default as data } from './DataReducer';
 export { default as bundles } from './BundleReducer';
 export { default as plans } from './PlanReducer';
 export { default as events } from './EventReducer';

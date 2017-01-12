@@ -2,7 +2,7 @@ import isObject from 'lodash/isObject';
 import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
-import { capitalize, fileUrl, renderDateTime } from '../../../utils';
+import { capitalize, fileUrl, renderDateTime, renderHours, weekDays } from '../../../utils';
 
 function SpecialItem({
   item: {
@@ -63,9 +63,9 @@ function SpecialItem({
                 <tbody>
                 {days.map(({ day, start, end }, index) => (
                   <tr key={index}>
-                    <td>{capitalize(day)}</td>
-                    <td>{start}</td>
-                    <td>{end}</td>
+                    <td>{capitalize(weekDays[day])}</td>
+                    <td>{renderHours(start)}</td>
+                    <td>{renderHours(end)}</td>
                   </tr>
                 ))}
                 </tbody>

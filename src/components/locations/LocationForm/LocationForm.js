@@ -46,19 +46,22 @@ class LocationForm extends Component {
           name="yelp"
           component={YelpFinder}
           label="Add from Yelp"
-          onSelect={({ name, categories, location, display_phone, rating }) =>
+          onSelect={(business) => {
+            const { name, categories, location, display_phone, rating, coordinates, hours } = business;
+
             initialize({
               name,
-              address: isObject(location) ? (location.address || []).join(', ') : null,
+              address: isObject(location) ? compact([location.address1, location.address2, location.address3]).join(', ') : null,
               phone: display_phone,
-              category: (categories || []).join(', '),
+              category: (categories || []).map(c => c.title).join(', '),
               neighborhood: isObject(location) ? (location.neighborhoods || []).join(', ') : null,
-              metro_city: isObject(location) ? compact([location.city, location.country_code]).join(', ') : null,
-              latitude: isObject(location) && isObject(location.coordinate) ? location.coordinate.latitude : null,
-              longitude: isObject(location) && isObject(location.coordinate) ? location.coordinate.longitude : null,
-              rating
+              metro_city: isObject(location) ? compact([location.city, location.state]).join(', ') : null,
+              latitude: isObject(coordinates) ? coordinates.latitude : null,
+              longitude: isObject(coordinates) ? coordinates.longitude : null,
+              rating,
+              hours
             })
-          }
+          }}
         />
         <div className="btn-group m-b">
           <LinkTo className="btn btn-default" url="locations">Cancel</LinkTo>

@@ -8,7 +8,7 @@ import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import cl from 'classnames';
 
 import { Button } from '../helpers';
-import { weekDays, capitalize } from '../utils';
+import { weekDays, numberOfWeekDay, capitalize } from '../utils';
 
 momentLocalizer(moment);
 
@@ -48,16 +48,18 @@ export default class WeekdayStartEndList extends Component {
                 textField="name"
                 data={weekDays.map(day => ({ name: capitalize(day), value: day }))}
                 filter="contains"
-                value={value.day}
-                onChange={day => this.setState({ value: { ...value, day: day.value } })}
+                value={value.day ? capitalize(weekDays[value.day]) : null}
+                onChange={day => this.setState({ value: { ...value, day: numberOfWeekDay(day.value) } })}
               />
             </td>
             <td>
               {time ? (
                   <DateTimePicker
                     calendar={false}
-                    value={value.start ? moment(value.start, 'hh:mm A').toDate() : null}
-                    onChange={(_, start) => this.setState({ value: { ...value, start } })}
+                    value={value.start ? moment(value.start, 'HHmm').toDate() : null}
+                    onChange={(_, start) =>
+                      this.setState({ value: { ...value, start: moment(start, 'hh:mm A').format('HHmm') } })
+                    }
                   />
                 ) : (
                   <DateTimePicker
@@ -71,8 +73,10 @@ export default class WeekdayStartEndList extends Component {
               {time ? (
                   <DateTimePicker
                     calendar={false}
-                    value={value.end ? moment(value.end, 'hh:mm A').toDate() : null}
-                    onChange={(_, end) => this.setState({ value: { ...value, end } })}
+                    value={value.end ? moment(value.end, 'HHmm').toDate() : null}
+                    onChange={(_, end) =>
+                      this.setState({ value: { ...value, end: moment(end, 'hh:mm A').format('HHmm') } })
+                    }
                   />
                 ) : (
                   <DateTimePicker
@@ -94,9 +98,9 @@ export default class WeekdayStartEndList extends Component {
           </tr>
           {values.map((val, index) => (
             <tr key={index}>
-              <td>{capitalize(val.day)}</td>
-              <td>{val.start}</td>
-              <td>{val.end}</td>
+              <td>{capitalize(weekDays[val.day])}</td>
+              <td>{moment(val.start, 'HHmm').format('hh:mm A')}</td>
+              <td>{moment(val.end, 'HHmm').format('hh:mm A')}</td>
               <td>
                 <Button
                   color="danger"
