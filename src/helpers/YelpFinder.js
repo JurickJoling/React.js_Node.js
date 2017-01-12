@@ -50,6 +50,7 @@ export default class YelpFinder extends Component {
       .then(({ data }) => {
         this.toggleModal(() => onSelect({
           ...business,
+          neighborhoods: data.neighborhoods || [],
           hours: data.hours && data.hours[0] ? data.hours[0].open : []
         }));
       })
