@@ -1,6 +1,8 @@
 export const API_HOST = process.env.API_HOST;
 export const API_URI = `http://${API_HOST}/parse/classes`;
 export const YELP_HOST_URI = `http://${process.env.YELP_HOST}/yelp`;
+export const EVENTBRITE_API_HOST = process.env.EVENTBRITE_API_HOST;
+export const EVENTBRITE_TOKEN = process.env.EVENTBRITE_TOKEN;
 export const UPLOAD_HOST = `http://${process.env.UPLOAD_HOST}`;
 export const UPLOAD_HOST_URI = `${UPLOAD_HOST}/upload`;
 

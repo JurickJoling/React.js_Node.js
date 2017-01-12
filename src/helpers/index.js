@@ -6,6 +6,7 @@ export { default as Loading } from './Loading';
 export { default as Tabs } from './Tabs';
 export { default as YelpField } from './YelpField';
 export { default as YelpFinder } from './YelpFinder';
+export { default as EventbriteFinder } from './EventbriteFinder';
 export { default as renderField } from './renderField';
 export { default as DateNameStartEndList } from './DateNameStartEndList';
 export { default as TextCheckboxField } from './TextCheckboxField';

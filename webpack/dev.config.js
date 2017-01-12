@@ -69,6 +69,8 @@ module.exports = {
         NODE_ENV: JSON.stringify('development'),
         API_HOST: JSON.stringify(process.env.API_HOST),
         YELP_HOST: JSON.stringify(process.env.YELP_HOST),
+        EVENTBRITE_API_HOST: JSON.stringify(process.env.EVENTBRITE_API_HOST),
+        EVENTBRITE_TOKEN: JSON.stringify(process.env.EVENTBRITE_TOKEN),
         UPLOAD_HOST: JSON.stringify(process.env.UPLOAD_HOST),
         PARSE_APPLICATION_ID: JSON.stringify(process.env.PARSE_APPLICATION_ID),
         PARSE_MASTER_KEY: JSON.stringify(process.env.PARSE_MASTER_KEY),

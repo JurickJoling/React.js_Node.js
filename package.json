@@ -21,6 +21,7 @@
     "classnames": "^2.2.5",
     "cors": "^2.8.1",
     "dotenv": "^2.0.0",
+    "eventbrite": "^0.1.6",
     "express": "^4.14.0",
     "express-fileupload": "^0.0.5",
     "lodash": "^4.17.3",

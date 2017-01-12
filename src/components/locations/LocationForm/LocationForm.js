@@ -41,80 +41,85 @@ class LocationForm extends Component {
 
     return (
       <form onSubmit={handleSubmit(location => {onSave(location)})}>
+        <div className="row">
+          <div className="col-md-6">
+            <Field
+              name="yelp"
+              component={YelpFinder}
+              label="Add from Yelp"
+              onSelect={(business) => {
+                const { name, categories, location, display_phone, rating, coordinates, hours } = business;
 
-        <Field
-          name="yelp"
-          component={YelpFinder}
-          label="Add from Yelp"
-          onSelect={(business) => {
-            const { name, categories, location, display_phone, rating, coordinates, hours } = business;
+                initialize({
+                  name,
+                  address: isObject(location) ? compact([location.address1, location.address2, location.address3]).join(', ') : null,
+                  phone: display_phone,
+                  category: (categories || []).map(c => c.title).join(', '),
+                  neighborhood: isObject(location) ? (location.neighborhoods || []).join(', ') : null,
+                  metro_city: isObject(location) ? compact([location.city, location.state]).join(', ') : null,
+                  latitude: isObject(coordinates) ? coordinates.latitude : null,
+                  longitude: isObject(coordinates) ? coordinates.longitude : null,
+                  rating,
+                  hours
+                })
+              }}
+            />
+            <div className="btn-group m-b">
+              <LinkTo className="btn btn-default" url="locations">Cancel</LinkTo>
+              <button action="submit" className="btn btn-primary">
+                {isEmpty(item) ? 'Create Location' : 'Update Location'}
+              </button>
+            </div>
 
-            initialize({
-              name,
-              address: isObject(location) ? compact([location.address1, location.address2, location.address3]).join(', ') : null,
-              phone: display_phone,
-              category: (categories || []).map(c => c.title).join(', '),
-              neighborhood: isObject(location) ? (location.neighborhoods || []).join(', ') : null,
-              metro_city: isObject(location) ? compact([location.city, location.state]).join(', ') : null,
-              latitude: isObject(coordinates) ? coordinates.latitude : null,
-              longitude: isObject(coordinates) ? coordinates.longitude : null,
-              rating,
-              hours
-            })
-          }}
-        />
-        <div className="btn-group m-b">
-          <LinkTo className="btn btn-default" url="locations">Cancel</LinkTo>
-          <button action="submit" className="btn btn-primary">
-            {isEmpty(item) ? 'Create Location' : 'Update Location'}
-          </button>
+            <Field
+              name="location_type"
+              valueField="value"
+              textField="name"
+              component={renderDropdownList}
+              data={[
+                {name: 'Dance Studio', value: 'dance_studio'},
+                {name: 'Cinema', value: 'cinema'},
+                {name: 'Restaurant', value: 'restaurant'},
+                {name: 'Theater', value: 'theater'},
+                {name: 'Bar', value: 'bar'},
+                {name: 'Gym', value: 'gym'},
+                {name: 'Amusement Park', value: 'amusement_park'},
+                {name: 'City Park', value: 'city_park'},
+                {name: 'Zoo', value: 'zoo'},
+                {name: 'Haunted House', value: 'haunted_house'},
+                {name: 'Pool Hall', value: 'pool_hall'},
+                {name: 'Recreational Center', value: 'recreational_center'},
+                {name: 'Game Room', value: 'game_room'},
+                {name: 'Jazz Club', value: 'jazz_club'},
+                {name: 'Music Cafe', value: 'music_cafe'},
+                {name: 'Coffee Shop', value: 'coffee_shop'},
+                {name: 'Karaoke Hall', value: 'karaoke_hall'}
+              ]}
+              label="Location Type"
+            />
+            <Field name="name" component={renderField} label="Location Name"/>
+            <Field name="address" component={renderField} label="Address"/>
+            <Field name="phone" component={renderField} label="Phone"/>
+            <Field name="category" component={renderField} label="Category"/>
+            <Field name="neighborhood" component={renderField} label="Neighborhood"/>
+          </div>
+          <div className="col-md-6">
+            <Field name="metro_city" component={renderField} label="Metro City"/>
+            <Field
+              time
+              name="hours"
+              component={WeekdayStartEndList}
+              label="Hours of operations"
+            />
+            <Field name="reservations" component={renderCheckboxField} label="Takes Reservations?"/>
+            <Field name="latitude" component={renderField} label="Latitude"/>
+            <Field name="longitude" component={renderField} label="Longitude"/>
+            <Field name="rating" component={renderField} label="Rating"/>
+            <Field name="groups" component={renderCheckboxField} label="Good For Group?"/>
+            <Field name="outdoor" component={renderCheckboxField} label="Outdoor Seating?"/>
+            <Field name="verified" component={renderCheckboxField} label="Verified?"/>
+          </div>
         </div>
-
-        <Field
-          name="location_type"
-          valueField="value"
-          textField="name"
-          component={renderDropdownList}
-          data={[
-            {name: 'Dance Studio', value: 'dance_studio'},
-            {name: 'Cinema', value: 'cinema'},
-            {name: 'Restaurant', value: 'restaurant'},
-            {name: 'Theater', value: 'theater'},
-            {name: 'Bar', value: 'bar'},
-            {name: 'Gym', value: 'gym'},
-            {name: 'Amusement Park', value: 'amusement_park'},
-            {name: 'City Park', value: 'city_park'},
-            {name: 'Zoo', value: 'zoo'},
-            {name: 'Haunted House', value: 'haunted_house'},
-            {name: 'Pool Hall', value: 'pool_hall'},
-            {name: 'Recreational Center', value: 'recreational_center'},
-            {name: 'Game Room', value: 'game_room'},
-            {name: 'Jazz Club', value: 'jazz_club'},
-            {name: 'Music Cafe', value: 'music_cafe'},
-            {name: 'Coffee Shop', value: 'coffee_shop'},
-            {name: 'Karaoke Hall', value: 'karaoke_hall'}
-          ]}
-          label="Location Type"
-        />
-        <Field name="name" component={renderField} label="Location Name"/>
-        <Field name="address" component={renderField} label="Address"/>
-        <Field name="phone" component={renderField} label="Phone"/>
-        <Field name="category" component={renderField} label="Category"/>
-        <Field name="neighborhood" component={renderField} label="Neighborhood"/>
-        <Field name="metro_city" component={renderField} label="Metro City"/>
-        <Field
-          time
-          name="hours"
-          component={WeekdayStartEndList}
-          label="Hours of operations"
-        />
-        <Field name="reservations" component={renderCheckboxField} label="Takes Reservations?"/>
-        <Field name="latitude" component={renderField} label="Latitude"/>
-        <Field name="longitude" component={renderField} label="Longitude"/>
-        <Field name="rating" component={renderField} label="Rating"/>
-        <Field name="groups" component={renderCheckboxField} label="Good For Group?"/>
-        <Field name="outdoor" component={renderCheckboxField} label="Outdoor Seating?"/>
-        <Field name="verified" component={renderCheckboxField} label="Verified?"/>
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}
