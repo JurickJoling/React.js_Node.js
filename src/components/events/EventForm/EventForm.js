@@ -13,7 +13,6 @@ import {
   DateNameStartEndList,
   TextCheckboxField,
   EventbriteFinder,
-  renderField,
   renderTextareaField,
   renderDropdownList,
   renderDateTimePicker,
@@ -44,7 +43,7 @@ class EventForm extends Component {
     } = this.props;
 
     if (!isEmpty(item)) {
-      this.setState({ add_criteria, boost, redemption }, () => initialize({
+      this.setState({ add_criteria, boost, redemption: redemption ? redemption.value : null }, () => initialize({
         event_type, dates, start_time, end_time, location, description, redemption, eventbrite, cost,
         add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
         boost_invites_sent, boost_invites_accepted, boost_attendees, special
@@ -188,46 +187,6 @@ class EventForm extends Component {
                   {name: 'Attendees', value: 'attendees'}
                 ])}
                 label="Boost Type"
-              />
-              ) : null}
-            <Field name="comments_for_reviewer" component={renderField} label="Comments For Reviewer" />
-            {boost ? (
-              <Field
-                name="boost_status"
-                valueField="value"
-                textField="name"
-                component={renderDropdownList}
-                data={[
-                  {name: 'Approved', value: 'approved'},
-                  {name: 'Active', value: 'active'},
-                  {name: 'Pending Approval', value: 'pending_approval'},
-                  {name: 'Expired', value: 'expired'}
-                ]}
-                label="Boost Status"
-              />
-              ) : null}
-            {boost ? (
-              <Field
-                name="boost_invites_sent"
-                component={renderField}
-                type="number"
-                label="Boost Invites Sent"
-              />
-              ) : null}
-            {boost ? (
-              <Field
-                name="boost_invites_accepted"
-                component={renderField}
-                type="number"
-                label="Boost Invites Accepted"
-              />
-              ) : null}
-            {boost ? (
-              <Field
-                name="boost_attendees"
-                component={renderField}
-                type="number"
-                label="Boost Attendees"
               />
               ) : null}
             <Field

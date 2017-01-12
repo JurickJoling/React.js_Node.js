@@ -2,7 +2,11 @@ import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import Promise from 'bluebird';
+
+import { fetchLocations } from '../../../actions/LocationActions';
 
 import {
   LinkTo,
@@ -20,14 +24,17 @@ class SpecialForm extends Component {
   state = {};
 
   componentDidMount() {
-    this.handleInitialize();
+    const { fetchLocations } = this.props;
+    Promise.all([
+      fetchLocations({})
+    ]).then(() => this.handleInitialize());
   }
 
   handleInitialize() {
     const {
       item,
       item: {
-        incentive_name, category, incentive_type, attendee_min, amount, item_name, description,
+        incentive_name, category, incentive_type, attendee_min, amount, item_name, description, location,
         redemption_options, promo_code, days, start_date, end_date, without_end_date, image
       },
       initialize
@@ -41,14 +48,14 @@ class SpecialForm extends Component {
         redemption_options: isObject(redemption_options) ? redemption_options.value : null
       });
       initialize({
-        incentive_name, category, incentive_type, attendee_min, amount, item_name, description,
+        incentive_name, category, incentive_type, attendee_min, amount, item_name, description, location,
         redemption_options, promo_code, days, start_date, end_date, without_end_date, image
       });
     }
   }
 
   render () {
-    const { item, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, locations, errorMessage, handleSubmit, onSave } = this.props;
     const { category, incentive_type, redemption_options, without_end_date } = this.state;
 
     return (
@@ -111,6 +118,14 @@ class SpecialForm extends Component {
                 <Field name="item_name" component={renderField} label="Item Name" />
               ) : null}
             <Field name="description" component={renderTextareaField} label="Description" />
+            <Field
+              name="location"
+              valueField="objectId"
+              textField="name"
+              component={renderDropdownList}
+              data={locations.map(({ objectId, name }) => ({ objectId, name }))}
+              label="Location"
+            />
           </div>
           <div className="col-md-6">
             <Field
@@ -185,5 +200,6 @@ SpecialForm.propTypes = {
   })
 };
 
-
-export default reduxForm({ form: 'special' })(SpecialForm);
+export default connect(({
+  locations: { items: locations },
+}) => ({ locations }), ({ fetchLocations }))(reduxForm({ form: 'special' })(SpecialForm));
