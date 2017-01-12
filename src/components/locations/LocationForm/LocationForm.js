@@ -48,14 +48,14 @@ class LocationForm extends Component {
               component={YelpFinder}
               label="Add from Yelp"
               onSelect={(business) => {
-                const { name, categories, location, display_phone, rating, coordinates, hours } = business;
+                const { name, categories, location, display_phone, rating, coordinates, hours, neighborhoods } = business;
 
                 initialize({
                   name,
                   address: isObject(location) ? compact([location.address1, location.address2, location.address3]).join(', ') : null,
                   phone: display_phone,
                   category: (categories || []).map(c => c.title).join(', '),
-                  neighborhood: isObject(location) ? (location.neighborhoods || []).join(', ') : null,
+                  neighborhood: (neighborhoods || []).join(', '),
                   metro_city: isObject(location) ? compact([location.city, location.state]).join(', ') : null,
                   latitude: isObject(coordinates) ? coordinates.latitude : null,
                   longitude: isObject(coordinates) ? coordinates.longitude : null,
@@ -115,7 +115,6 @@ class LocationForm extends Component {
             <Field name="latitude" component={renderField} label="Latitude"/>
             <Field name="longitude" component={renderField} label="Longitude"/>
             <Field name="rating" component={renderField} label="Rating"/>
-            <Field name="groups" component={renderCheckboxField} label="Good For Group?"/>
             <Field name="outdoor" component={renderCheckboxField} label="Outdoor Seating?"/>
             <Field name="verified" component={renderCheckboxField} label="Verified?"/>
           </div>
