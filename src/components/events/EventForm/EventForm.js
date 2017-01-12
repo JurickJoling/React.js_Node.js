@@ -12,6 +12,7 @@ import {
   LinkTo,
   DateNameStartEndList,
   TextCheckboxField,
+  EventbriteFinder,
   renderField,
   renderTextareaField,
   renderDropdownList,
@@ -35,7 +36,7 @@ class EventForm extends Component {
     const {
       item,
       item: {
-        event_type, dates, start_time, end_time, location, description, redemption, cost,
+        event_type, dates, start_time, end_time, location, description, redemption, eventbrite, cost,
         add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
         boost_invites_sent, boost_invites_accepted, boost_attendees, special
       },
@@ -44,7 +45,7 @@ class EventForm extends Component {
 
     if (!isEmpty(item)) {
       this.setState({ add_criteria, boost, redemption }, () => initialize({
-        event_type, dates, start_time, end_time, location, description, redemption, cost,
+        event_type, dates, start_time, end_time, location, description, redemption, eventbrite, cost,
         add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
         boost_invites_sent, boost_invites_accepted, boost_attendees, special
       }));
@@ -114,7 +115,14 @@ class EventForm extends Component {
           label="Redemption"
           afterChange={({ value }) => this.setState({ redemption: value })}
         />
-        {redemption === 'advance_tickets' ? <h2>Eventbrite - reference</h2> : null}
+        {redemption === 'advance_tickets' ? (
+          <Field
+            name="eventbrite"
+            component={EventbriteFinder}
+            label="Eventbrite"
+            placeholder="Select Event"
+          />
+        ) : null}
         <Field
           name="cost"
           component={TextCheckboxField}
