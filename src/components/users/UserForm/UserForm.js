@@ -46,34 +46,40 @@ class UserForm extends Component {
 
     return (
       <form onSubmit={handleSubmit(user => {onSave(user)})}>
-        <Field name="first_name" component={renderField} label="First Name"/>
-        <Field name="last_name" component={renderField} label="Last Name"/>
-        <Field name="user_email" component={renderField} type="email" label="Email"/>
-        <Field
-          name="gender"
-          component={renderDropdownList}
-          data={['male', 'female']}
-          label="Gender"
-        />
-        <Field name="age_count" component={renderField} type="number" label="Age"/>
-        <Field name="bio" component={renderTextareaField} label="Bio"/>
-        <Field
-          name="birthday"
-          component={renderDatePicker}
-          label="Birthday"
-        />
-        <Field name="education_history" component={renderField} label="Education History"/>
-        <Field name="phone" component={renderField} label="Phone"/>
-        <Field name="latitude" component={renderField} type="number" label="Latitude"/>
-        <Field name="longitude" component={renderField} type="number" label="Longitude"/>
-        <Field
-          name="tags"
-          component={renderMultiselect}
-          data={tags.map(({ tag }) => tag)}
-          label="Tags"
-        />
-        <Field name="verified" component={renderCheckboxField} label="Verified?"/>
-        <Field name="is_admin" component={renderCheckboxField} label="Admin?"/>
+        <div className="row">
+          <div className="col-md-6">
+            <Field name="first_name" component={renderField} label="First Name"/>
+            <Field name="last_name" component={renderField} label="Last Name"/>
+            <Field name="user_email" component={renderField} type="email" label="Email"/>
+            <Field
+              name="gender"
+              component={renderDropdownList}
+              data={['male', 'female']}
+              label="Gender"
+            />
+            <Field name="age_count" component={renderField} type="number" label="Age"/>
+            <Field name="bio" component={renderTextareaField} label="Bio"/>
+          </div>
+          <div className="col-md-6">
+            <Field
+              name="birthday"
+              component={renderDatePicker}
+              label="Birthday"
+            />
+            <Field name="education_history" component={renderField} label="Education History"/>
+            <Field name="phone" component={renderField} label="Phone"/>
+            <Field name="latitude" component={renderField} type="number" label="Latitude"/>
+            <Field name="longitude" component={renderField} type="number" label="Longitude"/>
+            <Field
+              name="tags"
+              component={renderMultiselect}
+              data={tags.map(({ tag }) => tag)}
+              label="Tags"
+            />
+            <Field name="verified" component={renderCheckboxField} label="Verified?"/>
+            <Field name="is_admin" component={renderCheckboxField} label="Admin?"/>
+          </div>
+        </div>
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}
