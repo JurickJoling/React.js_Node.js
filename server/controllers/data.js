@@ -11,8 +11,6 @@ const User = require('../models/user');
 const EventDetail = require('../models/event_detail');
 
 module.exports = function(req, res) {
-
-
   Promise.all([
     new Promise((resolve, reject) => {
       User.count({}, function(err, users_count) {
@@ -71,8 +69,6 @@ module.exports = function(req, res) {
       });
     })
   ]).then(values => {
-    // console.log('values', values);
-
     res.send({
       tags: [],
       users_count: values[0].users_count,

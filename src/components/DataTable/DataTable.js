@@ -13,8 +13,6 @@ class DataTable extends Component {
   render() {
     const { item } = this.props;
 
-    console.log('item', item);
-
     return (
       <table className="table table-hover table-striped table-bordered">
         <tbody>
@@ -38,15 +36,15 @@ class DataTable extends Component {
             </td>
           </tr>
           <tr>
-            <td>This Month Users</td>
+            <td>Users Added This Month</td>
             <td>{item.new_users_count}</td>
           </tr>
           <tr>
-            <td>Available Itineraries</td>
+            <td>Available Plans</td>
             <td>{item.available_itineraries}</td>
           </tr>
           <tr>
-            <td>Plans Expiring</td>
+            <td>Plans Expiring In The Next 7 Days</td>
             <td>{item.plans_expiring_count}</td>
           </tr>
         </tbody>
