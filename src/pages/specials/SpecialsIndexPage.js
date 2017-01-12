@@ -25,7 +25,6 @@ class SpecialsIndexPage extends Component {
 
   fetchData({ search, order, filters, include }) {
     const { fetchSpecials } = this.props;
-    console.log('include', include);
     this.setState({ search, fetched: false }, () => fetchSpecials({ order, search, filters })
       .then(() => this.setState({ fetched: true })));
   }

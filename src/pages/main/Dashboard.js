@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 
 import { loginUser } from '../../actions/AuthActions';
 
+import { DataTable } from '../../components';
+
 function Dashboard({ isAuthenticated, errorMessage, loginUser }) {
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-12 text-center">
           {isAuthenticated ? (
-            <h1>Dashboard</h1>
+              <h1>Dashboard</h1>
             ) : (
               <div>
                 <FacebookLogin
@@ -24,6 +26,7 @@ function Dashboard({ isAuthenticated, errorMessage, loginUser }) {
             )}
         </div>
       </div>
+      {isAuthenticated ? <DataTable /> : null}
     </div>
   );
 }

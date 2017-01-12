@@ -2,7 +2,7 @@ import isObject from 'lodash/isObject';
 import React, { PropTypes } from 'react';
 
 import { LinkTo } from '../../../helpers';
-import { capitalize, renderDate, renderDateTime } from '../../../utils';
+import { capitalize, renderDate, renderDateTime, weekDays, renderHours } from '../../../utils';
 
 function SpecialsList({ items }) {
   return (
@@ -36,7 +36,7 @@ function SpecialsList({ items }) {
           <td>{item_name}</td>
           <td>{redemption_options ? redemption_options.name : null}</td>
           <td>{promo_code}</td>
-          <td>{(days || []).map(({day, start, end}) => [capitalize(day), start, end].join(' - ')).join('; ')}</td>
+          <td>{(days || []).map(({day, start, end}) => [capitalize(weekDays[day]), renderHours(start), renderHours(end)].join(' - ')).join('; ')}</td>
           <td>{renderDateTime(start_date)}</td>
           <td>{renderDateTime(end_date)}</td>
           <td>{isObject(status) ? status.name : status}</td>

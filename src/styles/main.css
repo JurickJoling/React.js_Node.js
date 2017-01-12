@@ -47,6 +47,10 @@ input[type=checkbox].form-control-checkbox {
     margin: 0px 20px 20px 0px;
 }
 
+.yelp-image {
+    max-width: 250px;
+}
+
 textarea.form-control {
     min-height: 95px;
 }

@@ -43,8 +43,21 @@ export default class YelpFinder extends Component {
       .catch(({ errorMessage }) => this.setState({ errorMessage }));
   }
 
+  onSelect(business) {
+    const { onSelect } = this.props;
+
+    axios.get(`${YELP_HOST_URI}/${business.id}`)
+      .then(({ data }) => {
+        this.toggleModal(() => onSelect({
+          ...business,
+          hours: data.hours && data.hours[0] ? data.hours[0].open : []
+        }));
+      })
+      .catch(({ errorMessage }) => this.setState({ errorMessage }), () => this.toggleModal());
+  }
+
   render() {
-    const { input, label, placeholder, meta: { touched, error, warning }, onSelect } = this.props;
+    const { input, label, placeholder, meta: { touched, error, warning } } = this.props;
     const { term, city, state, businesses, showModal } = this.state;
 
     return (
@@ -126,13 +139,13 @@ export default class YelpFinder extends Component {
                       {businesses.map(business => (
                         <tr key={business.id}>
                           <td>
-                            {business.image_url ? <img className="img-responsive" src={business.image_url} alt="" /> : null}
+                            {business.image_url ? <img className="yelp-image img-responsive" src={business.image_url} alt="" /> : null}
                           </td>
                           <td>{business.name}</td>
                           <td>{business.rating}</td>
                           <td>{((business.location ? business.location.address : []) || []).join(', ')}</td>
                           <td>
-                            <Button bsStyle="success" onClick={() => this.toggleModal(() => onSelect(business))}>Select</Button>
+                            <Button bsStyle="success" onClick={() => this.onSelect(business)}>Select</Button>
                           </td>
                         </tr>
                       ))}
