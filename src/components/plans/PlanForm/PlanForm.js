@@ -8,6 +8,7 @@ import { Field, reduxForm } from 'redux-form';
 import Promise from 'bluebird';
 
 import { fetchBundles } from '../../../actions/BundleActions';
+import { fetchLocations } from '../../../actions/LocationActions';
 import { fetchTags } from '../../../actions/TagActions';
 
 import {
@@ -17,17 +18,17 @@ import {
   renderTextareaField,
   renderDatePicker,
   renderDropdownList,
-  renderMultiselect,
-  YelpField
+  renderMultiselect
 } from '../../../helpers';
 import { weekDays, capitalize } from '../../../utils';
 
 class PlanForm extends Component {
   componentDidMount() {
-    const { fetchBundles, fetchTags } = this.props;
+    const { fetchBundles, fetchTags, fetchLocations } = this.props;
     Promise.all([
       fetchBundles({}),
-      fetchTags({})
+      fetchTags({}),
+      fetchLocations({})
     ]).then(() => this.handleInitialize());
   }
 
@@ -35,7 +36,7 @@ class PlanForm extends Component {
     const { item, item: {
       bundle,
       title_event, description_event, image, type_event,
-      tags, locations,
+      tags, locations, location,
       partner, start_day, count_attended, is21_age, estimated_cost, end_day,
       reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
       featured, featured_name, featured_link, first_message
@@ -47,7 +48,7 @@ class PlanForm extends Component {
         start_day: (start_day ? start_day.iso : null),
         end_day: (end_day ? end_day.iso : null),
         title_event, description_event, image, type_event,
-        tags, locations,
+        tags, locations, location,
         partner, count_attended, is21_age, estimated_cost,
         reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
         featured, featured_name, featured_link, first_message
@@ -56,7 +57,7 @@ class PlanForm extends Component {
   }
 
   render () {
-    const { item, bundles, tags, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, bundles, locations, tags, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
       <form onSubmit={handleSubmit(plan => {onSave(plan)})}>
@@ -94,7 +95,14 @@ class PlanForm extends Component {
               data={tags.map(({ tag }) => tag)}
               label="Tags"
             />
-            <Field name="locations" component={YelpField} label="Location" placeholder="Select Location" />
+            <Field
+              name="location"
+              valueField="objectId"
+              textField="name"
+              component={renderDropdownList}
+              data={locations.map(({ objectId, name, address }) => ({ objectId, name: `${name} ${address}` }))}
+              label="Location"
+            />
             <Field name="partner" component={renderCheckboxField}label="Partner" />
             <Field
               name="start_day"
@@ -202,10 +210,10 @@ function validate(values) {
   if (size(tags) === 0) {
     errors.tags = 'Tags are required';
   }
-
-  if (size(locations) === 0) {
-    errors.locations = 'Location is required';
-  }
+  //
+  // if (size(locations) === 0) {
+  //   errors.locations = 'Location is required';
+  // }
 
   if (description_event && description_event.length > 250) {
     errors.description_event = 'Description must be less 250';
@@ -231,5 +239,6 @@ function validate(values) {
 
 export default connect(({
   bundles: { items: bundles },
+  locations: { items: locations },
   tags: { items: tags }
-}) => ({ bundles, tags }), ({ fetchBundles, fetchTags }))(reduxForm({ form: 'plan', validate })(PlanForm));
+}) => ({ bundles, locations, tags }), ({ fetchBundles, fetchTags, fetchLocations }))(reduxForm({ form: 'plan', validate })(PlanForm));

@@ -1,3 +1,4 @@
+import compact from 'lodash/compact';
 import size from 'lodash/size';
 import React, { Component, PropTypes } from 'react';
 import { Button, Modal } from 'react-bootstrap';
@@ -144,7 +145,7 @@ export default class YelpFinder extends Component {
                           </td>
                           <td>{business.name}</td>
                           <td>{business.rating}</td>
-                          <td>{((business.location ? business.location.address : []) || []).join(', ')}</td>
+                          <td>{business.location ? compact([business.location.address1, business.location.address2, business.location.address3]).join(', ') : null}</td>
                           <td>
                             <Button bsStyle="success" onClick={() => this.onSelect(business)}>Select</Button>
                           </td>
