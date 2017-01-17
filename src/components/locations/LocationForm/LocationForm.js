@@ -22,17 +22,22 @@ class LocationForm extends Component {
     const {
       item,
       item: {
-        name, address, phone, category, neighborhood, metro_city, hours, reservations, latitude, longitude, rating,
-        groups, outdoor, location_type, verified
+        name, address, phone, category, neighborhood, opentable_id, metro_city, metro_city2, hours, reservations,
+        latitude, longitude, rating, groups, outdoor, location_type, verified
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
       initialize({
-        name, address, phone, category, neighborhood, metro_city, hours, reservations, latitude, longitude, rating,
-        groups, outdoor, location_type, verified
+        name, address, phone, category, neighborhood, opentable_id, metro_city,
+        metro_city2,
+        hours, reservations, latitude, longitude, rating, groups, outdoor, location_type, verified
       });
+    } else {
+      initialize({
+        metro_city2: { name: 'New York', value: 'new_york' }
+      })
     }
   }
 
@@ -102,9 +107,31 @@ class LocationForm extends Component {
             <Field name="phone" component={renderField} label="Phone"/>
             <Field name="category" component={renderField} label="Category"/>
             <Field name="neighborhood" component={renderField} label="Neighborhood"/>
+            <Field name="opentable_id" component={renderField} label="Opentable ID"/>
           </div>
           <div className="col-md-6">
-            <Field name="metro_city" component={renderField} label="Metro City"/>
+            <Field name="metro_city" component={renderField} label="City"/>
+            <Field
+              name="metro_city2"
+              valueField="value"
+              textField="name"
+              component={renderDropdownList}
+              data={[
+                {name: 'New York', value: 'new_york'},
+                {name: 'San Francisco', value: 'san_francisco'},
+                {name: 'Houston', value: 'houston'},
+                {name: 'Chicago', value: 'chicago'},
+                {name: 'Atlanta', value: 'atlanta'},
+                {name: 'Austin', value: 'austin'},
+                {name: 'Washington', value: 'washington'},
+                {name: 'DC', value: 'dc'},
+                {name: 'Boston', value: 'boston'},
+                {name: 'Los Angeles', value: 'los_angeles'},
+                {name: 'Orlando', value: 'orlando'},
+                {name: 'Miami', value: 'miami'},
+              ]}
+              label="Metro City"
+            />
             <Field
               time
               name="hours"

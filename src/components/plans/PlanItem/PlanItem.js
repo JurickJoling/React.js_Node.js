@@ -1,6 +1,7 @@
+import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
-import { LinkTo, GoogleMap, BooleanField } from '../../../helpers';
+import { LinkTo, BooleanField } from '../../../helpers';
 import { renderDateTime, weekDays, capitalize } from '../../../utils';
 
 function PlanItem({
@@ -8,7 +9,7 @@ function PlanItem({
     objectId,
     bundle,
     title_event, description_event, image, type_event,
-    tags, location,
+    tags, locations,
     partner, start_day, count_attended, is21_age, estimated_cost, end_day,
     featured, featured_name, featured_link, first_message,
     createdAt, updatedAt
@@ -98,9 +99,20 @@ function PlanItem({
           <td>{first_message}</td>
         </tr>
         <tr>
-          <td>Location</td>
+          <td>Locations</td>
           <td>
-            {location ? <GoogleMap location={location} /> : null}
+            {locations && size(locations) > 0 ? (
+              <table className="table table-hover table-striped table-bordered">
+                <tbody>
+                {locations.map(({ location, time }, index) => (
+                  <tr key={index}>
+                    <td>{location.name}</td>
+                    <td>{time}</td>
+                  </tr>
+                ))}
+                </tbody>
+              </table>
+              ) : null}
           </td>
         </tr>
         <tr>

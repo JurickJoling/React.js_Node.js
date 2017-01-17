@@ -40,7 +40,7 @@ function LocationItem({
           <td>{neighborhood}</td>
         </tr>
         <tr>
-          <td>Metro City</td>
+          <td>City</td>
           <td>{metro_city}</td>
         </tr>
         <tr>

@@ -71,7 +71,7 @@ export function fetchPlan(itemId) {
 export function createPlan({
   bundle,
   title_event, description_event, image, type_event,
-  tags, locations,
+  tags, locations, location,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
   reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
   featured, featured_name, featured_link, first_message
@@ -91,7 +91,7 @@ export function createPlan({
       iso: end_day
     } : null,
     title_event, description_event, image, type_event,
-    tags, locations,
+    tags, locations, location,
     partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost,
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     featured, featured_name, featured_link, first_message
@@ -121,7 +121,7 @@ export function createPlan({
 export function updatePlan(itemID, {
   bundle,
   title_event, description_event, image, type_event,
-  tags, locations,
+  tags, locations, location,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
   reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
   featured, featured_name, featured_link, first_message
@@ -141,7 +141,7 @@ export function updatePlan(itemID, {
         iso: end_day
       } : null,
     title_event, description_event, image, type_event,
-    tags, locations,
+    tags, locations, location,
     partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost,
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     featured, featured_name, featured_link, first_message

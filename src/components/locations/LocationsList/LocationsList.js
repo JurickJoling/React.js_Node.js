@@ -13,7 +13,7 @@ function LocationsList({ items }) {
         <th>Phone</th>
         <th>Category</th>
         <th>Neighborhood</th>
-        <th>Metro City</th>
+        <th>City</th>
         <th>Takes Reservations</th>
         <th>Rating</th>
         <th>Good for Groups</th>

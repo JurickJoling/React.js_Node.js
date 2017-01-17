@@ -48,7 +48,7 @@ input[type=checkbox].form-control-checkbox {
 }
 
 .yelp-image {
-    max-width: 250px;
+    max-width: 100px;
 }
 
 textarea.form-control {

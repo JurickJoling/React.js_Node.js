@@ -8,26 +8,28 @@ import { Field, reduxForm } from 'redux-form';
 import Promise from 'bluebird';
 
 import { fetchBundles } from '../../../actions/BundleActions';
+import { fetchLocations } from '../../../actions/LocationActions';
 import { fetchTags } from '../../../actions/TagActions';
 
 import {
   LinkTo,
+  LocationsTimeArray,
   renderField,
   renderCheckboxField,
   renderTextareaField,
   renderDatePicker,
   renderDropdownList,
-  renderMultiselect,
-  YelpField
+  renderMultiselect
 } from '../../../helpers';
 import { weekDays, capitalize } from '../../../utils';
 
 class PlanForm extends Component {
   componentDidMount() {
-    const { fetchBundles, fetchTags } = this.props;
+    const { fetchBundles, fetchTags, fetchLocations } = this.props;
     Promise.all([
       fetchBundles({}),
-      fetchTags({})
+      fetchTags({}),
+      fetchLocations({})
     ]).then(() => this.handleInitialize());
   }
 
@@ -56,7 +58,7 @@ class PlanForm extends Component {
   }
 
   render () {
-    const { item, bundles, tags, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, bundles, locations, tags, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
       <form onSubmit={handleSubmit(plan => {onSave(plan)})}>
@@ -94,7 +96,14 @@ class PlanForm extends Component {
               data={tags.map(({ tag }) => tag)}
               label="Tags"
             />
-            <Field name="locations" component={YelpField} label="Location" placeholder="Select Location" />
+            <Field
+              name="locations"
+              valueField="objectId"
+              textField="name"
+              component={LocationsTimeArray}
+              data={locations.map(({ objectId, name, address }) => ({ objectId, name: `${name} ${address}` }))}
+              label="Select Location"
+            />
             <Field name="partner" component={renderCheckboxField}label="Partner" />
             <Field
               name="start_day"
@@ -231,5 +240,6 @@ function validate(values) {
 
 export default connect(({
   bundles: { items: bundles },
+  locations: { items: locations },
   tags: { items: tags }
-}) => ({ bundles, tags }), ({ fetchBundles, fetchTags }))(reduxForm({ form: 'plan', validate })(PlanForm));
+}) => ({ bundles, locations, tags }), ({ fetchBundles, fetchTags, fetchLocations }))(reduxForm({ form: 'plan', validate })(PlanForm));

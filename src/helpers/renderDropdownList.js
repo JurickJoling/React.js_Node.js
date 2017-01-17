@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import DropdownList from 'react-widgets/lib/DropdownList'
+import DropdownList from 'react-widgets/lib/DropdownList';
 import cl from 'classnames';
 
 function renderDropdownList({ input, label, meta: { touched, error, warning }, afterChange, ...rest }) {

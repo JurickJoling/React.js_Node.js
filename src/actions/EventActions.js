@@ -48,9 +48,7 @@ export function fetchEvents({ search, include, order }) {
     include ? `&include=${include}` : null,
     search ? `&where=${JSON.stringify({
         $or: [
-          { first_name: { $regex: search, $options: 'i' } },
-          { last_name: { $regex:  search, $options: 'i' } },
-          { event_email: { $regex:  search, $options: 'i' } },
+          { description: { $regex: search, $options: 'i' } }
         ]
       })}` : null
   ].join('');
