@@ -1,5 +1,5 @@
-import isArray from 'lodash/isArray';
 import size from 'lodash/size';
+import isArray from 'lodash/isArray';
 import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
 import DropdownList from 'react-widgets/lib/DropdownList'
@@ -7,7 +7,8 @@ import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import cl from 'classnames';
 
-import { Button } from '../helpers';
+import { NameAddressItem, NameAddressValue } from './helpers';
+import { Button } from '../../helpers';
 
 momentLocalizer(moment);
 
@@ -35,19 +36,24 @@ export default class LocationsTimeArray extends Component {
     const { input, label, meta: { touched, error, warning }, data } = this.props;
     const { value, values } = this.state;
 
+    console.log('value', value);
+    console.log('values', values);
+
     return (
       <fieldset className={cl('form-group', {'has-error': (touched && error)})}>
         {label ? <label>{label}</label> : null}
         <table className="table table-hover table-striped table-bordered">
           <tbody>
           <tr>
-            <td>
+            <td className="wide-td-md">
               <DropdownList
                 valueField="value"
                 textField="name"
                 data={data}
                 filter="contains"
                 value={value.location ? value.location.name : null}
+                itemComponent={NameAddressItem}
+                valueComponent={NameAddressValue}
                 onChange={location => this.setState({ value: { ...value, location } })}
               />
             </td>

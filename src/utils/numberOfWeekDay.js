@@ -1,5 +1,4 @@
 export default function (weekday) {
-  console.log('weekday', weekday);
   switch (weekday) {
     case 'monday':
       return 0;

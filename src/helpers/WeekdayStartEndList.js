@@ -1,4 +1,5 @@
 import isArray from 'lodash/isArray';
+import isNumber from 'lodash/isNumber';
 import size from 'lodash/size';
 import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
@@ -42,13 +43,13 @@ export default class WeekdayStartEndList extends Component {
         <table className="table table-hover table-striped table-bordered">
           <tbody>
           <tr>
-            <td>
+            <td className="wide-td">
               <DropdownList
                 valueField="value"
                 textField="name"
                 data={weekDays.map(day => ({ name: capitalize(day), value: day }))}
                 filter="contains"
-                value={value.day ? capitalize(weekDays[value.day]) : null}
+                value={isNumber(value.day) ? capitalize(weekDays[value.day]) : null}
                 onChange={day => this.setState({ value: { ...value, day: numberOfWeekDay(day.value) } })}
               />
             </td>
@@ -89,7 +90,7 @@ export default class WeekdayStartEndList extends Component {
             <td>
               <Button
                 color="primary"
-                disabled={!value.day || !value.start || !value.end}
+                disabled={!isNumber(value.day) || !value.start || !value.end}
                 onClick={() => this.setState({ value: {}, values: [...values, value] }, () => input.onChange(this.state.values))}
               >
                 Add

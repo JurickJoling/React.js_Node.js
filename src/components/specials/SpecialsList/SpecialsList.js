@@ -1,5 +1,7 @@
 import isObject from 'lodash/isObject';
+import size from 'lodash/size';
 import React, { PropTypes } from 'react';
+import { Button, Popover, OverlayTrigger } from 'react-bootstrap';
 
 import { LinkTo } from '../../../helpers';
 import { capitalize, renderDate, renderDateTime, weekDays, renderHours } from '../../../utils';
@@ -36,7 +38,31 @@ function SpecialsList({ items }) {
           <td>{item_name}</td>
           <td>{redemption_options ? redemption_options.name : null}</td>
           <td>{promo_code}</td>
-          <td>{(days || []).map(({day, start, end}) => [capitalize(weekDays[day]), renderHours(start), renderHours(end)].join(' - ')).join('; ')}</td>
+          <td>
+            {size(days || []) > 0 ? (
+                <OverlayTrigger
+                  trigger={['hover', 'focus']}
+                  placement="left"
+                  overlay={(
+                    <Popover id={`special-${objectId}-days`} title="Days">
+                      <table className="table table-hover table-bordered table-striped">
+                        <tbody>
+                        {(days || []).map(({ day, start, end }, index) => (
+                          <tr key={index}>
+                            <td>{capitalize(weekDays[day])}</td>
+                            <td>{renderHours(start)}</td>
+                            <td>{renderHours(end)}</td>
+                          </tr>
+                        ))}
+                        </tbody>
+                      </table>
+                    </Popover>
+                  )}
+                >
+                  <Button>{size(days)}</Button>
+                </OverlayTrigger>
+              ) : null}
+          </td>
           <td>{renderDateTime(start_date)}</td>
           <td>{renderDateTime(end_date)}</td>
           <td>{isObject(status) ? status.name : status}</td>
