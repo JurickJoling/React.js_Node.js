@@ -13,6 +13,7 @@ import { fetchTags } from '../../../actions/TagActions';
 
 import {
   LinkTo,
+  LocationsTimeArray,
   renderField,
   renderCheckboxField,
   renderTextareaField,
@@ -36,7 +37,7 @@ class PlanForm extends Component {
     const { item, item: {
       bundle,
       title_event, description_event, image, type_event,
-      tags, locations, location,
+      tags, locations,
       partner, start_day, count_attended, is21_age, estimated_cost, end_day,
       reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
       featured, featured_name, featured_link, first_message
@@ -48,7 +49,7 @@ class PlanForm extends Component {
         start_day: (start_day ? start_day.iso : null),
         end_day: (end_day ? end_day.iso : null),
         title_event, description_event, image, type_event,
-        tags, locations, location,
+        tags, locations,
         partner, count_attended, is21_age, estimated_cost,
         reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
         featured, featured_name, featured_link, first_message
@@ -96,12 +97,12 @@ class PlanForm extends Component {
               label="Tags"
             />
             <Field
-              name="location"
+              name="locations"
               valueField="objectId"
               textField="name"
-              component={renderDropdownList}
+              component={LocationsTimeArray}
               data={locations.map(({ objectId, name, address }) => ({ objectId, name: `${name} ${address}` }))}
-              label="Location"
+              label="Select Location"
             />
             <Field name="partner" component={renderCheckboxField}label="Partner" />
             <Field
@@ -210,10 +211,10 @@ function validate(values) {
   if (size(tags) === 0) {
     errors.tags = 'Tags are required';
   }
-  //
-  // if (size(locations) === 0) {
-  //   errors.locations = 'Location is required';
-  // }
+
+  if (size(locations) === 0) {
+    errors.locations = 'Location is required';
+  }
 
   if (description_event && description_event.length > 250) {
     errors.description_event = 'Description must be less 250';
