@@ -1,3 +1,4 @@
+import compact from 'lodash/compact';
 import first from 'lodash/first';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
@@ -101,10 +102,10 @@ class PlanForm extends Component {
               valueField="objectId"
               textField="name"
               component={LocationsTimeArray}
-              data={locations.map(({ objectId, name, address }) => ({ objectId, name: `${name} ${address}` }))}
+              data={locations.map(({ objectId, name, address }) => ({ objectId, name, address }))}
               label="Select Location"
             />
-            <Field name="partner" component={renderCheckboxField}label="Partner" />
+            <Field name="partner" component={renderCheckboxField} label="Partner" />
             <Field
               name="start_day"
               component={renderDatePicker}

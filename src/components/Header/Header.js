@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import cl from 'classnames';
 
 import { LinkTo } from '../../helpers';
@@ -10,31 +9,40 @@ function Header({ isAuthenticated, logoutUser }) {
     <nav className="navbar navbar-default">
       <div className="container-fluid">
         <div className="navbar-header">
-          <Link className="navbar-brand" to="/">Leaf Admin</Link>
+          <LinkTo className="navbar-brand" href="#">Leaf Admin</LinkTo>
         </div>
         <div className="collapse navbar-collapse">
           {isAuthenticated ? (
             <ul className="nav navbar-nav">
               <li className={cl({ active: isActive('bundles') })}>
-                <Link to="/bundles">Bundles</Link>
+                <LinkTo href="bundles">Bundles</LinkTo>
               </li>
               <li className={cl({ active: isActive('plans') })}>
-                <Link to="/plans">Plans</Link>
+                <LinkTo href="plans">Plans</LinkTo>
               </li>
               <li className={cl({ active: isActive('events') })}>
-                <Link to="/events">Events</Link>
+                <LinkTo href="events">Events</LinkTo>
               </li>
               <li className={cl({ active: isActive('specials') })}>
-                <Link to="/specials">Specials</Link>
+                <LinkTo href="specials">Specials</LinkTo>
               </li>
               <li className={cl({ active: isActive('locations') })}>
-                <Link to="/locations">Locations</Link>
+                <LinkTo href="locations">Locations</LinkTo>
               </li>
               <li className={cl({ active: isActive('users') })}>
-                <Link to="/users">Users</Link>
+                <LinkTo href="users">Users</LinkTo>
               </li>
             </ul>
-            ) : null}
+            ) : (
+              <ul className="nav navbar-nav">
+                <li className={cl({ active: isActive('signin') })}>
+                  <LinkTo href="auth/signin">Sign In</LinkTo>
+                </li>
+                <li className={cl({ active: isActive('signup') })}>
+                  <LinkTo href="auth/signup">Sign Up</LinkTo>
+                </li>
+              </ul>
+            )}
           {isAuthenticated ? (
               <ul className="nav navbar-nav navbar-right">
                 <li>

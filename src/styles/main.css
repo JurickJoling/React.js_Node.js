@@ -51,6 +51,14 @@ input[type=checkbox].form-control-checkbox {
     max-width: 100px;
 }
 
+.wide-td {
+    min-width: 130px;
+}
+
+.wide-td-md {
+    min-width: 170px;
+}
+
 textarea.form-control {
     min-height: 95px;
 }
