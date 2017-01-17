@@ -6,6 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import DropdownList from 'react-widgets/lib/DropdownList'
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import { Checkbox } from 'react-bootstrap';
 import cl from 'classnames';
 
 import { Button } from '../helpers';
@@ -23,7 +24,9 @@ export default class WeekdayStartEndList extends Component {
   };
 
   state = {
-    value: {},
+    value: {
+      allDay: false
+    },
     values: []
   };
 
@@ -57,6 +60,7 @@ export default class WeekdayStartEndList extends Component {
               {time ? (
                   <DateTimePicker
                     calendar={false}
+                    disabled={value.allDay}
                     value={value.start ? moment(value.start, 'HHmm').toDate() : null}
                     onChange={(_, start) =>
                       this.setState({ value: { ...value, start: moment(start, 'hh:mm A').format('HHmm') } })
@@ -74,6 +78,7 @@ export default class WeekdayStartEndList extends Component {
               {time ? (
                   <DateTimePicker
                     calendar={false}
+                    disabled={value.allDay}
                     value={value.end ? moment(value.end, 'HHmm').toDate() : null}
                     onChange={(_, end) =>
                       this.setState({ value: { ...value, end: moment(end, 'hh:mm A').format('HHmm') } })
@@ -88,10 +93,19 @@ export default class WeekdayStartEndList extends Component {
                 )}
             </td>
             <td>
+              <Checkbox
+                checked={value.allDay}
+                onChange={({ target: { checked } }) =>
+                  this.setState({ value: { ...value, allDay: checked, start: '0000', end: '2359' } })
+                }>
+                All day
+              </Checkbox>
+            </td>
+            <td>
               <Button
                 color="primary"
                 disabled={!isNumber(value.day) || !value.start || !value.end}
-                onClick={() => this.setState({ value: {}, values: [...values, value] }, () => input.onChange(this.state.values))}
+                onClick={() => this.setState({ value: {}, allDay: false, values: [...values, value] }, () => input.onChange(this.state.values))}
               >
                 Add
               </Button>
