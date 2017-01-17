@@ -5,7 +5,7 @@ import { Button, Modal, Popover, OverlayTrigger } from 'react-bootstrap';
 import cl from 'classnames';
 import axios from 'axios';
 
-import { EVENTBRITE_API_HOST, EVENTBRITE_TOKEN, YELP_HOST_URI } from '../config';
+import { UPLOAD_HOST } from '../config';
 
 export default class EventbriteFinder extends Component {
 
@@ -40,17 +40,13 @@ export default class EventbriteFinder extends Component {
   search() {
     const { q } = this.state;
 
-    // const url = `${EVENTBRITE_API_HOST}/events/search/?q=${q}&token=${EVENTBRITE_TOKEN}`;
-
-    axios.post(`http://localhost:3000/eventbrite/search`, { q })
+    axios.post(`${UPLOAD_HOST}/eventbrite/search`, { q })
       .then(({ data: { events } }) => this.setState({ events }))
       .catch(({ errorMessage }) => this.setState({ errorMessage }));
   }
 
   onSelect(event, ticket) {
     const { input } = this.props;
-
-    console.log('event', event);
 
     this.toggleModal(() => input.onChange({
       event: {
@@ -67,14 +63,10 @@ export default class EventbriteFinder extends Component {
     }));
   }
 
-  unSelect() {
-
-  }
-
   showOrganizer(organizerId) {
     const { organizers } = this.state;
 
-    axios.get(`http://localhost:3000/eventbrite/organizers/${organizerId}`)
+    axios.get(`${UPLOAD_HOST}/eventbrite/organizers/${organizerId}`)
       .then(({ data }) => this.setState({
         organizers: {
           ...organizers,
@@ -87,7 +79,7 @@ export default class EventbriteFinder extends Component {
   showTickets(eventId) {
     const { tickets } = this.state;
 
-    axios.get(`http://localhost:3000/eventbrite/events/${eventId}/tickets`)
+    axios.get(`${UPLOAD_HOST}/eventbrite/events/${eventId}/tickets`)
       .then(({ data: { ticket_classes } }) => this.setState({
         tickets: {
           ...tickets,

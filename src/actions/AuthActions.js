@@ -45,7 +45,7 @@ export function validateToken() {
   };
 }
 
-export function loginUser({ email, accessToken }) {
+export function facebookLoginUser({ email, accessToken }) {
   const url = `User?count=1&where=${JSON.stringify({ user_email: email })}`;
   return dispatch => apiRequest.get(url)
     .then(({ data: { results, count } }) => {

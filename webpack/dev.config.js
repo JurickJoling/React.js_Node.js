@@ -74,7 +74,8 @@ module.exports = {
         UPLOAD_HOST: JSON.stringify(process.env.UPLOAD_HOST),
         PARSE_APPLICATION_ID: JSON.stringify(process.env.PARSE_APPLICATION_ID),
         PARSE_MASTER_KEY: JSON.stringify(process.env.PARSE_MASTER_KEY),
-        GOOGLE_MAP_API_KEY: JSON.stringify(process.env.GOOGLE_MAP_API_KEY)
+        GOOGLE_MAP_API_KEY: JSON.stringify(process.env.GOOGLE_MAP_API_KEY),
+        FACEBOOK_APP_ID: JSON.stringify(process.env.FACEBOOK_APP_ID)
       }
     }),
     new webpack.optimize.DedupePlugin()

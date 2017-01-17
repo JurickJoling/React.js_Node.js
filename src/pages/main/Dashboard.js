@@ -2,11 +2,13 @@ import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import { connect } from 'react-redux';
 
-import { loginUser } from '../../actions/AuthActions';
+import { facebookLoginUser } from '../../actions/AuthActions';
 
 import { DataTable } from '../../components';
 
-function Dashboard({ isAuthenticated, errorMessage, loginUser }) {
+import { FACEBOOK_APP_ID } from '../../config';
+
+function Dashboard({ isAuthenticated, errorMessage, facebookLoginUser }) {
   return (
     <div className="container">
       <div className="row">
@@ -16,9 +18,9 @@ function Dashboard({ isAuthenticated, errorMessage, loginUser }) {
             ) : (
               <div>
                 <FacebookLogin
-                  appId="420009571539693"
+                  appId={FACEBOOK_APP_ID}
                   fields="name,email,picture"
-                  callback={({ email, accessToken }) => loginUser({ email, accessToken })}
+                  callback={({ email, accessToken }) => facebookLoginUser({ email, accessToken })}
                   cssClass="btn btn-primary"
                 />
                 {errorMessage ? <div className="alert alert-danger m-t">{errorMessage}</div> : null }
@@ -31,4 +33,9 @@ function Dashboard({ isAuthenticated, errorMessage, loginUser }) {
   );
 }
 
-export default connect(({ auth: { isAuthenticated, errorMessage } }) => ({ isAuthenticated, errorMessage }), { loginUser })(Dashboard);
+export default connect(({
+  auth: {
+    isAuthenticated,
+    errorMessage
+  }
+}) => ({ isAuthenticated, errorMessage }), { facebookLoginUser })(Dashboard);
