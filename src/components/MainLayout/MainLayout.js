@@ -21,13 +21,17 @@ class MainLayout extends Component {
   }
 
   render() {
-    const { isAuthenticated, logoutUser } = this.props;
+    const { isAuthenticated, currentUser, logoutUser } = this.props;
     const { fetched } = this.state;
 
     if (fetched) {
       return (
         <div>
-          <Header isAuthenticated={isAuthenticated} logoutUser={logoutUser} />
+          <Header
+            isAuthenticated={isAuthenticated}
+            currentUser={currentUser}
+            logoutUser={logoutUser}
+          />
           {this.props.children}
           <Footer />
         </div>
@@ -46,4 +50,9 @@ class MainLayout extends Component {
   }
 }
 
-export default connect(({ auth: { isAuthenticated } }) => ({ isAuthenticated }), { validateToken, logoutUser })(MainLayout);
+export default connect(({
+  auth: {
+    isAuthenticated,
+    currentUser
+  }
+}) => ({ isAuthenticated, currentUser }), { validateToken, logoutUser })(MainLayout);

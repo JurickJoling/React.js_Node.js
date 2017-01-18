@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { loginUser } from '../../actions/AuthActions';
+import { signinUser } from '../../actions/AuthActions';
 
 import { SigninForm } from '../../components';
 
 class LoginPage extends Component {
 
   render() {
-    const { errorMessage, loginUser } = this.props;
+    const { errorMessage, signinUser } = this.props;
 
     return (
       <div className="container">
@@ -16,7 +16,7 @@ class LoginPage extends Component {
           <div className="col-md-12">
             <SigninForm
               errorMessage={errorMessage}
-              onSignin={({ email, password }) => loginUser({ email, password })}
+              onSignin={({ email, password }) => signinUser({ email, password })}
             />
           </div>
         </div>
@@ -30,4 +30,4 @@ export default connect(({
     isAuthenticated,
     errorMessage
   }
-}) => ({ isAuthenticated, errorMessage }), { loginUser })(LoginPage);
+}) => ({ isAuthenticated, errorMessage }), { signinUser })(LoginPage);

@@ -1,9 +1,19 @@
+const passport = require('passport');
+
+const authController = require('./controllers/auth');
 const dataController = require('./controllers/data');
 const uploadController = require('./controllers/upload');
 const eventbriteController = require('./controllers/eventbrite');
 const yelpController = require('./controllers/yelp');
 
+const passportService = require('./services/passport');
+
+const requireAuth = passport.authenticate('jwt', { session: false });
+const requireSignin = passport.authenticate('local', { session: false });
+
 module.exports = app => {
+  app.post('/signin', requireSignin, authController.signin);
+  app.post('/signup', authController.signup);
   app.get('/data', dataController);
   app.post('/upload', uploadController);
   app.post('/eventbrite/search', eventbriteController.search);
