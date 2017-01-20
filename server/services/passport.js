@@ -13,8 +13,6 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
       if (err) { return done(err); }
       if (!isMatch) { return done(null, false); }
 
-      console.log('LocalStrategy comparePassword user', user, user._id);
-
       return done(null, user);
     });
   });

@@ -1,8 +1,12 @@
+const first = require('lodash/first');
+const omit = require('lodash/omit');
 const axios = require('axios');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
 
 const config = require('../../config');
+
+const User = require('../models/user');
 
 const headers = {
   'X-Parse-Application-Id': config.parseApplicationId,
@@ -11,13 +15,11 @@ const headers = {
 };
 
 function tokenForUser(user) {
-  console.log('tokenForUser', user, user._id);
   const timestamp = new Date().getTime();
   return jwt.encode({ sub: user._id, iat: timestamp }, config.authSecret);
 }
 
-exports.signin = function(req, res, next) {
-  console.log('signin req.user', req.user);
+exports.signin = function(req, res) {
   res.send({ token: tokenForUser(req.user), user: req.user });
 };
 
@@ -26,6 +28,13 @@ exports.signup = function({ body: { email, password } }, res, next) {
     return res.status(422).send({ error: 'You must provide email and password' });
   }
 
+  User.findOne({ user_email: email }, (err, existingUser) => {
+    if (err) { return next(err); }
+
+    if (existingUser) {
+      return res.status(422).send({ error: 'Email is in use' });
+    }
+  });
 
   bcrypt.genSalt(10, function(err, salt) {
     if (err) { return next(err); }
@@ -34,7 +43,19 @@ exports.signup = function({ body: { email, password } }, res, next) {
       if (err) { return next(err); }
 
       axios.post(`${config.parseHostURI}/User`, { user_email: email, password: hash, is_partner: true }, { headers })
-        .then(({ data }) => res.json({ token: tokenForUser(data.objectId) }))
+        .then(({ data }) => {
+
+          axios.get(`${config.parseHostURI}/User?where=${JSON.stringify({ user_email: email })}`, { headers })
+            .then(response =>
+              res.json({
+                token: tokenForUser(data.objectId),
+                user: omit(first(response.data.results), 'password') || data
+              })
+            )
+            .catch(() => res.status(500).json({ error: 'Something went wrong' }));
+
+
+        })
         .catch(() => res.status(500).json({ error: 'Something went wrong' }));
     });
   });

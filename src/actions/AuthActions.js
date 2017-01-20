@@ -72,11 +72,15 @@ export function signinUser({ email, password }) {
 
 export function signupUser({ email, password }) {
   return dispatch => apiRequest.authPost('signup', { email, password })
-    .then(({ data: { token } }) => {
-      dispatch(authUser({ email, accessToken: token }));
+    .then(({ data: { token, user } }) => {
+      dispatch(authUser({ email, accessToken: token, currentUser: user }));
       browserHistory.push('/');
     })
-    .catch(() => dispatch(authError('Bad Login Info')));
+    .catch(({ response: { data } }) => {
+      console.log('response.data', data);
+
+      dispatch(authError(data.error || 'Bad Login Info'))
+    });
 }
 
 export function logoutUser() {
