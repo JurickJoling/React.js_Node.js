@@ -1,7 +1,7 @@
 import compact from 'lodash/compact';
 import axios from 'axios';
 
-import { API_URI, PARSE_APPLICATION_ID, PARSE_MASTER_KEY } from '../config';
+import { API_URI, UPLOAD_HOST, PARSE_APPLICATION_ID, PARSE_MASTER_KEY } from '../config';
 
 function headers() {
   return {
@@ -28,5 +28,13 @@ export default class apiRequest {
 
   static delete(path, id) {
     return axios.delete(`${API_URI}/${compact([path, id]).join('/')}`, headers());
+  }
+
+  static authGet(path) {
+    return axios.get(`${UPLOAD_HOST}/${path}`, headers());
+  }
+
+  static authPost(path, data) {
+    return axios.post(`${UPLOAD_HOST}/${path}`, data);
   }
 }
