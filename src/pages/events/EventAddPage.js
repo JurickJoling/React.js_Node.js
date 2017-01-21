@@ -12,13 +12,16 @@ class EventAddPage extends Component {
   };
 
   render() {
-    const { errorMessage, createEvent } = this.props;
+    const { errorMessage, currentUser, createEvent } = this.props;
     return (
       <div className="container">
-        <EventForm errorMessage={errorMessage} onSave={event => createEvent(event)} />
+        <EventForm errorMessage={errorMessage} onSave={event => createEvent(event, currentUser)} />
       </div>
     );
   }
 }
 
-export default connect(({ events: { errorMessage } }) => ({ errorMessage }), { createEvent })(EventAddPage);
+export default connect(({
+  auth: { currentUser },
+  events: { errorMessage }
+}) => ({ errorMessage, currentUser }), { createEvent })(EventAddPage);

@@ -1,4 +1,5 @@
-import moment from 'moment';
+import pickBy from 'lodash/pickBy';
+import isNull from 'lodash/isNull';
 import { browserHistory } from 'react-router';
 
 import { ADD_EVENTS, ADD_EVENT, EVENT_ERROR, SHOW_EVENT, REMOVE_EVENT } from '../constants/Event';
@@ -41,16 +42,25 @@ export function removeEvent(itemId) {
   };
 }
 
-export function fetchEvents({ search, include, order }) {
+export function fetchEvents({ search, include, order }, { is_admin, objectId }) {
+  const user = is_admin ? {} : {
+      __type: 'Pointer',
+      className: 'User',
+      objectId
+    };
+
+  const query = pickBy({
+    $or: search ? [
+        { description: { $regex: search, $options: 'i' } }
+      ] : null,
+    user: is_admin ? null : user
+  }, v => !isNull(v));
+
   const url = [
     'Event?count=1',
     order ? `&order=${order}` : null,
     include ? `&include=${include}` : null,
-    search ? `&where=${JSON.stringify({
-        $or: [
-          { description: { $regex: search, $options: 'i' } }
-        ]
-      })}` : null
+    `&where=${JSON.stringify(query)}`
   ].join('');
 
   return dispatch => apiRequest.get(url)
@@ -63,7 +73,7 @@ export function fetchEvent(itemId) {
     .catch(() => browserHistory.push('/not-found'));
 }
 
-export function createEvent(event) {
+export function createEvent(event, { objectId }) {
   return dispatch => apiRequest.post('Event', {
     ...event,
     location: event.location ? {
@@ -76,6 +86,11 @@ export function createEvent(event) {
         className: 'Special',
         objectId: event.special.objectId
       } : null,
+    user: {
+      __type: 'Pointer',
+      className: 'User',
+      objectId
+    },
   })
     .then(() => browserHistory.push('/events'))
     .catch(({ response: { data: { error } } }) => dispatch(eventError(error)));

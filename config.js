@@ -19,5 +19,11 @@ module.exports = {
 
   parseHostURI: `http://${process.env.API_HOST}/parse/classes`,
   parseApplicationId: process.env.PARSE_APPLICATION_ID,
-  parseMasterKey: process.env.PARSE_MASTER_KEY
+  parseMasterKey: process.env.PARSE_MASTER_KEY,
+
+  // Twilio
+
+  twilioAccountSid: process.env.TWILIO_ACCOUNT_SID,
+  twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,
+  twilioPhone: process.env.TWILIO_PHONE,
 };
