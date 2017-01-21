@@ -9,7 +9,7 @@ import { renderDate } from '../../../utils';
 
 function UsersList({ items }) {
   return (
-    <table className="table table-bordered table-hover">
+    <table className="table table-bordered table-hover table-striped table-responsive">
       <thead>
       <tr>
         <th>First Name</th>

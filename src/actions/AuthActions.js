@@ -64,7 +64,6 @@ export function facebookLoginUser({ email, accessToken }) {
 export function signinUser({ email, password }) {
   return dispatch => apiRequest.authPost('signin', { email, password })
     .then(({ data: { token, user } }) => {
-      console.log('user', user);
       dispatch(authUser({
         email,
         accessToken: token,

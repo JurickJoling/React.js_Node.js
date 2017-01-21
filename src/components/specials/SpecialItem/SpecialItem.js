@@ -13,7 +13,7 @@ function SpecialItem({
   return (
     <div>
       <h1>Special #{objectId}</h1>
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-hover table-striped table-responsive">
         <tbody>
         <tr>
           <td>ObjectId</td>
@@ -59,7 +59,7 @@ function SpecialItem({
           <td>Days</td>
           <td>
             {size(days || []) > 0 ? (
-              <table className="table table-bordered table-striped table-hover">
+              <table className="table table-bordered table-hover table-striped table-responsive">
                 <tbody>
                 {days.map(({ day, start, end }, index) => (
                   <tr key={index}>

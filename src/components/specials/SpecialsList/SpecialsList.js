@@ -10,7 +10,7 @@ function SpecialsList({ items }) {
 
   if (size(items) > 0) {
     return (
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-hover table-striped table-responsive">
         <thead>
         <tr>
           <th>Incentive Name</th>
@@ -47,7 +47,7 @@ function SpecialsList({ items }) {
                     placement="left"
                     overlay={(
                       <Popover id={`special-${objectId}-days`} title="Days">
-                        <table className="table table-hover table-bordered table-striped">
+                        <table className="table table-bordered table-hover table-striped table-responsive">
                           <tbody>
                           {(days || []).map(({ day, start, end }, index) => (
                             <tr key={index}>

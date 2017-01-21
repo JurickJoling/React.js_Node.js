@@ -11,11 +11,10 @@ function EventItem({
     boost_invites_sent, boost_invites_accepted, boost_attendees, special, createdAt
   }
 }) {
-  console.log(location, special);
   return (
     <div>
       <h1>Event #{objectId}</h1>
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-hover table-striped table-responsive">
         <tbody>
         <tr>
           <td>ObjectId</td>
@@ -29,7 +28,7 @@ function EventItem({
           <td>Dates</td>
           <td>
             {size(dates || []) > 0 ? (
-                <table className="table table-bordered table-striped table-hover">
+                <table className="table table-bordered table-hover table-striped table-responsive">
                   <tbody>
                   {dates.map(({ date, name, start, end }, index) => (
                     <tr key={index}>

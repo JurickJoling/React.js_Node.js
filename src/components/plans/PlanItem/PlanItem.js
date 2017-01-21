@@ -18,7 +18,7 @@ function PlanItem({
   return (
     <div>
       <h1>Plan #{objectId}</h1>
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-hover table-striped table-responsive">
         <tbody>
         <tr>
           <td>ObjectId</td>
@@ -102,7 +102,7 @@ function PlanItem({
           <td>Locations</td>
           <td>
             {locations && size(locations) > 0 ? (
-              <table className="table table-hover table-striped table-bordered">
+                <table className="table table-bordered table-hover table-striped table-responsive">
                 <tbody>
                 {locations.map(({ location, time }, index) => (
                   <tr key={index}>

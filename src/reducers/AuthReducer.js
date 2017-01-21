@@ -1,4 +1,4 @@
-import { AUTH_USER, LOGOUT_USER, AUTH_ERROR } from '../constants/Auth';
+import { AUTH_USER, UPDATE_CURRENT_USER, LOGOUT_USER, AUTH_ERROR } from '../constants/Auth';
 
 const defaultState = {
   isAuthenticated: false,
@@ -10,6 +10,8 @@ export default function AuthReducer(state = defaultState, { type, currentUser, e
   switch (type) {
     case AUTH_USER:
       return { ...state, isAuthenticated: true, currentUser };
+    case UPDATE_CURRENT_USER:
+      return { ...state, currentUser };
     case LOGOUT_USER:
       return { ...state, isAuthenticated: false, errorMessage: null, currentUser: {} };
     case AUTH_ERROR:

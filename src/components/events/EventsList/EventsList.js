@@ -8,7 +8,7 @@ function EventsList({ items }) {
 
   if (size(items) > 0) {
     return (
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-hover table-striped table-responsive">
         <thead>
         <tr>
           <th>Event Type</th>
@@ -32,7 +32,7 @@ function EventsList({ items }) {
             <td>{event_type ? event_type.name : null}</td>
             <td>
               {size(dates || []) > 0 ? (
-                  <table className="table table-bordered table-striped table-hover">
+                  <table className="table table-bordered table-hover table-striped table-responsive">
                     <tbody>
                     {(dates || []).map(({ date, name, start, end }, index) => (
                       <tr key={index}>

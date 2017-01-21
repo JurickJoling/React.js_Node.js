@@ -8,6 +8,7 @@ export { default as DataTable } from './DataTable/DataTable';
 export { default as SearchForm } from './SearchForm/SearchForm';
 
 export { SigninForm, SignupForm } from './auth';
+export { ProfileForm } from './profile';
 export { BundlesList, BundleItem, BundleForm, BundleDelete } from './bundles';
 export { PlansList, PlanItem, PlanForm, PlanDelete } from './plans';
 export { EventsList, EventItem, EventForm, EventDelete } from './events';

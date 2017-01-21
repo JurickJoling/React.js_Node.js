@@ -5,7 +5,7 @@ import { LinkTo } from '../../../helpers';
 
 function BundlesList({ items }) {
   return (
-    <table className="table table-bordered table-hover">
+    <table className="table table-bordered table-hover table-striped table-responsive">
       <thead>
       <tr>
         <th>Heading</th>

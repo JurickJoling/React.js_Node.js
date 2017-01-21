@@ -14,7 +14,7 @@ class DataTable extends Component {
     const { item } = this.props;
 
     return (
-      <table className="table table-hover table-striped table-bordered">
+      <table className="table table-bordered table-hover table-striped table-responsive">
         <tbody>
           <tr>
             <td>Users</td>
@@ -23,7 +23,7 @@ class DataTable extends Component {
           <tr>
             <td>Ages</td>
             <td>
-              <table className="table table-hover table-striped table-bordered">
+              <table className="table table-bordered table-hover table-striped table-responsive">
                 <tbody>
                   {take(item.users_ages || [], 10).map(({ age, per_cent }, index) => (
                     <tr key={index}>
