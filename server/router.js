@@ -23,4 +23,6 @@ module.exports = app => {
   app.post('/yelp', yelpController.index);
   app.get('/yelp/:id', yelpController.show);
   app.post('/twilio', twilioController.index);
+  app.post('/twilio/test', twilioController.test);
+  app.get('/twilio/:code', twilioController.show);
 };

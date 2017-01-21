@@ -6,6 +6,7 @@ const fileUpload = require('express-fileupload');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
 
@@ -20,7 +21,19 @@ const app = new Express();
 
 mongoose.connect(config.mongodb, { auth: { authdb: 'admin' } });
 
-app.use(morgan('combined'));
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined', {
+    stream: fs.createWriteStream(path.join(__dirname, 'log', 'access.log'), { flags: 'a+' }),
+    skip: (req, res) => (res.statusCode >= 400) })
+  );
+  app.use(morgan('combined', {
+    stream: fs.createWriteStream(path.join(__dirname, 'log', 'error.log'), { flags: 'a+' }),
+    skip: (req, res) => (res.statusCode < 400)
+  }));
+} else {
+  app.use(morgan('dev'));
+}
+
 app.use(bodyParser.json());
 app.use(fileUpload());
 app.use(cors());
