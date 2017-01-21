@@ -8,7 +8,7 @@ import { DataTable } from '../../components';
 
 import { FACEBOOK_APP_ID } from '../../config';
 
-function Dashboard({ isAuthenticated, errorMessage, facebookLoginUser }) {
+function Dashboard({ isAuthenticated, errorMessage, currentUser, facebookLoginUser }) {
   return (
     <div className="container">
       <div className="row">
@@ -28,7 +28,7 @@ function Dashboard({ isAuthenticated, errorMessage, facebookLoginUser }) {
             )}
         </div>
       </div>
-      {isAuthenticated ? <DataTable /> : null}
+      {isAuthenticated && currentUser.is_admin ? <DataTable /> : null}
     </div>
   );
 }
@@ -36,6 +36,7 @@ function Dashboard({ isAuthenticated, errorMessage, facebookLoginUser }) {
 export default connect(({
   auth: {
     isAuthenticated,
-    errorMessage
+    errorMessage,
+    currentUser
   }
-}) => ({ isAuthenticated, errorMessage }), { facebookLoginUser })(Dashboard);
+}) => ({ isAuthenticated, errorMessage, currentUser }), { facebookLoginUser })(Dashboard);

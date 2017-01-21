@@ -13,7 +13,7 @@ const twilioPhone = config.twilioPhone;
 const client = new twilio.RestClient(accountSid, authToken);
 
 module.exports.index = function({ body: { phone, code } }, res, next) {
-  client.makeCall({
+  client.calls.create({
     to: phone,
     from: twilioPhone,
     url: `http://${config.host}${config.port ===  80 ? '' : `:${config.port}`}/twilio/${code}`

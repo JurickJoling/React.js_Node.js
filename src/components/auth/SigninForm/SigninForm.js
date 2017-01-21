@@ -4,14 +4,13 @@ import { Field, reduxForm } from 'redux-form';
 import { renderField } from '../../../helpers';
 
 class SigninForm extends Component {
-
   render() {
     const { errorMessage, handleSubmit, onSignin } = this.props;
 
     return (
       <form onSubmit={handleSubmit(({ email, password }) => onSignin({ email, password }))}>
         <Field name="email" component={renderField} className="form-control" label="Email" />
-        <Field name="password" component={renderField} className="form-control" label="Password" />
+        <Field name="password" component={renderField} className="form-control" label="Password" type="password" />
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}
