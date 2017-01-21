@@ -1,3 +1,4 @@
+const xml = require('xml');
 const twilio = require('twilio');
 
 const config = require('../../config');
@@ -8,39 +9,31 @@ const twilioPhone = config.twilioPhone;
 
 const client = new twilio.RestClient(accountSid, authToken);
 
-module.exports.index = function(req, res) {
-
-  // client.outgoingCallerIds("PN9f3c4ed3f63887fcae3a6c461532d8eb").get(function(err, callerId) {
-  //   console.log('err', err);
-  //   console.log('callerId', callerId);
-  //
-  //   res.send({});
-  // });
-
-
-  // client.outgoingCallerIds.list(function(err, data) {
-  //   console.log('err', err);
-  //   console.log('data', data);
-  //
-  //   data.outgoingCallerIds.forEach(function(callerId) {
-  //     console.log('callerId', callerId);
-  //   });
-  //
-  //   res.send({});
-  // });
-
-
-  //Place a phone call, and respond with TwiML instructions from the given URL
+module.exports.index = function({ body: { phone, code } }, res, next) {
   client.makeCall({
-
-    to: '', // Any number Twilio can call
-    from: twilioPhone, // A number you bought from Twilio and can use for outbound communication
-    url: 'http://www.example.com/twiml.php' // A URL that produces an XML document (TwiML) which contains instructions for the call
-
+    to: phone,
+    from: twilioPhone,
+    url: `http://${config.host}${config.port ===  80 ? '' : `:${config.port}`}/twilio/${code}`
   }, function(err, responseData) {
+    if (err) {
+      console.log('err', err);
+      return next(err);
+    }
+    console.log('responseData', responseData);
 
-    //executed when the call has been initiated.
-    console.log(responseData.from); // outputs "+14506667788"
-
+    return res.send(responseData);
   });
+};
+
+module.exports.show = function(req, res) {
+  res.set('Content-Type', 'text/xml').send(xml({
+    Response: [
+      {
+        Say: [
+          { _attr: { voice: 'woman' } },
+          `Hello! Your code is: ${req.params.code}`
+        ]
+      }
+    ]
+  }, { declaration: true }));
 };
