@@ -12,13 +12,16 @@ class SpecialAddPage extends Component {
   };
 
   render() {
-    const { errorMessage, createSpecial } = this.props;
+    const { errorMessage, currentUser, createSpecial } = this.props;
     return (
       <div className="container">
-        <SpecialForm errorMessage={errorMessage} onSave={special => createSpecial(special)} />
+        <SpecialForm errorMessage={errorMessage} onSave={special => createSpecial(special, currentUser)} />
       </div>
     );
   }
 }
 
-export default connect(({ specials: { errorMessage } }) => ({ errorMessage }), { createSpecial })(SpecialAddPage);
+export default connect(({
+  auth: { currentUser },
+  specials: { errorMessage }
+}) => ({ errorMessage, currentUser }), { createSpecial })(SpecialAddPage);

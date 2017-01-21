@@ -6,7 +6,7 @@ function BundleItem({ item: { objectId, heading, banner, createdAt, updatedAt } 
   return (
     <div>
       <h1>Bundle #{objectId}</h1>
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-hover table-striped table-responsive">
         <tbody>
         <tr>
           <td>ObjectId</td>

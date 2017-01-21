@@ -13,7 +13,7 @@ function LocationItem({
   return (
     <div>
       <h1>Location #{objectId}</h1>
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-hover table-striped table-responsive">
         <tbody>
         <tr>
           <td>ObjectId</td>
@@ -47,7 +47,7 @@ function LocationItem({
           <td>Hours</td>
           <td>
             {size(hours || []) > 0 ? (
-                <table className="table table-bordered table-striped table-hover">
+                <table className="table table-bordered table-hover table-striped table-responsive">
                   <tbody>
                   {hours.map(({ day, start, end }, index) => (
                     <tr key={index}>

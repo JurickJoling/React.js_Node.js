@@ -42,7 +42,7 @@ exports.signup = function({ body: { email, password } }, res, next) {
     bcrypt.hash(password, salt, null, function(err, hash) {
       if (err) { return next(err); }
 
-      axios.post(`${config.parseHostURI}/User`, { user_email: email, password: hash, is_partner: true }, { headers })
+      axios.post(`${config.parseHostURI}/User`, { user_email: email, username: email, password: hash, is_partner: true }, { headers })
         .then(({ data }) => {
 
           axios.get(`${config.parseHostURI}/User?where=${JSON.stringify({ user_email: email })}`, { headers })
@@ -59,19 +59,4 @@ exports.signup = function({ body: { email, password } }, res, next) {
         .catch(() => res.status(500).json({ error: 'Something went wrong' }));
     });
   });
-
-  // User.findOne({ email }, (err, existingUser) => {
-  //   if (err) { return next(err); }
-  //
-  //   if (existingUser) {
-  //     return res.status(422).send({ error: 'Email is in use' });
-  //   }
-  //
-  //   const user = new User({ email, password });
-  //   user.save((err) => {
-  //     if (err) { return next(err); }
-  //
-  //     res.json({ token: tokenForUser(user) });
-  //   });
-  // });
 };

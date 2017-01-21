@@ -5,6 +5,7 @@ const dataController = require('./controllers/data');
 const uploadController = require('./controllers/upload');
 const eventbriteController = require('./controllers/eventbrite');
 const yelpController = require('./controllers/yelp');
+const twilioController = require('./controllers/twilio');
 
 const passportService = require('./services/passport');
 
@@ -21,4 +22,5 @@ module.exports = app => {
   app.get('/eventbrite/events/:id/tickets', eventbriteController.tickets);
   app.post('/yelp', yelpController.index);
   app.get('/yelp/:id', yelpController.show);
+  app.post('/twilio', twilioController.index);
 };

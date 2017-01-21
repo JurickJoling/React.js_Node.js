@@ -64,7 +64,14 @@ export function facebookLoginUser({ email, accessToken }) {
 export function signinUser({ email, password }) {
   return dispatch => apiRequest.authPost('signin', { email, password })
     .then(({ data: { token, user } }) => {
-      dispatch(authUser({ email, accessToken: token, currentUser: user }));
+      dispatch(authUser({
+        email,
+        accessToken: token,
+        currentUser: {
+          ...user,
+          objectId: user._id
+        }
+      }));
       browserHistory.push('/');
     })
     .catch(() => dispatch(authError('Bad Login Info')));
@@ -76,11 +83,7 @@ export function signupUser({ email, password }) {
       dispatch(authUser({ email, accessToken: token, currentUser: user }));
       browserHistory.push('/');
     })
-    .catch(({ response: { data } }) => {
-      console.log('response.data', data);
-
-      dispatch(authError(data.error || 'Bad Login Info'))
-    });
+    .catch(({ response: { data } }) => dispatch(authError(data.error || 'Bad Login Info')));
 }
 
 export function logoutUser() {

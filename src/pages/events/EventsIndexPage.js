@@ -25,8 +25,8 @@ class EventsIndexPage extends Component {
   }
 
   fetchData({ search, order, filters, include }) {
-    const { fetchEvents } = this.props;
-    this.setState({ search, fetched: false }, () => fetchEvents({ order, search, filters, include })
+    const { currentUser, fetchEvents } = this.props;
+    this.setState({ search, fetched: false }, () => fetchEvents({ order, search, filters, include }, currentUser)
       .then(() => this.setState({ fetched: true })));
   }
 
@@ -54,4 +54,7 @@ class EventsIndexPage extends Component {
   }
 }
 
-export default connect(({ events: { items, count } }) => ({ items, count }), { fetchEvents })(EventsIndexPage);
+export default connect(({
+  auth: { currentUser },
+  events: { items, count }
+}) => ({ items, count, currentUser }), { fetchEvents })(EventsIndexPage);

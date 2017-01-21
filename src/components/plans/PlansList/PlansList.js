@@ -4,9 +4,9 @@ import React, { PropTypes } from 'react';
 import { LinkTo } from '../../../helpers';
 import { renderDate } from '../../../utils';
 
-function PlansList({ items, onFilterSelected }) {
+function PlansList({ items }) {
   return (
-    <table className="table table-striped table-bordered table-hover">
+    <table className="table table-bordered table-hover table-striped table-responsive">
       <thead>
       <tr>
         <th>Banner</th>
