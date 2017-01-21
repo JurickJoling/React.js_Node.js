@@ -1,6 +1,9 @@
 const xml = require('xml');
 const twilio = require('twilio');
 
+const fs = require('fs');
+const path = require('path');
+
 const config = require('../../config');
 
 const accountSid = config.twilioAccountSid;
@@ -36,4 +39,16 @@ module.exports.show = function(req, res) {
       }
     ]
   }, { declaration: true }));
+};
+
+module.exports.test = function(req, res, next) {
+  const fileName = path.join(__dirname, '..', '..', 'log', 'twilio.log');
+  fs.writeFile(fileName, `\n${JSON.stringify(req.body)}`, { flag: 'a' }, function (err) {
+    if (err) {
+      console.log('err', err);
+      return next(err);
+    }
+
+    return res.send({});
+  });
 };
