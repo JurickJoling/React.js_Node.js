@@ -6,6 +6,7 @@ const uploadController = require('./controllers/upload');
 const eventbriteController = require('./controllers/eventbrite');
 const yelpController = require('./controllers/yelp');
 const twilioController = require('./controllers/twilio');
+const searchController = require('./controllers/search');
 
 const passportService = require('./services/passport');
 
@@ -25,4 +26,5 @@ module.exports = app => {
   app.post('/twilio', twilioController.index);
   app.post('/twilio/test', twilioController.test);
   app.get('/twilio/:code', twilioController.show);
+  app.get('/search', searchController.index);
 };
