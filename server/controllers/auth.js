@@ -23,7 +23,18 @@ exports.signin = function(req, res) {
   res.send({ token: tokenForUser(req.user), user: req.user });
 };
 
-exports.signup = function({ body: { email, password } }, res, next) {
+exports.signup = function({
+  body: {
+    email,
+    password,
+    first_name,
+    phone,
+    address,
+    category_type,
+    business_id,
+    business_type
+  }
+}, res, next) {
   if (!email || !password) {
     return res.status(422).send({ error: 'You must provide email and password' });
   }
@@ -42,7 +53,18 @@ exports.signup = function({ body: { email, password } }, res, next) {
     bcrypt.hash(password, salt, null, function(err, hash) {
       if (err) { return next(err); }
 
-      axios.post(`${config.parseHostURI}/User`, { user_email: email, username: email, password: hash, is_partner: true }, { headers })
+      axios.post(`${config.parseHostURI}/User`, {
+        user_email: email,
+        username: email,
+        password: hash,
+        is_partner: true,
+        first_name,
+        phone,
+        address,
+        category_type,
+        business_id,
+        business_type
+      }, { headers })
         .then(({ data }) => {
 
           axios.get(`${config.parseHostURI}/User?where=${JSON.stringify({ user_email: email })}`, { headers })

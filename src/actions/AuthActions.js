@@ -1,5 +1,7 @@
 import first from 'lodash/first';
 import Promise from 'bluebird';
+import cookie from 'react-cookie';
+import { Base64 } from 'js-base64';
 import { browserHistory } from 'react-router';
 
 import { AUTH_USER, LOGOUT_USER, AUTH_ERROR } from '../constants/Auth';
@@ -78,7 +80,22 @@ export function signinUser({ email, password }) {
 }
 
 export function signupUser({ email, password }) {
-  return dispatch => apiRequest.authPost('signup', { email, password })
+  const encodedBusiness = cookie.load('business');
+  const business = encodedBusiness ? JSON.parse(Base64.decode(encodedBusiness)) : {};
+  console.log('business', business);
+
+  const { id, name, phone, address, category, type } = business;
+
+  return dispatch => apiRequest.authPost('signup', {
+    email,
+    password,
+    first_name: name,
+    phone,
+    address,
+    category_type: category,
+    business_id: id,
+    business_type: type
+  })
     .then(({ data: { token, user } }) => {
       dispatch(authUser({ email, accessToken: token, currentUser: user }));
       browserHistory.push('/');
