@@ -82,7 +82,7 @@ export function signinUser({ email, password }) {
 export function signupUser({ email, password }) {
   const encodedBusiness = cookie.load('business');
   const business = encodedBusiness ? JSON.parse(Base64.decode(encodedBusiness)) : {};
-  console.log('cookie', encodedBusiness, Base64.decode(encodedBusiness));
+  console.log('business', business);
 
   const { id, name, phone, address, category, type } = business;
 
