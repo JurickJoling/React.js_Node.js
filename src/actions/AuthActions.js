@@ -84,7 +84,18 @@ export function signupUser({ email, password }) {
   const business = encodedBusiness ? JSON.parse(Base64.decode(encodedBusiness)) : {};
   console.log('cookie', encodedBusiness, Base64.decode(encodedBusiness));
 
-  return dispatch => apiRequest.authPost('signup', { email, password, name: business.name })
+  const { id, name, phone, address, category, type } = business;
+
+  return dispatch => apiRequest.authPost('signup', {
+    email,
+    password,
+    first_name: name,
+    phone,
+    address,
+    category_type: category,
+    business_id: id,
+    business_type: type
+  })
     .then(({ data: { token, user } }) => {
       dispatch(authUser({ email, accessToken: token, currentUser: user }));
       browserHistory.push('/');
