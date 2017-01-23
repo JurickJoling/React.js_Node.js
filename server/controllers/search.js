@@ -1,4 +1,7 @@
+const compact = require('lodash/compact');
 const size = require('lodash/size');
+const isObject = require('lodash/isObject');
+const { Base64 } = require('js-base64');
 const axios = require('axios');
 const Yelp = require('yelp');
 const YelpV3 = require('yelp-v3');
@@ -22,33 +25,66 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
+function addBase64Id(obj) {
+  return {
+    ...obj,
+    id: Base64.encode(JSON.stringify(obj))
+  };
+}
+
 module.exports.index = function(req, res) {
-  const { term, location } = req.query;
+  const { term, location, page } = req.query;
 
-  console.log('term, location', term, location);
+  // const url = `${config.parseHostURI}/Location?count=1&where=${JSON.stringify({
+  //   name: { $regex: term, $options: 'i' },
+  //   metro_city: { $regex: location, $options: 'i' }
+  // })}`;
 
-  const url = `${config.parseHostURI}/Location?where=${JSON.stringify({
-    name: { $regex: term, $options: 'i' },
-    metro_city: location 
-  })}`;
+  const limit = 50;
 
-  console.log('url', url);
+  const url = [
+    `${config.parseHostURI}/Location?count=1`,
+    limit ? `&limit=${limit}` : null,
+    page && (page > 1) ? `&skip=${(page - 1) * limit}` : null,
+    `&where=${JSON.stringify({
+      name: { $regex: term, $options: 'i' },
+      metro_city: { $regex: location, $options: 'i' }
+    })}`
+  ].join('');
 
   axios.get(url, { headers })
-    .then(({ data: { results } }) => {
+    .then(({ data: { results, count } }) => {
 
 
       if (size(results) > 0) {
-        console.log('results', results);
+        console.log('count', count);
 
-        res.json(results);
+        res.json({
+          total_count: count,
+          items: results.map(({ objectId, name, phone, address, category }) => addBase64Id({
+            id: objectId,
+            name,
+            phone,
+            address,
+            category,
+            type: 'Location'
+          }))
+        });
       } else {
-        yelpV3.search({ term, location })
-          .then(data => {
+        yelpV3.search({ term, location, limit, offset: page ? (page - 1) * limit : null })
+          .then(({ businesses, total }) => {
 
-            console.log('data', data);
-
-            res.json(data);
+            res.json({
+              total_count: total,
+              items: businesses.map(({ id, name, phone, location, categories }) => addBase64Id({
+                id,
+                name,
+                phone,
+                address: isObject(location) ? compact([location.address1, location.address2, location.address3]).join(', ') : null,
+                category: (categories || []).map(c => c.title).join(', '),
+                type: 'Yelp'
+              }))
+            });
           })
           .catch(err => {
             console.log('err', err);
