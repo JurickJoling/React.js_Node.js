@@ -61,7 +61,7 @@ $(function() {
     var business = JSON.parse(Base64.decode($('select[name=business_name]').val()));
 
     $('.js-business-phone').text(business.phone);
-    $('.js-business-mail').text('Mail to: ' + business.email);
+    $('.js-business-mail').text('Mail to: ' + business.email || '');
     $('#verify-modal').modal();
   });
 
@@ -159,14 +159,14 @@ $(function() {
     mailSuccessMessage.hide();
     mailErrorMessage.hide();
 
-    setTimeout(function () {
-      mailErrorMessage.hide();
-      mailSuccessMessage.show();
-    }, 1000);
+    // setTimeout(function () {
+    //   mailErrorMessage.hide();
+    //   mailSuccessMessage.show();
+    // }, 1000);
 
     setTimeout(function () {
       mailSuccessMessage.hide();
       mailErrorMessage.show();
-    }, 3000);
+    }, 1000);
   })
 });

@@ -35,11 +35,6 @@ function addBase64Id(obj) {
 module.exports.index = function(req, res) {
   const { term, location, page } = req.query;
 
-  // const url = `${config.parseHostURI}/Location?count=1&where=${JSON.stringify({
-  //   name: { $regex: term, $options: 'i' },
-  //   metro_city: { $regex: location, $options: 'i' }
-  // })}`;
-
   const limit = 50;
 
   const url = [
