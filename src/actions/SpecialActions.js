@@ -45,7 +45,7 @@ export function removeSpecial(itemId) {
 export function fetchSpecials({ search, include, order }, { is_admin, objectId }) {
   const user = is_admin ? {} : {
     __type: 'Pointer',
-    className: 'User',
+    className: 'Partner',
     objectId
   };
 
@@ -79,7 +79,7 @@ export function createSpecial(special, { objectId }) {
     status: 'active',
     user: {
       __type: 'Pointer',
-      className: 'User',
+      className: 'Partner',
       objectId
     },
   })
