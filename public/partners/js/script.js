@@ -61,6 +61,7 @@ $(function() {
     var business = JSON.parse(Base64.decode($('select[name=business_name]').val()));
 
     $('.js-business-phone').text(business.phone);
+    $('.js-business-mail').text('Mail to: ' + business.email);
     $('#verify-modal').modal();
   });
 
@@ -94,14 +95,24 @@ $(function() {
     }
   });
 
+  $(document).on('click', '.js-verify-phone', function (e) {
+    e.preventDefault();
+
+    $('.js-business-phone').show();
+    $('.js-call').show();
+
+  });
+
   $(document).on('click', '.js-call', function (e) {
     e.preventDefault();
 
     var business = JSON.parse(Base64.decode($('select[name=business_name]').val()));
+    var callMeButton = $('.js-call');
     var codeInput = $('input[name=code]');
     var loadingSpan = $('.js-loading');
     var callErrorMessage = $('.js-call-error');
 
+    codeInput.show();
     codeInput.removeAttr('disabled');
 
     code = getRandomIntInclusive(10000, 99999);
@@ -118,6 +129,7 @@ $(function() {
       },
       success: function (data) {
         setTimeout(function () {
+          callMeButton.text('Call Me Again');
           loadingSpan.hide();
         }, 1000);
       },
@@ -129,4 +141,32 @@ $(function() {
       }
     });
   });
+
+  $(document).on('click', '.js-verify-mail', function (e) {
+    e.preventDefault();
+
+    $('.js-business-mail').show();
+    $('.js-mail').show();
+  });
+
+  $(document).on('click', '.js-mail', function (e) {
+    e.preventDefault();
+
+    var business = JSON.parse(Base64.decode($('select[name=business_name]').val()));
+    var mailSuccessMessage = $('.js-mail-success');
+    var mailErrorMessage = $('.js-mail-error');
+
+    mailSuccessMessage.hide();
+    mailErrorMessage.hide();
+
+    setTimeout(function () {
+      mailErrorMessage.hide();
+      mailSuccessMessage.show();
+    }, 1000);
+
+    setTimeout(function () {
+      mailSuccessMessage.hide();
+      mailErrorMessage.show();
+    }, 3000);
+  })
 });

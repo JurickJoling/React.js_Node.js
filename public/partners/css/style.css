@@ -18,6 +18,15 @@ header {
     background-size: cover;
 }
 
+.main-logo {
+    max-width: 91px;
+}
+
+.business-phone {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .navbar-brand {
     padding: 5px;
 }

@@ -62,8 +62,8 @@ export function fetchPlans({ search, include, order, limit, page }) {
     .then(({ data: { results, count } }) => dispatch(addPlans(results, count)));
 }
 
-export function fetchPlan(itemId) {
-  return dispatch => apiRequest.get('EventDetail', itemId)
+export function fetchPlan(itemId, { include = 'locations.location' }) {
+  return dispatch => apiRequest.get('EventDetail', itemId, `?include="${include}"`)
     .then(({ data }) => dispatch(showPlan(data)))
     .catch(() => browserHistory.push('/not-found'));
 }
@@ -76,6 +76,7 @@ export function createPlan({
   reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
   featured, featured_name, featured_link, first_message
 }) {
+  console.log('locations', locations);
   return dispatch => apiRequest.post('EventDetail', {
     bundle: bundle ? {
       __type: 'Pointer',
@@ -90,8 +91,16 @@ export function createPlan({
       __type: 'Date',
       iso: end_day
     } : null,
+    locations: (locations || []).map(l => ({
+      time: l.time,
+      location: {
+        __type: 'Pointer',
+        className: 'Location',
+        objectId: l.location.objectId
+      }
+    })),
     title_event, description_event, image, type_event,
-    tags, locations, location,
+    tags, location,
     partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost,
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     featured, featured_name, featured_link, first_message
@@ -140,8 +149,16 @@ export function updatePlan(itemID, {
         __type: 'Date',
         iso: end_day
       } : null,
+    locations: (locations || []).map(l => ({
+      time: l.time,
+      location: {
+        __type: 'Pointer',
+        className: 'Location',
+        objectId: l.location.objectId
+      }
+    })),
     title_event, description_event, image, type_event,
-    tags, locations, location,
+    tags, location,
     partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost,
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
     featured, featured_name, featured_link, first_message
