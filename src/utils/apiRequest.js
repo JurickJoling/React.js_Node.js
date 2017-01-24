@@ -34,6 +34,10 @@ export default class apiRequest {
     return axios.get(`${UPLOAD_HOST}/${path}`, headers());
   }
 
+  static authToken(token) {
+    return axios.get(`${UPLOAD_HOST}/token`, { headers: { authorization: token } });
+  }
+
   static authPost(path, data) {
     return axios.post(`${UPLOAD_HOST}/${path}`, data);
   }

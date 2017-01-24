@@ -6,7 +6,7 @@ const jwt = require('jwt-simple');
 
 const config = require('../../config');
 
-const User = require('../models/user');
+const Partner = require('../models/partner');
 
 const headers = {
   'X-Parse-Application-Id': config.parseApplicationId,
@@ -14,13 +14,17 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-function tokenForUser(user) {
+function tokenForPartner(partner) {
   const timestamp = new Date().getTime();
-  return jwt.encode({ sub: user._id, iat: timestamp }, config.authSecret);
+  return jwt.encode({ sub: partner._id, iat: timestamp }, config.authSecret);
 }
 
+exports.token = function (req, res) {
+  res.send({ token: tokenForPartner(req.user), user: req.user });
+};
+
 exports.signin = function(req, res) {
-  res.send({ token: tokenForUser(req.user), user: req.user });
+  res.send({ token: tokenForPartner(req.user), user: req.user });
 };
 
 exports.signup = function({
@@ -39,10 +43,10 @@ exports.signup = function({
     return res.status(422).send({ error: 'You must provide email and password' });
   }
 
-  User.findOne({ user_email: email }, (err, existingUser) => {
+  Partner.findOne({ email }, (err, existingPartner) => {
     if (err) { return next(err); }
 
-    if (existingUser) {
+    if (existingPartner) {
       return res.status(422).send({ error: 'Email is in use' });
     }
   });
@@ -53,9 +57,8 @@ exports.signup = function({
     bcrypt.hash(password, salt, null, function(err, hash) {
       if (err) { return next(err); }
 
-      axios.post(`${config.parseHostURI}/User`, {
-        user_email: email,
-        username: email,
+      axios.post(`${config.parseHostURI}/Partner`, {
+        email,
         password: hash,
         is_partner: true,
         first_name,
@@ -67,10 +70,10 @@ exports.signup = function({
       }, { headers })
         .then(({ data }) => {
 
-          axios.get(`${config.parseHostURI}/User?where=${JSON.stringify({ user_email: email })}`, { headers })
+          axios.get(`${config.parseHostURI}/Partner?where=${JSON.stringify({ email })}`, { headers })
             .then(response =>
               res.json({
-                token: tokenForUser(data.objectId),
+                token: tokenForPartner(data.objectId),
                 user: omit(first(response.data.results), 'password') || data
               })
             )
