@@ -45,6 +45,7 @@ class PlanForm extends Component {
     }, initialize } = this.props;
 
     if (!isEmpty(item)) {
+      console.log('locations', locations);
       initialize({
         bundle: bundle ? { objectId: bundle.objectId } : null,
         start_day: (start_day ? start_day.iso : null),

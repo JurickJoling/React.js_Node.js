@@ -1,16 +1,19 @@
 import first from 'lodash/first';
 import Promise from 'bluebird';
+import cookie from 'react-cookie';
+import { Base64 } from 'js-base64';
 import { browserHistory } from 'react-router';
 
 import { AUTH_USER, LOGOUT_USER, AUTH_ERROR } from '../constants/Auth';
 
 import { apiRequest } from '../utils';
 
-export function authUser({ email, accessToken }) {
+export function authUser({ email, accessToken, currentUser }) {
   localStorage.setItem('email', email);
   localStorage.setItem('token', accessToken);
   return {
-    type: AUTH_USER
+    type: AUTH_USER,
+    currentUser
   };
 }
 
@@ -34,7 +37,7 @@ export function validateToken() {
           const user = first(results);
 
           if (count === 1 && user.is_admin !== 'no') {
-            return dispatch(authUser({ email, accessToken }));
+            return dispatch(authUser({ email, accessToken, currentUser: user }));
           } else {
             return dispatch(logoutUser());
           }
@@ -53,20 +56,51 @@ export function facebookLoginUser({ email, accessToken }) {
       const user = first(results);
 
       if (count === 1 && user.is_admin !== 'no') {
-        dispatch(authUser({ email, accessToken }))
+        dispatch(authUser({ email, accessToken, currentUser: user }))
       } else {
         dispatch(authError('Bad Login Info'))
       }
     });
 }
 
-export function signupUser({ email, password }) {
-  return dispatch => apiRequest.authPost('signup', { email, password })
-    .then(({ data: { jwt } }) => {
-      dispatch(authUser({ email, jwt }));
+export function signinUser({ email, password }) {
+  return dispatch => apiRequest.authPost('signin', { email, password })
+    .then(({ data: { token, user } }) => {
+      dispatch(authUser({
+        email,
+        accessToken: token,
+        currentUser: {
+          ...user,
+          objectId: user._id
+        }
+      }));
       browserHistory.push('/');
     })
-    .catch(({ data: { error } }) => dispatch(authError(error)));
+    .catch(() => dispatch(authError('Bad Login Info')));
+}
+
+export function signupUser({ email, password }) {
+  const encodedBusiness = cookie.load('business');
+  const business = encodedBusiness ? JSON.parse(Base64.decode(encodedBusiness)) : {};
+  console.log('business', business);
+
+  const { id, name, phone, address, category, type } = business;
+
+  return dispatch => apiRequest.authPost('signup', {
+    email,
+    password,
+    first_name: name,
+    phone,
+    address,
+    category_type: category,
+    business_id: id,
+    business_type: type
+  })
+    .then(({ data: { token, user } }) => {
+      dispatch(authUser({ email, accessToken: token, currentUser: user }));
+      browserHistory.push('/');
+    })
+    .catch(({ response: { data } }) => dispatch(authError(data.error || 'Bad Login Info')));
 }
 
 export function logoutUser() {

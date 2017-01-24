@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { browserHistory } from 'react-router';
 
+import { UPDATE_CURRENT_USER } from '../constants/Auth';
 import { ADD_USERS, ADD_USER, USER_ERROR, SHOW_USER, REMOVE_USER } from '../constants/User';
 
 import { apiRequest } from '../utils';
@@ -31,6 +32,13 @@ export function showUser(item = {}) {
   return {
     type: SHOW_USER,
     item
+  };
+}
+
+export function updateCurrentUser(currentUser = {}) {
+  return {
+    type: UPDATE_CURRENT_USER,
+    currentUser
   };
 }
 
@@ -82,6 +90,16 @@ export function updateUser(itemID, user) {
     birthday: user.birthday ? moment(user.birthday).format('MM/DD/YYYY') : null
   })
     .then(() => browserHistory.push('/users'))
+    .catch(({ response: { data: { error } } }) => dispatch(userError(error)));
+}
+
+export function updateProfile(itemID, user, currentUser) {
+  return dispatch => apiRequest.put('User', itemID, user)
+    .then(() => dispatch(updateCurrentUser({
+      ...currentUser,
+      ...user
+    })))
+    .then(() => browserHistory.push('/profile'))
     .catch(({ response: { data: { error } } }) => dispatch(userError(error)));
 }
 

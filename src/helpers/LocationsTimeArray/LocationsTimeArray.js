@@ -36,9 +36,6 @@ export default class LocationsTimeArray extends Component {
     const { input, label, meta: { touched, error, warning }, data } = this.props;
     const { value, values } = this.state;
 
-    console.log('value', value);
-    console.log('values', values);
-
     return (
       <fieldset className={cl('form-group', {'has-error': (touched && error)})}>
         {label ? <label>{label}</label> : null}

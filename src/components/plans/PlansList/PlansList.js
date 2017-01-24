@@ -1,12 +1,12 @@
-import first from 'lodash/first';
+import compact from 'lodash/compact';
 import React, { PropTypes } from 'react';
 
 import { LinkTo } from '../../../helpers';
 import { renderDate } from '../../../utils';
 
-function PlansList({ items, onFilterSelected }) {
+function PlansList({ items }) {
   return (
-    <table className="table table-striped table-bordered table-hover">
+    <table className="table table-bordered table-hover table-striped table-responsive">
       <thead>
       <tr>
         <th>Banner</th>
@@ -44,7 +44,7 @@ function PlansList({ items, onFilterSelected }) {
           </td>
           <td>{title_event}</td>
           <td>{(tags || []).join(', ')}</td>
-          <td>{first(locations) ? first(locations).neighborhood : null}</td>
+          <td>{compact((locations || []).map(l => l.location ? l.location.neighborhood : null)).join(', ')}</td>
           <td>{start_day ? renderDate(start_day.iso) : null}</td>
           <td>{end_day ? renderDate(end_day.iso) : null}</td>
           <td>

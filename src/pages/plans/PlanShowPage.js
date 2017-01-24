@@ -20,7 +20,7 @@ class PlanShowPage extends Component {
 
   componentDidMount() {
     const { params: { itemID }, fetchPlan } = this.props;
-    fetchPlan(itemID).then(() => this.setState({ fetched: true }));
+    fetchPlan(itemID, {}).then(() => this.setState({ fetched: true }));
   }
 
   render() {

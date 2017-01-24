@@ -5,7 +5,7 @@ import { renderDate } from '../../../utils';
 
 function LocationsList({ items }) {
   return (
-    <table className="table table-bordered table-hover">
+    <table className="table table-bordered table-hover table-striped table-responsive">
       <thead>
       <tr>
         <th>Name</th>

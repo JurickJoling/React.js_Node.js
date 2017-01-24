@@ -24,10 +24,10 @@ class EventForm extends Component {
   state = {};
 
   componentDidMount() {
-    const { fetchLocations, fetchSpecials } = this.props;
+    const { currentUser, fetchLocations, fetchSpecials } = this.props;
     Promise.all([
       fetchLocations({}),
-      fetchSpecials({})
+      fetchSpecials({}, currentUser)
     ]).then(() => this.handleInitialize());
   }
 
@@ -229,6 +229,7 @@ EventForm.propTypes = {
 
 
 export default connect(({
+  auth: { currentUser },
   specials: { items: specials },
   locations: { items: locations },
-}) => ({ specials, locations }), ({ fetchLocations, fetchSpecials }))(reduxForm({ form: 'event' })(EventForm));
+}) => ({ specials, locations, currentUser }), ({ fetchLocations, fetchSpecials }))(reduxForm({ form: 'event' })(EventForm));

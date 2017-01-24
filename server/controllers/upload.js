@@ -1,4 +1,6 @@
 const max = require('lodash/max');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = function(req, res) {
   let sampleFile;
@@ -9,7 +11,7 @@ module.exports = function(req, res) {
   }
 
   sampleFile = req.files.file;
-  const uploadFolder = path.join(__dirname, '..', 'public', 'uploads', 'specials');
+  const uploadFolder = path.join(__dirname, '..', '..', 'public', 'uploads', 'specials');
 
   fs.readdir(uploadFolder, (err, folders) => {
     if (err) { return res.status(500).send(err); }

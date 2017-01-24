@@ -19,7 +19,7 @@ class PlansIndexPage extends Component {
     limit: 30,
     page: 1,
     order: '-createdAt',
-    include: 'bundle'
+    include: 'bundle,locations.location'
   };
 
   componentDidMount() {

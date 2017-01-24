@@ -24,8 +24,8 @@ class SpecialsIndexPage extends Component {
   }
 
   fetchData({ search, order, filters, include }) {
-    const { fetchSpecials } = this.props;
-    this.setState({ search, fetched: false }, () => fetchSpecials({ order, search, filters })
+    const { currentUser, fetchSpecials } = this.props;
+    this.setState({ search, fetched: false }, () => fetchSpecials({ order, search, filters }, currentUser)
       .then(() => this.setState({ fetched: true })));
   }
 
@@ -53,4 +53,7 @@ class SpecialsIndexPage extends Component {
   }
 }
 
-export default connect(({ specials: { items, count } }) => ({ items, count }), { fetchSpecials })(SpecialsIndexPage);
+export default connect(({
+  auth: { currentUser },
+  specials: { items, count }
+}) => ({ items, count, currentUser }), { fetchSpecials })(SpecialsIndexPage);
