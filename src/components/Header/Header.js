@@ -1,4 +1,6 @@
 import React from 'react';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { browserHistory } from 'react-router';
 import cl from 'classnames';
 
 import { LinkTo } from '../../helpers';
@@ -6,68 +8,65 @@ import { isActive } from '../../utils';
 
 function Header({ isAuthenticated, currentUser, logoutUser }) {
   return (
-    <nav className="navbar navbar-default">
-      <div className="container-fluid">
-        <div className="navbar-header">
+    <Navbar collapseOnSelect>
+      <Navbar.Header>
+        <Navbar.Brand>
           <LinkTo className="navbar-brand" href="#">Leaf Admin</LinkTo>
-        </div>
-        <div className="collapse navbar-collapse">
-          {isAuthenticated ? (
-            <ul className="nav navbar-nav">
+        </Navbar.Brand>
+        <Navbar.Toggle />
+      </Navbar.Header>
+      <Navbar.Collapse>
+        {isAuthenticated ? (
+            <Nav>
               {currentUser.is_admin ? (
-                  <li className={cl({ active: isActive('bundles') })}>
-                    <LinkTo href="bundles">Bundles</LinkTo>
-                  </li>
-                ) : null}
+                <NavItem active={isActive('bundles')} href="/bundles" onSelect={() => browserHistory.push('/bundles')}>
+                  Bundles
+                </NavItem>
+              ) : null}
               {currentUser.is_admin ? (
-                  <li className={cl({ active: isActive('plans') })}>
-                    <LinkTo href="plans">Plans</LinkTo>
-                  </li>
+                  <NavItem active={isActive('plans')} href="/plans" onSelect={() => browserHistory.push('/plans')}>
+                    Plans
+                  </NavItem>
                 ) : null}
               {currentUser.is_admin || currentUser.is_partner ? (
-                  <li className={cl({ active: isActive('events') })}>
-                    <LinkTo href="events">Events</LinkTo>
-                  </li>
+                  <NavItem active={isActive('events')} href="/events" onSelect={() => browserHistory.push('/events')}>
+                    Events
+                  </NavItem>
                 ) : null}
               {currentUser.is_admin || currentUser.is_partner ? (
-                  <li className={cl({ active: isActive('specials') })}>
-                    <LinkTo href="specials">Specials</LinkTo>
-                  </li>
+                  <NavItem active={isActive('specials')} href="/specials" onSelect={() => browserHistory.push('/specials')}>
+                    Specials
+                  </NavItem>
                 ) : null}
               {currentUser.is_admin ? (
-                  <li className={cl({ active: isActive('locations') })}>
-                    <LinkTo href="locations">Locations</LinkTo>
-                  </li>
+                  <NavItem active={isActive('locations')} href="/locations" onSelect={() => browserHistory.push('/locations')}>
+                    Locations
+                  </NavItem>
                 ) : null}
               {currentUser.is_admin ? (
-                  <li className={cl({ active: isActive('users') })}>
-                    <LinkTo href="users">Users</LinkTo>
-                  </li>
+                  <NavItem active={isActive('users')} href="/users" onSelect={() => browserHistory.push('/users')}>
+                    Users
+                  </NavItem>
                 ) : null}
-            </ul>
-            ) : (
-              <ul className="nav navbar-nav">
-                <li className={cl({ active: isActive('signin') })}>
-                  <LinkTo href="auth/signin">Sign In</LinkTo>
-                </li>
-                <li className={cl({ active: isActive('signup') })}>
-                  <LinkTo href="auth/signup">Sign Up</LinkTo>
-                </li>
-              </ul>
-            )}
-          {isAuthenticated ? (
-              <ul className="nav navbar-nav navbar-right">
-                <li>
-                  <LinkTo href="profile">Hello, {currentUser.full_name || currentUser.user_email}</LinkTo>
-                </li>
-                <li>
-                  <LinkTo pureLink href="#" onClick={() => logoutUser()}>Sign Out</LinkTo>
-                </li>
-              </ul>            
-            ) : null}
-        </div>
-      </div>
-    </nav>
+            </Nav>
+          ) : (
+            <Nav>
+              <NavItem active={isActive('signin')} href="/auth/signin" onSelect={() => browserHistory.push('/auth/signin')}>Sign In</NavItem>
+              <NavItem active={isActive('signup')} href="/auth/signup" onSelect={() => browserHistory.push('/auth/signup')}>Sign Up</NavItem>
+            </Nav>
+          )}
+        {isAuthenticated ? (
+            <Nav pullRight>
+              <NavItem active={isActive('profile')} href="/profile" onSelect={() => browserHistory.push('/profile')}>
+                Hello, {currentUser.full_name || (currentUser.first_name || currentUser.last_name ? [currentUser.first_name, currentUser.last_name].join(' ') : null) || currentUser.user_email || currentUser.email}
+              </NavItem>
+              <NavItem href="#" onSelect={() => logoutUser()}>
+                Sign Out
+              </NavItem>
+            </Nav>
+          ) : null}
+      </Navbar.Collapse>
+    </Navbar>
   );
 }
 

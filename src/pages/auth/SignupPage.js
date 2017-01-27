@@ -15,7 +15,7 @@ class SignupPage extends Component {
           <div className="col-md-12">
             <SignupForm
               errorMessage={errorMessage}
-              onSignup={({ email, password }) => signupUser({ email, password })}
+              onSignup={user => signupUser(user)}
             />
           </div>
         </div>

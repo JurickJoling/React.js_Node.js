@@ -45,7 +45,7 @@ export function removeEvent(itemId) {
 export function fetchEvents({ search, include, order }, { is_admin, objectId }) {
   const user = is_admin ? {} : {
       __type: 'Pointer',
-      className: 'User',
+      className: 'Partner',
       objectId
     };
 
@@ -88,7 +88,7 @@ export function createEvent(event, { objectId }) {
       } : null,
     user: {
       __type: 'Pointer',
-      className: 'User',
+      className: 'Partner',
       objectId
     },
   })

@@ -9,10 +9,14 @@ class SignupForm extends Component {
     const { errorMessage, handleSubmit, onSignup } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(({ email, password }) => onSignup({ email, password }))}>
+      <form onSubmit={handleSubmit(user => onSignup(user))}>
+        <Field name="first_name" component={renderField} className="form-control" label="First Name" />
+        <Field name="last_name" component={renderField} className="form-control" label="Last Name" />
         <Field name="email" component={renderField} className="form-control" label="Email" />
         <Field name="password" component={renderField} className="form-control" type="password" label="Password" />
         <Field name="passwordConfirmation" component={renderField} className="form-control" type="password" label="Confirm Password" />
+        <Field name="personal_phone" component={renderField} className="form-control" label="Personal Phone Number" />
+        <Field name="job_title" component={renderField} className="form-control" label="Job Title" />
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}

@@ -10,6 +10,9 @@ import { apiRequest } from '../utils';
 
 export function authUser({ email, accessToken, currentUser }) {
   localStorage.setItem('email', email);
+  if (currentUser.is_partner) {
+    localStorage.setItem('is_partner', true);
+  }
   localStorage.setItem('token', accessToken);
   return {
     type: AUTH_USER,
@@ -26,10 +29,24 @@ export function authError(errorMessage) {
 
 export function validateToken() {
   const email = localStorage.getItem('email');
+  const is_partner = localStorage.getItem('is_partner');
   const accessToken = localStorage.getItem('token');
 
   return dispatch => {
     if (email && accessToken) {
+      if (!!is_partner) {
+        return apiRequest.authToken(accessToken)
+          .then(({ data: { token, user } }) => dispatch(authUser({
+            email,
+            accessToken: token,
+            currentUser: {
+              ...user,
+              objectId: user._id
+            }
+          })))
+          .catch(() => dispatch(authError('Bad Login Info')));
+      }
+
       const url = `User?count=1&where=${JSON.stringify({ user_email: email })}`;
       return apiRequest.get(url)
         .then(({ data: { results, count } }) => {
@@ -79,32 +96,38 @@ export function signinUser({ email, password }) {
     .catch(() => dispatch(authError('Bad Login Info')));
 }
 
-export function signupUser({ email, password }) {
+export function signupUser(user) {
   const encodedBusiness = cookie.load('business');
   const business = encodedBusiness ? JSON.parse(Base64.decode(encodedBusiness)) : {};
-  console.log('business', business);
 
-  const { id, name, phone, address, category, type } = business;
+  // const { id, name, phone, address, category, type } = business;
+  //
+  // {
+  //   email,
+  //     password,
+  //     first_name: name,
+  //   phone,
+  //   address,
+  //   category_type: category,
+  //   business_id: id,
+  //   business_type: type
+  // }
 
-  return dispatch => apiRequest.authPost('signup', {
-    email,
-    password,
-    first_name: name,
-    phone,
-    address,
-    category_type: category,
-    business_id: id,
-    business_type: type
-  })
+  return dispatch => apiRequest.authPost('signup', user)
     .then(({ data: { token, user } }) => {
-      dispatch(authUser({ email, accessToken: token, currentUser: user }));
+      console.log('sign up', token, user);
+      dispatch(authUser({ email: user.email, accessToken: token, currentUser: user }));
       browserHistory.push('/');
     })
-    .catch(({ response: { data } }) => dispatch(authError(data.error || 'Bad Login Info')));
+    .catch(response => {
+      console.log('catch', response);
+      dispatch(authError('Bad Sign Up Info'));
+    });
 }
 
 export function logoutUser() {
   localStorage.removeItem('email');
+  localStorage.removeItem('is_partner');
   localStorage.removeItem('token');
   return {
     type: LOGOUT_USER

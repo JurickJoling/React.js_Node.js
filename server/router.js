@@ -16,6 +16,7 @@ const requireSignin = passport.authenticate('local', { session: false });
 module.exports = app => {
   app.post('/signin', requireSignin, authController.signin);
   app.post('/signup', authController.signup);
+  app.get('/token', requireAuth, authController.token);
   app.get('/data', dataController);
   app.post('/upload', uploadController);
   app.post('/eventbrite/search', eventbriteController.search);

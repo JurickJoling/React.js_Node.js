@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import { LinkTo } from '../../helpers';
 
-function ProfilePage({ currentUser: { first_name, phone, hours, category_type, image } }) {
+function ProfilePage({ currentUser, currentUser: { first_name, last_name, personal_phone, job_title, phone, hours, category_type, image } }) {
+  console.log('currentUser', currentUser);
   return (
     <div className="container">
       <div className="row m-b">
@@ -18,8 +19,24 @@ function ProfilePage({ currentUser: { first_name, phone, hours, category_type, i
           <table className="table table-bordered table-hover table-striped table-responsive">
             <tbody>
               <tr>
-                <td>Name</td>
+                <td>First Name</td>
                 <td>{first_name}</td>
+              </tr>
+              <tr>
+                <td>Last Name</td>
+                <td>{last_name}</td>
+              </tr>
+              <tr>
+                <td>Last Name</td>
+                <td>{last_name}</td>
+              </tr>
+              <tr>
+                <td>Personal Phone</td>
+                <td>{personal_phone}</td>
+              </tr>
+              <tr>
+                <td>Job Title</td>
+                <td>{job_title}</td>
               </tr>
               <tr>
                 <td>Phone</td>
