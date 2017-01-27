@@ -96,27 +96,33 @@ export function signinUser({ email, password }) {
     .catch(() => dispatch(authError('Bad Login Info')));
 }
 
-export function signupUser({ email, password }) {
+export function signupUser(user) {
   const encodedBusiness = cookie.load('business');
   const business = encodedBusiness ? JSON.parse(Base64.decode(encodedBusiness)) : {};
 
-  const { id, name, phone, address, category, type } = business;
+  // const { id, name, phone, address, category, type } = business;
+  //
+  // {
+  //   email,
+  //     password,
+  //     first_name: name,
+  //   phone,
+  //   address,
+  //   category_type: category,
+  //   business_id: id,
+  //   business_type: type
+  // }
 
-  return dispatch => apiRequest.authPost('signup', {
-    email,
-    password,
-    first_name: name,
-    phone,
-    address,
-    category_type: category,
-    business_id: id,
-    business_type: type
-  })
+  return dispatch => apiRequest.authPost('signup', user)
     .then(({ data: { token, user } }) => {
-      dispatch(authUser({ email, accessToken: token, currentUser: user }));
+      console.log('sign up', token, user);
+      dispatch(authUser({ email: user.email, accessToken: token, currentUser: user }));
       browserHistory.push('/');
     })
-    .catch(({ response: { data } }) => dispatch(authError(data.error || 'Bad Login Info')));
+    .catch(response => {
+      console.log('catch', response);
+      dispatch(authError('Bad Sign Up Info'));
+    });
 }
 
 export function logoutUser() {

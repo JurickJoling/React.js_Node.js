@@ -58,7 +58,7 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
         {isAuthenticated ? (
             <Nav pullRight>
               <NavItem active={isActive('profile')} href="/profile" onSelect={() => browserHistory.push('/profile')}>
-                Hello, {currentUser.full_name || currentUser.user_email}
+                Hello, {currentUser.full_name || (currentUser.first_name || currentUser.last_name ? [currentUser.first_name, currentUser.last_name].join(' ') : null) || currentUser.user_email || currentUser.email}
               </NavItem>
               <NavItem href="#" onSelect={() => logoutUser()}>
                 Sign Out

@@ -15,8 +15,10 @@ const headers = {
 };
 
 function tokenForPartner(partner) {
+  console.log('tokenForPartner partner', partner);
   const timestamp = new Date().getTime();
-  return jwt.encode({ sub: partner._id, iat: timestamp }, config.authSecret);
+  console.log('tokenForPartner jwt.encode', { sub: partner.objectId, iat: timestamp });
+  return jwt.encode({ sub: partner.objectId, iat: timestamp }, config.authSecret);
 }
 
 exports.token = function (req, res) {
@@ -32,6 +34,9 @@ exports.signup = function({
     email,
     password,
     first_name,
+    last_name,
+    personal_phone,
+    job_title,
     phone,
     address,
     category_type,
@@ -62,6 +67,9 @@ exports.signup = function({
         password: hash,
         is_partner: true,
         first_name,
+        last_name,
+        personal_phone,
+        job_title,
         phone,
         address,
         category_type,
@@ -73,7 +81,7 @@ exports.signup = function({
           axios.get(`${config.parseHostURI}/Partner?where=${JSON.stringify({ email })}`, { headers })
             .then(response =>
               res.json({
-                token: tokenForPartner(data.objectId),
+                token: tokenForPartner(data),
                 user: omit(first(response.data.results), 'password') || data
               })
             )
