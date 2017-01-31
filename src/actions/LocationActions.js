@@ -41,6 +41,19 @@ export function removeLocation(itemId) {
   };
 }
 
+export function searchLocation({ yelp_id }) {
+  const url = [
+    'Location?count=1',
+    yelp_id ? `&where=${JSON.stringify({
+        $or: [
+          { yelp_id: { $regex: yelp_id, $options: 'i' } }
+        ]
+      })}` : null
+  ].join('');
+
+  return dispatch => apiRequest.get(url);
+}
+
 export function fetchLocations({ search, include, order }) {
   const url = [
     'Location?count=1',

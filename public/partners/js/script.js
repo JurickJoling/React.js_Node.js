@@ -19,6 +19,7 @@ $(function() {
         return {
           term: params.term,
           location: $('select[name=metro_city]').val(),
+          address: $('input[name=address]').val(),
           page: params.page
         };
       },
