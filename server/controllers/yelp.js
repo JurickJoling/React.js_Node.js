@@ -14,6 +14,32 @@ const yelp = new Yelp({
   token_secret: config.yelpTokenSecret
 });
 
+function replaceDiacritics(str) {
+
+  const diacritics = [
+    {char: 'A', base: /[\300-\306]/g},
+    {char: 'a', base: /[\340-\346]/g},
+    {char: 'E', base: /[\310-\313]/g},
+    {char: 'e', base: /[\350-\353]/g},
+    {char: 'I', base: /[\314-\317]/g},
+    {char: 'i', base: /[\354-\357]/g},
+    {char: 'O', base: /[\322-\330]/g},
+    {char: 'o', base: /[\362-\370]/g},
+    {char: 'U', base: /[\331-\334]/g},
+    {char: 'u', base: /[\371-\374]/g},
+    {char: 'N', base: /[\321]/g},
+    {char: 'n', base: /[\361]/g},
+    {char: 'C', base: /[\307]/g},
+    {char: 'c', base: /[\347]/g}
+  ];
+
+  diacritics.forEach(function(letter){
+    str = str.replace(letter.base, letter.char);
+  });
+
+  return str;
+}
+
 module.exports.index = function(req, res) {
   const { term, location } = req.body;
 
@@ -26,7 +52,7 @@ module.exports.index = function(req, res) {
 };
 
 module.exports.show = function(req, res) {
-  yelpV3.businesses(req.params.id)
+  yelpV3.businesses(replaceDiacritics(req.body.id))
     .then(business => {
       yelp.business(business.id)
         .then(data => {
@@ -38,5 +64,8 @@ module.exports.show = function(req, res) {
         })
         .catch(console.error);
     })
-    .catch(err => res.status(500).send(err));
+    .catch(err => {
+      console.log('err', err);
+      res.status(500).send(err);
+    });
 };

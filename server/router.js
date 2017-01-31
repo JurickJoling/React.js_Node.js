@@ -23,7 +23,7 @@ module.exports = app => {
   app.get('/eventbrite/organizers/:id', eventbriteController.organizers);
   app.get('/eventbrite/events/:id/tickets', eventbriteController.tickets);
   app.post('/yelp', yelpController.index);
-  app.get('/yelp/:id', yelpController.show);
+  app.post('/yelp/show', yelpController.show);
   app.post('/twilio', twilioController.index);
   app.post('/twilio/test', twilioController.test);
   app.get('/twilio/:code', twilioController.show);
