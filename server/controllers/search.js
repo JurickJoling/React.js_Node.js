@@ -33,7 +33,7 @@ function addBase64Id(obj) {
 }
 
 module.exports.index = function(req, res) {
-  const { term, location, page } = req.query;
+  const { term, location, address, page } = req.query;
 
   const limit = 50;
 
@@ -43,17 +43,17 @@ module.exports.index = function(req, res) {
     page && (page > 1) ? `&skip=${(page - 1) * limit}` : null,
     `&where=${JSON.stringify({
       name: { $regex: term, $options: 'i' },
-      metro_city: { $regex: location, $options: 'i' }
+      metro_city: { $regex: location, $options: 'i' },
+      address: { $regex: address, $options: 'i' },
     })}`
   ].join('');
 
+  console.log('url', url);
+
   axios.get(url, { headers })
     .then(({ data: { results, count } }) => {
-
-
+      console.log('count', count, size(results));
       if (size(results) > 0) {
-        console.log('count', count);
-
         res.json({
           total_count: count,
           items: results.map(({ objectId, name, phone, address, category }) => addBase64Id({
@@ -66,7 +66,8 @@ module.exports.index = function(req, res) {
           }))
         });
       } else {
-        yelpV3.search({ term, location, limit, offset: page ? (page - 1) * limit : null })
+        console.log('location', compact([address, location]).join(' '));
+        yelpV3.search({ term, location: compact([address, location]).join(' '), limit, offset: page ? (page - 1) * limit : null })
           .then(({ businesses, total }) => {
 
             res.json({

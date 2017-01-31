@@ -4,6 +4,8 @@ import isObject from 'lodash/isObject';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
+import { searchLocation } from '../../../actions/LocationActions';
+
 import {
   LinkTo,
   WeekdayStartEndList,
@@ -12,6 +14,15 @@ import {
   renderDropdownList,
   renderCheckboxField
 } from '../../../helpers';
+
+const asyncValidate = ({ objectId, yelp_id, }, dispatch) => {
+  return dispatch(searchLocation({ yelp_id }))
+    .then(({ data: { count } }) => {
+      if (!objectId && count > 0) {
+        throw { yelp_id: 'That Yelp ID is taken' };
+      }
+    })
+};
 
 class LocationForm extends Component {
   componentDidMount() {
@@ -22,7 +33,7 @@ class LocationForm extends Component {
     const {
       item,
       item: {
-        name, address, phone, category, neighborhood, opentable_id, metro_city, metro_city2, hours, reservations,
+        objectId, yelp_id, name, address, phone, category, neighborhood, opentable_id, metro_city, metro_city2, hours, reservations,
         latitude, longitude, rating, groups, outdoor, location_type, verified
       },
       initialize
@@ -30,7 +41,7 @@ class LocationForm extends Component {
 
     if (!isEmpty(item)) {
       initialize({
-        name, address, phone, category, neighborhood, opentable_id, metro_city,
+        objectId, yelp_id, name, address, phone, category, neighborhood, opentable_id, metro_city,
         metro_city2,
         hours, reservations, latitude, longitude, rating, groups, outdoor, location_type, verified
       });
@@ -45,29 +56,26 @@ class LocationForm extends Component {
     const { item, errorMessage, handleSubmit, onSave, initialize } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(location => {onSave(location)})}>
+      <form onSubmit={handleSubmit(location => onSave(location))}>
         <div className="row">
           <div className="col-md-6">
             <Field
               name="yelp"
               component={YelpFinder}
               label="Add from Yelp"
-              onSelect={(business) => {
-                const { name, categories, location, display_phone, rating, coordinates, hours, neighborhoods } = business;
-
-                initialize({
-                  name,
-                  address: isObject(location) ? compact([location.address1, location.address2, location.address3]).join(', ') : null,
-                  phone: display_phone,
-                  category: (categories || []).map(c => c.title).join(', '),
-                  neighborhood: (neighborhoods || []).join(', '),
-                  metro_city: isObject(location) ? compact([location.city, location.state]).join(', ') : null,
-                  latitude: isObject(coordinates) ? coordinates.latitude : null,
-                  longitude: isObject(coordinates) ? coordinates.longitude : null,
-                  rating,
-                  hours
-                })
-              }}
+              onSelect={({ id, name, categories, location, display_phone, rating, coordinates, hours, neighborhoods }) => initialize({
+                yelp_id: id,
+                name,
+                address: isObject(location) ? compact([location.address1, location.address2, location.address3]).join(', ') : null,
+                phone: display_phone,
+                category: (categories || []).map(c => c.title).join(', '),
+                neighborhood: (neighborhoods || []).join(', '),
+                metro_city: isObject(location) ? compact([location.city, location.state]).join(', ') : null,
+                latitude: isObject(coordinates) ? coordinates.latitude : null,
+                longitude: isObject(coordinates) ? coordinates.longitude : null,
+                rating,
+                hours
+              })}
             />
             <div className="btn-group m-b">
               <LinkTo className="btn btn-default" url="locations">Cancel</LinkTo>
@@ -76,6 +84,7 @@ class LocationForm extends Component {
               </button>
             </div>
 
+            <Field name="yelp_id" component={renderField} label="Yelp ID" />
             <Field
               name="location_type"
               valueField="value"
@@ -97,17 +106,21 @@ class LocationForm extends Component {
                 {name: 'Game Room', value: 'game_room'},
                 {name: 'Jazz Club', value: 'jazz_club'},
                 {name: 'Music Cafe', value: 'music_cafe'},
-                {name: 'Coffee Shop', value: 'coffee_shop'},
-                {name: 'Karaoke Hall', value: 'karaoke_hall'}
+                {name: 'Cafe', value: 'cafe'},
+                {name: 'Karaoke Hall', value: 'karaoke_hall'},
+                {name: 'Museum', value: 'museum'},
+                {name: 'Bookstore', value: 'bookstore'},
+                {name: 'Hookah Lounge', value: 'hookah_lounge'},
+                {name: 'Event Venue', value: 'event_venue'}
               ]}
               label="Location Type"
             />
-            <Field name="name" component={renderField} label="Location Name"/>
-            <Field name="address" component={renderField} label="Address"/>
-            <Field name="phone" component={renderField} label="Phone"/>
-            <Field name="category" component={renderField} label="Category"/>
-            <Field name="neighborhood" component={renderField} label="Neighborhood"/>
-            <Field name="opentable_id" component={renderField} label="Opentable ID"/>
+            <Field name="name" component={renderField} label="Location Name" />
+            <Field name="address" component={renderField} label="Address" />
+            <Field name="phone" component={renderField} label="Phone" />
+            <Field name="category" component={renderField} label="Category" />
+            <Field name="neighborhood" component={renderField} label="Neighborhood" />
+            <Field name="opentable_id" component={renderField} label="Opentable ID" />
           </div>
           <div className="col-md-6">
             <Field name="metro_city" component={renderField} label="City"/>
@@ -174,14 +187,20 @@ LocationForm.propTypes = {
   })
 };
 
-function validate({ location_type }) {
+function validate({ yelp_id, location_type, ...rest }) {
   const errors = {};
 
-  if (!location_type) {
-    errors.location_type = 'Location Type is required';
+  if (!isEmpty(rest)) {
+    if (!yelp_id) {
+      errors.yelp_id = 'Yelp ID is required';
+    }
+
+    if (!location_type) {
+      errors.location_type = 'Location Type is required';
+    }
   }
 
   return errors;
 }
 
-export default reduxForm({ form: 'location', validate })(LocationForm);
+export default reduxForm({ form: 'location', validate, asyncValidate })(LocationForm);
