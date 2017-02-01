@@ -7,5 +7,6 @@ export { default as events } from './EventReducer';
 export { default as specials } from './SpecialReducer';
 export { default as locations } from './LocationReducer';
 export { default as locationTypes } from './LocationTypeReducer';
+export { default as promoCodes } from './PromoCodeReducer';
 export { default as users } from './UserReducer';
 export { default as tags } from './TagReducer';

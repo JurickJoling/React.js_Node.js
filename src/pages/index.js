@@ -7,4 +7,5 @@ export { default as events } from './events/routes';
 export { default as specials } from './specials/routes';
 export { default as locations } from './locations/routes';
 export { default as locationTypes } from './locationTypes/routes';
+export { default as promoCodes } from './promoCodes/routes';
 export { default as users } from './users/routes';

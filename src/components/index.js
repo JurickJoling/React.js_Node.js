@@ -15,4 +15,5 @@ export { EventsList, EventItem, EventForm, EventDelete } from './events';
 export { SpecialsList, SpecialItem, SpecialForm, SpecialDelete } from './specials';
 export { LocationsList, LocationItem, LocationForm, LocationDelete } from './locations';
 export { LocationTypesList, LocationTypeItem, LocationTypeForm, LocationTypeDelete } from './locationTypes';
+export { PromoCodesList, PromoCodeItem, PromoCodeForm, PromoCodeDelete } from './promoCodes';
 export { UsersList, UserItem, UserForm, UserDelete } from './users';
