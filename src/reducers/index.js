@@ -4,6 +4,7 @@ export { default as data } from './DataReducer';
 export { default as bundles } from './BundleReducer';
 export { default as plans } from './PlanReducer';
 export { default as events } from './EventReducer';
+export { default as eventTypes } from './EventTypeReducer';
 export { default as specials } from './SpecialReducer';
 export { default as locations } from './LocationReducer';
 export { default as locationTypes } from './LocationTypeReducer';

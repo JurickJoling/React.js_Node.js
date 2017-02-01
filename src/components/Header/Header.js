@@ -33,6 +33,11 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
                     Events
                   </NavItem>
                 ) : null}
+              {currentUser.is_admin ? (
+                  <NavItem active={isActive('eventTypes')} href="/eventTypes" onSelect={() => browserHistory.push('/eventTypes')}>
+                    Event Types
+                  </NavItem>
+                ) : null}
               {currentUser.is_admin || currentUser.is_partner ? (
                   <NavItem active={isActive('specials')} href="/specials" onSelect={() => browserHistory.push('/specials')}>
                     Specials
