@@ -79,7 +79,12 @@ export function fetchLocation(itemId) {
 export function createLocation(location) {
   return dispatch => apiRequest.post('Location', {
     ...location,
-    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null
+    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null,
+    location: {
+      __type: 'GeoPoint',
+      latitude: location.latitude,
+      longitude: location.longitude
+    }
   })
     .then(() => browserHistory.push('/locations'))
     .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));
@@ -88,7 +93,12 @@ export function createLocation(location) {
 export function updateLocation(itemID, location) {
   return dispatch => apiRequest.put('Location', itemID, {
     ...location,
-    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null
+    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null,
+    location: {
+      __type: 'GeoPoint',
+      latitude: location.latitude,
+      longitude: location.longitude
+    }
   })
     .then(() => browserHistory.push('/locations'))
     .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));

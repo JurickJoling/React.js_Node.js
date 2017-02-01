@@ -44,6 +44,11 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
                   </NavItem>
                 ) : null}
               {currentUser.is_admin ? (
+                  <NavItem active={isActive('locationTypes')} href="/locationTypes" onSelect={() => browserHistory.push('/locationTypes')}>
+                    LocationTypes
+                  </NavItem>
+                ) : null}
+              {currentUser.is_admin ? (
                   <NavItem active={isActive('users')} href="/users" onSelect={() => browserHistory.push('/users')}>
                     Users
                   </NavItem>
@@ -58,7 +63,7 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
         {isAuthenticated ? (
             <Nav pullRight>
               <NavItem active={isActive('profile')} href="/profile" onSelect={() => browserHistory.push('/profile')}>
-                Hello, {currentUser.full_name || (currentUser.first_name || currentUser.last_name ? [currentUser.first_name, currentUser.last_name].join(' ') : null) || currentUser.user_email || currentUser.email}
+                Settings
               </NavItem>
               <NavItem href="#" onSelect={() => logoutUser()}>
                 Sign Out

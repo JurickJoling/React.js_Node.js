@@ -1,11 +1,9 @@
-import flatten from 'lodash/flatten';
 import React from 'react';
 import { connect } from 'react-redux';
 
 import { LinkTo } from '../../helpers';
 
-function ProfilePage({ currentUser, currentUser: { first_name, last_name, personal_phone, job_title, phone, hours, category_type, image } }) {
-  console.log('currentUser', currentUser);
+function ProfilePage({ currentUser: { first_name, last_name, personal_phone, job_title } }) {
   return (
     <div className="container">
       <div className="row m-b">
@@ -27,34 +25,12 @@ function ProfilePage({ currentUser, currentUser: { first_name, last_name, person
                 <td>{last_name}</td>
               </tr>
               <tr>
-                <td>Last Name</td>
-                <td>{last_name}</td>
-              </tr>
-              <tr>
-                <td>Personal Phone</td>
+                <td>Personal Phone Number</td>
                 <td>{personal_phone}</td>
               </tr>
               <tr>
                 <td>Job Title</td>
                 <td>{job_title}</td>
-              </tr>
-              <tr>
-                <td>Phone</td>
-                <td>{phone}</td>
-              </tr>
-              <tr>
-                <td>Hours</td>
-                <td>{hours}</td>
-              </tr>
-              <tr>
-                <td>Category Type</td>
-                <td>{flatten([category_type]).join(', ')}</td>
-              </tr>
-              <tr>
-                <td>Photo</td>
-                <td>
-                  {image ? <img className="img-responsive show-image" src={image} alt="" /> : null}
-                </td>
               </tr>
             </tbody>
           </table>
