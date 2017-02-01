@@ -85,11 +85,11 @@ export function createLocation(location) {
       latitude: location.latitude,
       longitude: location.longitude
     },
-    location_type: {
+    location_type: location.location_type ? {
       __type: 'Pointer',
       className: 'LocationType',
       objectId: location.location_type.objectId
-    },
+    } : null,
   })
     .then(() => browserHistory.push('/locations'))
     .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));
@@ -104,11 +104,11 @@ export function updateLocation(itemID, location) {
       latitude: location.latitude,
       longitude: location.longitude
     },
-    location_type: {
+    location_type: location.location_type ? {
       __type: 'Pointer',
       className: 'LocationType',
       objectId: location.location_type.objectId
-    },
+    } : null,
   })
     .then(() => browserHistory.push('/locations'))
     .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));

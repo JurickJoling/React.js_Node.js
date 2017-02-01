@@ -57,19 +57,43 @@ export function fetchPromoCodes({ search, include, order }) {
 }
 
 export function fetchPromoCode(itemId) {
-  return dispatch => apiRequest.get('PromoCode', itemId)
+  return dispatch => apiRequest.get('PromoCode', itemId, '?include="event_type,location_type"')
     .then(({ data }) => dispatch(showPromoCode(data)))
     .catch(() => browserHistory.push('/not-found'));
 }
 
 export function createPromoCode(promoCode) {
-  return dispatch => apiRequest.post('PromoCode', promoCode)
+  return dispatch => apiRequest.post('PromoCode', {
+    ...promoCode,
+    event_type: promoCode.event_type ? {
+      __type: 'Pointer',
+      className: 'EventType',
+      objectId: promoCode.event_type.objectId
+    } : null,
+    location_type: promoCode.location_type ? {
+      __type: 'Pointer',
+      className: 'LocationType',
+      objectId: promoCode.location_type.objectId
+    } : null,
+  })
     .then(() => browserHistory.push('/promoCodes'))
     .catch(({ response: { data: { error } } }) => dispatch(promoCodeError(error)));
 }
 
 export function updatePromoCode(itemID, promoCode) {
-  return dispatch => apiRequest.put('PromoCode', itemID, promoCode)
+  return dispatch => apiRequest.put('PromoCode', itemID, {
+    ...promoCode,
+    event_type: promoCode.event_type ? {
+        __type: 'Pointer',
+        className: 'EventType',
+        objectId: promoCode.event_type.objectId
+      } : null,
+    location_type: promoCode.location_type ? {
+        __type: 'Pointer',
+        className: 'LocationType',
+        objectId: promoCode.location_type.objectId
+      } : null,
+  })
     .then(() => browserHistory.push('/promoCodes'))
     .catch(({ response: { data: { error } } }) => dispatch(promoCodeError(error)));
 }

@@ -91,11 +91,11 @@ export function createEvent(event, { objectId }) {
       className: 'Partner',
       objectId
     },
-    event_type: {
+    event_type: event.event_type ? {
       __type: 'Pointer',
       className: 'EventType',
       objectId: event.event_type.objectId
-    },
+    } : null,
   })
     .then(() => browserHistory.push('/events'))
     .catch(({ response: { data: { error } } }) => dispatch(eventError(error)));
@@ -114,11 +114,11 @@ export function updateEvent(itemID, event) {
         className: 'Special',
         objectId: event.special.objectId
       } : null,
-    event_type: {
-      __type: 'Pointer',
-      className: 'EventType',
-      objectId: event.event_type.objectId
-    },
+    event_type: event.event_type ? {
+        __type: 'Pointer',
+        className: 'EventType',
+        objectId: event.event_type.objectId
+    } : null,
   })
     .then(() => browserHistory.push('/events'))
     .catch(({ response: { data: { error } } }) => dispatch(eventError(error)));

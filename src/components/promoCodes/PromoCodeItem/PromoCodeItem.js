@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 
+import { LinkTo } from '../../../helpers';
 import { renderDateTime } from '../../../utils';
 
 function PromoCodeItem({
   item: {
-    objectId, name, createdAt
+    objectId, name, amount, event_type, location_type, createdAt
   }
 }) {
   return (
@@ -19,6 +20,22 @@ function PromoCodeItem({
         <tr>
           <td>Name</td>
           <td>{name}</td>
+        </tr>
+        <tr>
+          <td>Amount</td>
+          <td>{amount}</td>
+        </tr>
+        <tr>
+          <td>Event Type</td>
+          <td>
+            {event_type ? <LinkTo url={`eventTypes/${event_type.objectId}`}>{event_type.name}</LinkTo> : null}
+          </td>
+        </tr>
+        <tr>
+          <td>Location Type</td>
+          <td>
+            {location_type ? <LinkTo url={`locationTypes/${location_type.objectId}`}>{location_type.name}</LinkTo> : null}
+          </td>
         </tr>
         <tr>
           <td>Created</td>

@@ -9,6 +9,9 @@ function PromoCodesList({ items }) {
       <thead>
       <tr>
         <th>Name</th>
+        <th>Amount</th>
+        <th>Event Type</th>
+        <th>Location Type</th>
         <th>Created</th>
         <th />
         <th />
@@ -16,9 +19,16 @@ function PromoCodesList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, name, createdAt }) => (
+      {items.map(({ objectId, name, amount, event_type, location_type, createdAt }) => (
         <tr key={objectId}>
           <td>{name}</td>
+          <td>{amount}</td>
+          <td>
+            {event_type ? <LinkTo url={`eventTypes/${event_type.objectId}`}>{event_type.name}</LinkTo> : null}
+          </td>
+          <td>
+            {location_type ? <LinkTo url={`locationTypes/${location_type.objectId}`}>{location_type.name}</LinkTo> : null}
+          </td>
           <td>{renderDate(createdAt)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`promoCodes/${objectId}`}>Show</LinkTo>

@@ -22,7 +22,9 @@ function EventItem({
         </tr>
         <tr>
           <td>Event Type</td>
-          <td>{event_type ? event_type.name : null}</td>
+          <td>
+            {event_type ? <LinkTo url={`eventTypes/${event_type.objectId}`}>{event_type.name}</LinkTo> : null}
+          </td>
         </tr>
         <tr>
           <td>Dates</td>
