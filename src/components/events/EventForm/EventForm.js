@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import Promise from 'bluebird';
 
+import { fetchEventTypes } from '../../../actions/EventTypeActions';
 import { fetchLocations } from '../../../actions/LocationActions';
 import { fetchSpecials } from '../../../actions/SpecialActions';
 
@@ -24,8 +25,9 @@ class EventForm extends Component {
   state = {};
 
   componentDidMount() {
-    const { currentUser, fetchLocations, fetchSpecials } = this.props;
+    const { currentUser, fetchEventTypes, fetchLocations, fetchSpecials } = this.props;
     Promise.all([
+      fetchEventTypes({}),
       fetchLocations({}),
       fetchSpecials({}, currentUser)
     ]).then(() => this.handleInitialize());
@@ -52,8 +54,28 @@ class EventForm extends Component {
   }
 
   render () {
-    const { item, locations, specials, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, eventTypes, locations, specials, errorMessage, handleSubmit, onSave } = this.props;
     const { add_criteria, boost, redemption, free } = this.state;
+
+    // <Field
+    //   name="event_type"
+    //   valueField="value"
+    //   textField="name"
+    //   component={renderDropdownList}
+    //   data={[
+    //     {name: 'Birthday', value: 'birthday'},
+    //     {name: 'Live Music', value: 'live_music'},
+    //     {name: 'Theatre', value: 'theatre'},
+    //     {name: 'Comedy', value: 'comedy'},
+    //     {name: 'Improv', value: 'improv'},
+    //     {name: 'Sports', value: 'sports'},
+    //     {name: 'VIP', value: 'vip'},
+    //     {name: 'Ladies Night', value: 'ladies_night'},
+    //     {name: 'Holiday', value: 'holiday'},
+    //     {name: 'Special Event', value: 'special_event'},
+    //   ]}
+    //   label="Event Type"
+    // />
 
     return (
       <form onSubmit={handleSubmit(event => {onSave(event)})}>
@@ -61,22 +83,11 @@ class EventForm extends Component {
           <div className="col-md-6">
             <Field
               name="event_type"
-              valueField="value"
+              valueField="objectId"
               textField="name"
               component={renderDropdownList}
-              data={[
-                {name: 'Birthday', value: 'birthday'},
-                {name: 'Live Music', value: 'live_music'},
-                {name: 'Theatre', value: 'theatre'},
-                {name: 'Comedy', value: 'comedy'},
-                {name: 'Improv', value: 'improv'},
-                {name: 'Sports', value: 'sports'},
-                {name: 'VIP', value: 'vip'},
-                {name: 'Ladies Night', value: 'ladies_night'},
-                {name: 'Holiday', value: 'holiday'},
-                {name: 'Special Event', value: 'special_event'},
-              ]}
-              label="Event Type"
+              data={eventTypes.map(({ objectId, name }) => ({ objectId, name }))}
+              label="Location Type"
             />
             <Field
               name="dates"
@@ -230,6 +241,7 @@ EventForm.propTypes = {
 
 export default connect(({
   auth: { currentUser },
+  eventTypes: { items: eventTypes },
   specials: { items: specials },
   locations: { items: locations },
-}) => ({ specials, locations, currentUser }), ({ fetchLocations, fetchSpecials }))(reduxForm({ form: 'event' })(EventForm));
+}) => ({ eventTypes, locations, specials, currentUser }), ({ fetchEventTypes, fetchLocations, fetchSpecials }))(reduxForm({ form: 'event' })(EventForm));
