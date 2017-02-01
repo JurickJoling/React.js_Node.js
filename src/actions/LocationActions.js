@@ -71,7 +71,7 @@ export function fetchLocations({ search, include, order }) {
 }
 
 export function fetchLocation(itemId) {
-  return dispatch => apiRequest.get('Location', itemId)
+  return dispatch => apiRequest.get('Location', itemId, '?include="location_type"')
     .then(({ data }) => dispatch(showLocation(data)))
     .catch(() => browserHistory.push('/not-found'));
 }
@@ -79,7 +79,17 @@ export function fetchLocation(itemId) {
 export function createLocation(location) {
   return dispatch => apiRequest.post('Location', {
     ...location,
-    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null
+    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null,
+    location: {
+      __type: 'GeoPoint',
+      latitude: location.latitude,
+      longitude: location.longitude
+    },
+    location_type: location.location_type ? {
+      __type: 'Pointer',
+      className: 'LocationType',
+      objectId: location.location_type.objectId
+    } : null,
   })
     .then(() => browserHistory.push('/locations'))
     .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));
@@ -88,7 +98,17 @@ export function createLocation(location) {
 export function updateLocation(itemID, location) {
   return dispatch => apiRequest.put('Location', itemID, {
     ...location,
-    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null
+    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null,
+    location: {
+      __type: 'GeoPoint',
+      latitude: location.latitude,
+      longitude: location.longitude
+    },
+    location_type: location.location_type ? {
+      __type: 'Pointer',
+      className: 'LocationType',
+      objectId: location.location_type.objectId
+    } : null,
   })
     .then(() => browserHistory.push('/locations'))
     .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));

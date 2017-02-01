@@ -10,12 +10,11 @@ class ProfileForm extends Component {
   }
 
   handleInitialize() {
-    const { currentUser, currentUser: { hours, image }, initialize } = this.props;
+    const { currentUser, currentUser: { first_name, last_name, personal_phone, job_title }, initialize } = this.props;
 
     if (!isEmpty(currentUser)) {
       initialize({
-        hours,
-        image
+        first_name, last_name, personal_phone, job_title
       });
     }
   }
@@ -24,9 +23,11 @@ class ProfileForm extends Component {
     const { errorMessage, handleSubmit, onSave } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(user => {onSave(user)})}>
-        <Field name="hours" component={renderField} label="Hours"/>
-        <Field name="image" component={renderField} label="Image" />
+      <form onSubmit={handleSubmit(user => onSave(user))}>
+        <Field name="first_name" component={renderField} label="First Name"/>
+        <Field name="last_name" component={renderField} label="Last Name" />
+        <Field name="personal_phone" component={renderField} label="Personal Phone Number"/>
+        <Field name="job_title" component={renderField} label="Job Title" />
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}
@@ -53,4 +54,4 @@ ProfileForm.propTypes = {
   })
 };
 
-export default reduxForm({ form: 'bundle' })(ProfileForm);
+export default reduxForm({ form: 'profile' })(ProfileForm);

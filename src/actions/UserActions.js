@@ -94,7 +94,7 @@ export function updateUser(itemID, user) {
 }
 
 export function updateProfile(itemID, user, currentUser) {
-  return dispatch => apiRequest.put('User', itemID, user)
+  return dispatch => apiRequest.put('Partner', itemID, user)
     .then(() => dispatch(updateCurrentUser({
       ...currentUser,
       ...user

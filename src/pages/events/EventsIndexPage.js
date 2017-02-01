@@ -16,7 +16,7 @@ class EventsIndexPage extends Component {
     fetched: false,
     search: '',
     order: '-createdAt',
-    include: 'location,special'
+    include: 'event_type,location,special'
   };
 
   componentDidMount() {

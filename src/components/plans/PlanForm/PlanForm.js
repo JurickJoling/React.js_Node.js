@@ -1,4 +1,3 @@
-import compact from 'lodash/compact';
 import first from 'lodash/first';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';

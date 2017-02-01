@@ -1,7 +1,7 @@
 import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
-import { BooleanField } from '../../../helpers';
+import { BooleanField, LinkTo } from '../../../helpers';
 import { capitalize, renderDateTime, renderHours, weekDays } from '../../../utils';
 
 function LocationItem({
@@ -87,7 +87,9 @@ function LocationItem({
         </tr>
         <tr>
           <td>Location Type</td>
-          <td>{location_type ? location_type.name : null}</td>
+          <td>
+            {location_type ? <LinkTo url={`locationTypes/${location_type.objectId}`}>{location_type.name}</LinkTo> : null}
+          </td>
         </tr>
         <tr>
           <td>Verified?</td>

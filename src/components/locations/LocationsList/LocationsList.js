@@ -38,7 +38,9 @@ function LocationsList({ items }) {
           <td>{rating}</td>
           <td><BooleanField value={groups} /></td>
           <td><BooleanField value={outdoor} /></td>
-          <td>{location_type ? location_type.name : null}</td>
+          <td>
+            {location_type ? <LinkTo url={`locationTypes/${location_type.objectId}`}>{location_type.name}</LinkTo> : null}
+          </td>
           <td>{renderDate(createdAt)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`locations/${objectId}`}>Show</LinkTo>

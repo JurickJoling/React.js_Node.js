@@ -99,6 +99,11 @@ export function createPlan({
         objectId: l.location.objectId
       }
     })),
+    lookupLocations: (locations || []).map(l => ({
+      __type: 'Pointer',
+      className: 'Location',
+      objectId: l.location.objectId
+    })),
     title_event, description_event, image, type_event,
     tags, location,
     partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost,
@@ -156,6 +161,11 @@ export function updatePlan(itemID, {
         className: 'Location',
         objectId: l.location.objectId
       }
+    })),
+    lookupLocations: (locations || []).map(l => ({
+      __type: 'Pointer',
+      className: 'Location',
+      objectId: l.location.objectId
     })),
     title_event, description_event, image, type_event,
     tags, location,

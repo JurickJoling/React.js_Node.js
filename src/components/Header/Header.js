@@ -33,6 +33,11 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
                     Events
                   </NavItem>
                 ) : null}
+              {currentUser.is_admin ? (
+                  <NavItem active={isActive('eventTypes')} href="/eventTypes" onSelect={() => browserHistory.push('/eventTypes')}>
+                    Event Types
+                  </NavItem>
+                ) : null}
               {currentUser.is_admin || currentUser.is_partner ? (
                   <NavItem active={isActive('specials')} href="/specials" onSelect={() => browserHistory.push('/specials')}>
                     Specials
@@ -41,6 +46,16 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
               {currentUser.is_admin ? (
                   <NavItem active={isActive('locations')} href="/locations" onSelect={() => browserHistory.push('/locations')}>
                     Locations
+                  </NavItem>
+                ) : null}
+              {currentUser.is_admin ? (
+                  <NavItem active={isActive('locationTypes')} href="/locationTypes" onSelect={() => browserHistory.push('/locationTypes')}>
+                    Location Types
+                  </NavItem>
+                ) : null}
+              {currentUser.is_admin ? (
+                  <NavItem active={isActive('promoCodes')} href="/promoCodes" onSelect={() => browserHistory.push('/promoCodes')}>
+                    PromoCodes
                   </NavItem>
                 ) : null}
               {currentUser.is_admin ? (
@@ -58,7 +73,7 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
         {isAuthenticated ? (
             <Nav pullRight>
               <NavItem active={isActive('profile')} href="/profile" onSelect={() => browserHistory.push('/profile')}>
-                Hello, {currentUser.full_name || (currentUser.first_name || currentUser.last_name ? [currentUser.first_name, currentUser.last_name].join(' ') : null) || currentUser.user_email || currentUser.email}
+                Settings
               </NavItem>
               <NavItem href="#" onSelect={() => logoutUser()}>
                 Sign Out
