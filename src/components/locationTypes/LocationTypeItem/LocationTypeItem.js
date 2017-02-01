@@ -4,7 +4,7 @@ import { renderDateTime } from '../../../utils';
 
 function LocationTypeItem({
   item: {
-    objectId, name, createdAt
+    objectId, name, price_per_invite_sent, price_per_invite_accepted, price_per_attendee, price_per_ticket_sold, createdAt
   }
 }) {
   return (
@@ -15,6 +15,26 @@ function LocationTypeItem({
         <tr>
           <td>ObjectId</td>
           <td>{objectId}</td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td>{name}</td>
+        </tr>
+        <tr>
+          <td>Price per invite sent</td>
+          <td>{price_per_invite_sent}</td>
+        </tr>
+        <tr>
+          <td>Price per invite accepted</td>
+          <td>{price_per_invite_accepted}</td>
+        </tr>
+        <tr>
+          <td>Price per attendee</td>
+          <td>{price_per_attendee}</td>
+        </tr>
+        <tr>
+          <td>Price per ticket sold</td>
+          <td>{price_per_ticket_sold}</td>
         </tr>
         <tr>
           <td>Created</td>

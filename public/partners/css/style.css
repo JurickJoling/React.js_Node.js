@@ -31,9 +31,9 @@ header {
     padding: 5px;
 }
 
-.hero-area .subscribe-area .form-control.form-control-address {
-    height: 29px;
-}
+/*.hero-area .subscribe-area .form-control.form-control-address {*/
+    /*height: 29px;*/
+/*}*/
 
 .navbar-default .navbar-nav>li>a {
     color: #f9f9f9;

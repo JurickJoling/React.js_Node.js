@@ -9,6 +9,10 @@ function LocationTypesList({ items }) {
       <thead>
       <tr>
         <th>Name</th>
+        <th>Price per invite sent</th>
+        <th>Price per invite accepted</th>
+        <th>Price per attendee</th>
+        <th>Price per ticket sold</th>
         <th>Created</th>
         <th />
         <th />
@@ -16,9 +20,13 @@ function LocationTypesList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, name, createdAt }) => (
+      {items.map(({ objectId, name, price_per_invite_sent, price_per_invite_accepted, price_per_attendee, price_per_ticket_sold, createdAt }) => (
         <tr key={objectId}>
           <td>{name}</td>
+          <td>{price_per_invite_sent}</td>
+          <td>{price_per_invite_accepted}</td>
+          <td>{price_per_attendee}</td>
+          <td>{price_per_ticket_sold}</td>
           <td>{renderDate(createdAt)}</td>
           <td>
             <LinkTo className="btn btn-info" url={`locationTypes/${objectId}`}>Show</LinkTo>

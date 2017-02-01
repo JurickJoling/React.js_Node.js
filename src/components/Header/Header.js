@@ -45,7 +45,7 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
                 ) : null}
               {currentUser.is_admin ? (
                   <NavItem active={isActive('locationTypes')} href="/locationTypes" onSelect={() => browserHistory.push('/locationTypes')}>
-                    LocationTypes
+                    Location Types
                   </NavItem>
                 ) : null}
               {currentUser.is_admin ? (

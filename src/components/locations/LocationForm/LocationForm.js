@@ -2,9 +2,12 @@ import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import Promise from 'bluebird';
 
 import { searchLocation } from '../../../actions/LocationActions';
+import { fetchLocationTypes } from '../../../actions/LocationTypeActions';
 
 import {
   LinkTo,
@@ -26,7 +29,10 @@ const asyncValidate = ({ objectId, yelp_id, }, dispatch) => {
 
 class LocationForm extends Component {
   componentDidMount() {
-    this.handleInitialize()
+    const { fetchLocationTypes } = this.props;
+    Promise.all([
+      fetchLocationTypes({})
+    ]).then(() => this.handleInitialize());
   }
 
   handleInitialize() {
@@ -53,7 +59,38 @@ class LocationForm extends Component {
   }
 
   render () {
-    const { item, errorMessage, handleSubmit, onSave, initialize } = this.props;
+    const { item, locationTypes, errorMessage, handleSubmit, onSave, initialize } = this.props;
+
+    // <Field
+    //   name="location_type"
+    //   valueField="value"
+    //   textField="name"
+    //   component={renderDropdownList}
+    //   data={[
+    //     {name: 'Dance Studio', value: 'dance_studio'},
+    //     {name: 'Cinema', value: 'cinema'},
+    //     {name: 'Restaurant', value: 'restaurant'},
+    //     {name: 'Theater', value: 'theater'},
+    //     {name: 'Bar', value: 'bar'},
+    //     {name: 'Gym', value: 'gym'},
+    //     {name: 'Amusement Park', value: 'amusement_park'},
+    //     {name: 'City Park', value: 'city_park'},
+    //     {name: 'Zoo', value: 'zoo'},
+    //     {name: 'Haunted House', value: 'haunted_house'},
+    //     {name: 'Pool Hall', value: 'pool_hall'},
+    //     {name: 'Recreational Center', value: 'recreational_center'},
+    //     {name: 'Game Room', value: 'game_room'},
+    //     {name: 'Jazz Club', value: 'jazz_club'},
+    //     {name: 'Music Cafe', value: 'music_cafe'},
+    //     {name: 'Cafe', value: 'cafe'},
+    //     {name: 'Karaoke Hall', value: 'karaoke_hall'},
+    //     {name: 'Museum', value: 'museum'},
+    //     {name: 'Bookstore', value: 'bookstore'},
+    //     {name: 'Hookah Lounge', value: 'hookah_lounge'},
+    //     {name: 'Event Venue', value: 'event_venue'}
+    //   ]}
+    //   label="Location Type"
+    // />
 
     return (
       <form onSubmit={handleSubmit(location => onSave(location))}>
@@ -87,32 +124,10 @@ class LocationForm extends Component {
             <Field name="yelp_id" component={renderField} label="Yelp ID" />
             <Field
               name="location_type"
-              valueField="value"
+              valueField="objectId"
               textField="name"
               component={renderDropdownList}
-              data={[
-                {name: 'Dance Studio', value: 'dance_studio'},
-                {name: 'Cinema', value: 'cinema'},
-                {name: 'Restaurant', value: 'restaurant'},
-                {name: 'Theater', value: 'theater'},
-                {name: 'Bar', value: 'bar'},
-                {name: 'Gym', value: 'gym'},
-                {name: 'Amusement Park', value: 'amusement_park'},
-                {name: 'City Park', value: 'city_park'},
-                {name: 'Zoo', value: 'zoo'},
-                {name: 'Haunted House', value: 'haunted_house'},
-                {name: 'Pool Hall', value: 'pool_hall'},
-                {name: 'Recreational Center', value: 'recreational_center'},
-                {name: 'Game Room', value: 'game_room'},
-                {name: 'Jazz Club', value: 'jazz_club'},
-                {name: 'Music Cafe', value: 'music_cafe'},
-                {name: 'Cafe', value: 'cafe'},
-                {name: 'Karaoke Hall', value: 'karaoke_hall'},
-                {name: 'Museum', value: 'museum'},
-                {name: 'Bookstore', value: 'bookstore'},
-                {name: 'Hookah Lounge', value: 'hookah_lounge'},
-                {name: 'Event Venue', value: 'event_venue'}
-              ]}
+              data={locationTypes.map(({ objectId, name }) => ({ objectId, name }))}
               label="Location Type"
             />
             <Field name="name" component={renderField} label="Location Name" />
@@ -203,4 +218,6 @@ function validate({ yelp_id, location_type, ...rest }) {
   return errors;
 }
 
-export default reduxForm({ form: 'location', validate, asyncValidate })(LocationForm);
+export default connect(({
+  locationTypes: { items: locationTypes }
+}) => ({ locationTypes }), ({ fetchLocationTypes }))(reduxForm({ form: 'location', validate, asyncValidate })(LocationForm));

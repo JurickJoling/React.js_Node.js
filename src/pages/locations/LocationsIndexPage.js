@@ -15,23 +15,24 @@ class LocationsIndexPage extends Component {
   state = {
     fetched: false,
     search: '',
+    include: 'location_type',
     order: '-createdAt'
   };
 
   componentDidMount() {
-    const { order } = this.state;
-    this.fetchData({ order });
+    const { include, order } = this.state;
+    this.fetchData({ include, order });
   }
 
-  fetchData({ search, order, filters }) {
+  fetchData({ search, include, order, filters }) {
     const { fetchLocations } = this.props;
-    this.setState({ search, fetched: false }, () => fetchLocations({ order, search, filters })
+    this.setState({ search, fetched: false }, () => fetchLocations({ order, search, include, filters })
       .then(() => this.setState({ fetched: true })));
   }
 
   render() {
     const { items, count } = this.props;
-    const { fetched, order } = this.state;
+    const { include, fetched, order } = this.state;
 
     return (
       <Loading className="container" ignoreLoader={(
@@ -43,7 +44,7 @@ class LocationsIndexPage extends Component {
             {fetched ? <h4>Locations ({count})</h4> : null}
           </div>
           <div className="col-md-6 text-right">
-            <SearchForm onSearch={({ search }) => this.fetchData({ search, order })} />
+            <SearchForm onSearch={({ search }) => this.fetchData({ search, include, order })} />
           </div>
         </div>
       )} loaded={fetched}>

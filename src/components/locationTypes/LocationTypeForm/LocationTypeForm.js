@@ -16,26 +16,29 @@ class LocationTypeForm extends Component {
     const {
       item,
       item: {
-        objectId, name
+        name, price_per_invite_sent, price_per_invite_accepted, price_per_attendee, price_per_ticket_sold
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
       initialize({
-        objectId, name
+        name, price_per_invite_sent, price_per_invite_accepted, price_per_attendee, price_per_ticket_sold
       });
     }
   }
 
   render () {
     const { item, errorMessage, handleSubmit, onSave } = this.props;
-
     return (
       <form onSubmit={handleSubmit(locationType => onSave(locationType))}>
         <div className="row">
           <div className="col-md-6">
-            <Field name="name" component={renderField} label="LocationType Name" />
+            <Field name="name" component={renderField} label="Location Type Name" />
+            <Field name="price_per_invite_sent" component={renderField} label="Price per invite sent" />
+            <Field name="price_per_invite_accepted" component={renderField} label="Price per invite accepted" />
+            <Field name="price_per_attendee" component={renderField} label="Price per attendee" />
+            <Field name="price_per_ticket_sold" component={renderField} label="Price per ticket sold" />
           </div>
           <div className="col-md-6">
 
