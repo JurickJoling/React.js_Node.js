@@ -18,3 +18,4 @@ export { LocationsList, LocationItem, LocationForm, LocationDelete } from './loc
 export { LocationTypesList, LocationTypeItem, LocationTypeForm, LocationTypeDelete } from './locationTypes';
 export { PromoCodesList, PromoCodeItem, PromoCodeForm, PromoCodeDelete } from './promoCodes';
 export { UsersList, UserItem, UserForm, UserDelete } from './users';
+export { BoostsList, BoostItem, BoostForm, BoostDelete } from './boosts';

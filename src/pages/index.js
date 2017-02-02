@@ -10,3 +10,4 @@ export { default as locations } from './locations/routes';
 export { default as locationTypes } from './locationTypes/routes';
 export { default as promoCodes } from './promoCodes/routes';
 export { default as users } from './users/routes';
+export { default as boosts } from './boosts/routes';

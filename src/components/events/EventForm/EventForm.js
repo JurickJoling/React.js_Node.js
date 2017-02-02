@@ -57,26 +57,6 @@ class EventForm extends Component {
     const { item, eventTypes, locations, specials, errorMessage, handleSubmit, onSave } = this.props;
     const { add_criteria, boost, redemption, free } = this.state;
 
-    // <Field
-    //   name="event_type"
-    //   valueField="value"
-    //   textField="name"
-    //   component={renderDropdownList}
-    //   data={[
-    //     {name: 'Birthday', value: 'birthday'},
-    //     {name: 'Live Music', value: 'live_music'},
-    //     {name: 'Theatre', value: 'theatre'},
-    //     {name: 'Comedy', value: 'comedy'},
-    //     {name: 'Improv', value: 'improv'},
-    //     {name: 'Sports', value: 'sports'},
-    //     {name: 'VIP', value: 'vip'},
-    //     {name: 'Ladies Night', value: 'ladies_night'},
-    //     {name: 'Holiday', value: 'holiday'},
-    //     {name: 'Special Event', value: 'special_event'},
-    //   ]}
-    //   label="Event Type"
-    // />
-
     return (
       <form onSubmit={handleSubmit(event => {onSave(event)})}>
         <div className="row">

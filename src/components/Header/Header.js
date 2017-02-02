@@ -43,6 +43,11 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
                     Specials
                   </NavItem>
                 ) : null}
+              {currentUser.is_admin || currentUser.is_partner ? (
+                  <NavItem active={isActive('boosts')} href="/boosts" onSelect={() => browserHistory.push('/boosts')}>
+                    Boosts
+                  </NavItem>
+                ) : null}
               {currentUser.is_admin ? (
                   <NavItem active={isActive('locations')} href="/locations" onSelect={() => browserHistory.push('/locations')}>
                     Locations

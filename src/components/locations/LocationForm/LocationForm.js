@@ -61,37 +61,6 @@ class LocationForm extends Component {
   render () {
     const { item, locationTypes, errorMessage, handleSubmit, onSave, initialize } = this.props;
 
-    // <Field
-    //   name="location_type"
-    //   valueField="value"
-    //   textField="name"
-    //   component={renderDropdownList}
-    //   data={[
-    //     {name: 'Dance Studio', value: 'dance_studio'},
-    //     {name: 'Cinema', value: 'cinema'},
-    //     {name: 'Restaurant', value: 'restaurant'},
-    //     {name: 'Theater', value: 'theater'},
-    //     {name: 'Bar', value: 'bar'},
-    //     {name: 'Gym', value: 'gym'},
-    //     {name: 'Amusement Park', value: 'amusement_park'},
-    //     {name: 'City Park', value: 'city_park'},
-    //     {name: 'Zoo', value: 'zoo'},
-    //     {name: 'Haunted House', value: 'haunted_house'},
-    //     {name: 'Pool Hall', value: 'pool_hall'},
-    //     {name: 'Recreational Center', value: 'recreational_center'},
-    //     {name: 'Game Room', value: 'game_room'},
-    //     {name: 'Jazz Club', value: 'jazz_club'},
-    //     {name: 'Music Cafe', value: 'music_cafe'},
-    //     {name: 'Cafe', value: 'cafe'},
-    //     {name: 'Karaoke Hall', value: 'karaoke_hall'},
-    //     {name: 'Museum', value: 'museum'},
-    //     {name: 'Bookstore', value: 'bookstore'},
-    //     {name: 'Hookah Lounge', value: 'hookah_lounge'},
-    //     {name: 'Event Venue', value: 'event_venue'}
-    //   ]}
-    //   label="Location Type"
-    // />
-
     return (
       <form onSubmit={handleSubmit(location => onSave(location))}>
         <div className="row">
