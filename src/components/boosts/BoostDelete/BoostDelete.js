@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import { Button, LinkTo } from '../../../helpers';
 
-function SpecialDelete({ itemID, onDelete }) {
+function BoostDelete({ itemID, onDelete }) {
   return (
     <div className="row">
       <div className="col-lg-12">
@@ -11,11 +11,11 @@ function SpecialDelete({ itemID, onDelete }) {
             <h1 className="panel-title">Deleting record:</h1>
           </div>
           <div className="panel-body">
-            <LinkTo url={`specials/${itemID}`}>Special #{itemID}</LinkTo>
+            <LinkTo url={`boosts/${itemID}`}>Boost #{itemID}</LinkTo>
           </div>
         </div>
         <div className="btn-group">
-          <LinkTo className="btn btn-default" url="specials">Cancel</LinkTo>
+          <LinkTo className="btn btn-default" url="boosts">Cancel</LinkTo>
           <Button color="danger" onClick={() => onDelete(itemID)}>
             Delete
           </Button>
@@ -25,9 +25,9 @@ function SpecialDelete({ itemID, onDelete }) {
   );
 }
 
-SpecialDelete.propTypes = {
+BoostDelete.propTypes = {
   itemID: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired
 };
 
-export default SpecialDelete;
+export default BoostDelete;

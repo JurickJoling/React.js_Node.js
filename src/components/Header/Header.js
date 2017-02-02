@@ -8,7 +8,7 @@ import { isActive } from '../../utils';
 
 function Header({ isAuthenticated, currentUser, logoutUser }) {
   return (
-    <Navbar collapseOnSelect>
+    <Navbar fluid collapseOnSelect>
       <Navbar.Header>
         <Navbar.Brand>
           <LinkTo className="navbar-brand" href="#">Leaf Admin</LinkTo>

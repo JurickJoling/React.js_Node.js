@@ -10,7 +10,7 @@ import { Button } from '../helpers';
 
 momentLocalizer(moment);
 
-export default class DateNameStartEndList extends Component {
+export default class DateStartEndList extends Component {
 
   static propTypes = {
     input: PropTypes.object.isRequired,
@@ -49,13 +49,6 @@ export default class DateNameStartEndList extends Component {
               />
             </td>
             <td>
-              <input
-                className="form-control"
-                placeholder={placeholder}
-                onChange={({ target }) => this.setState({ value: { ...value, name: target.value } })}
-              />
-            </td>
-            <td>
               <DateTimePicker
                 calendar={false}
                 value={value.start ? moment(value.start, 'hh:mm A').toDate() : null}
@@ -72,7 +65,7 @@ export default class DateNameStartEndList extends Component {
             <td>
               <Button
                 color="primary"
-                disabled={!value.date || !value.name || !value.start || !value.end}
+                disabled={!value.date || !value.start || !value.end}
                 onClick={() => this.setState({ value: {}, values: [...values, value] }, () => input.onChange(this.state.values))}
               >
                 Add
@@ -82,7 +75,6 @@ export default class DateNameStartEndList extends Component {
           {values.map((val, index) => (
             <tr key={index}>
               <td>{val.date}</td>
-              <td>{val.name}</td>
               <td>{val.start}</td>
               <td>{val.end}</td>
               <td>
