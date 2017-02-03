@@ -1,12 +1,14 @@
 import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
+import { Button, BooleanField } from '../../../helpers';
 import { renderDateTime } from '../../../utils';
 
 function BoostItem({
   item: {
-    objectId, dates, start_time, end_time, with_max_budget, max_budget, createdAt
-  }
+    objectId, dates, start_time, end_time, with_max_budget, max_budget, approved, createdAt
+  },
+  toggleApproved
 }) {
   return (
     <div>
@@ -53,11 +55,16 @@ function BoostItem({
           </tr>
         ) : null}
         <tr>
+          <td>Approved?</td>
+          <td><BooleanField value={approved}/></td>
+        </tr>
+        <tr>
           <td>Created</td>
           <td>{renderDateTime(createdAt)}</td>
         </tr>
         </tbody>
       </table>
+      <Button color={approved ? 'danger' : 'success'} onClick={() => toggleApproved()}>{approved ? 'Unapprove' : 'Approve'}</Button>
     </div>
   );
 }
@@ -67,7 +74,8 @@ BoostItem.propTypes = {
     objectId: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired,
-  }).isRequired
+  }).isRequired,
+  toggleApproved: PropTypes.func.isRequired
 };
 
 export default BoostItem;

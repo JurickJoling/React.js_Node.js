@@ -1,10 +1,8 @@
-import isObject from 'lodash/isObject';
 import size from 'lodash/size';
 import React, { PropTypes } from 'react';
-import { Button, Popover, OverlayTrigger } from 'react-bootstrap';
 
-import { LinkTo } from '../../../helpers';
-import { capitalize, renderDate, renderDateTime, weekDays, renderHours } from '../../../utils';
+import { BooleanField, LinkTo } from '../../../helpers';
+import { renderDate, renderDateTime } from '../../../utils';
 
 function BoostsList({ items }) {
 
@@ -17,6 +15,7 @@ function BoostsList({ items }) {
           <th>Start Time</th>
           <th>End Time</th>
           <th>Max Budget</th>
+          <th>Approved?</th>
           <th>Created</th>
           <th />
           <th />
@@ -24,7 +23,7 @@ function BoostsList({ items }) {
         </tr>
         </thead>
         <tbody>
-        {items.map(({objectId, dates, start_time, end_time, with_max_budget, max_budget, createdAt}) => (
+        {items.map(({objectId, dates, start_time, end_time, with_max_budget, max_budget, approved, createdAt}) => (
           <tr key={objectId}>
             <td>
               {size(dates || []) > 0 ? (
@@ -44,6 +43,7 @@ function BoostsList({ items }) {
             <td>{renderDateTime(start_time)}</td>
             <td>{with_max_budget ? null : renderDateTime(end_time)}</td>
             <td>{with_max_budget ? max_budget : null}</td>
+            <td><BooleanField value={approved} /></td>
             <td>{renderDate(createdAt)}</td>
             <td>
               <LinkTo className="btn btn-info" url={`boosts/${objectId}`}>Show</LinkTo>

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchBoost } from '../../actions/BoostActions';
+import { updateBoost } from '../../actions/BoostActions';
 
 import { BoostItem } from '../../components';
 import { Loading, Tabs } from '../../helpers';
@@ -24,15 +25,15 @@ class BoostShowPage extends Component {
   }
 
   render() {
-    const { params: { itemID }, item } = this.props;
+    const { params: { itemID }, item, item: { objectId, approved }, updateBoost } = this.props;
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
         <Tabs modelsName="boosts" itemID={itemID} />
-        <BoostItem item={item} />
+        <BoostItem item={item} toggleApproved={() => updateBoost(objectId, { approved: !approved })} />
       </Loading>
     );
   }
 }
 
-export default connect(({ boosts: { item } }) => ({ item }), { fetchBoost })(BoostShowPage);
+export default connect(({ boosts: { item } }) => ({ item }), { fetchBoost, updateBoost })(BoostShowPage);

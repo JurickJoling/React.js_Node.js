@@ -4,20 +4,18 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import Promise from 'bluebird';
 
-import { fetchEventTypes } from '../../../actions/EventTypeActions';
 import { fetchLocationTypes } from '../../../actions/LocationTypeActions';
 
 import {
   LinkTo,
   renderField,
-  renderDropdownList
+  renderMultiselect
 } from '../../../helpers';
 
 class PromoCodeForm extends Component {
   componentDidMount() {
-    const { fetchEventTypes, fetchLocationTypes } = this.props;
+    const { fetchLocationTypes } = this.props;
     Promise.all([
-      fetchEventTypes({}),
       fetchLocationTypes({})
     ]).then(() => this.handleInitialize());
   }
@@ -26,20 +24,20 @@ class PromoCodeForm extends Component {
     const {
       item,
       item: {
-        name, amount, event_type, location_type
+        name, amount, location_types
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
       initialize({
-        name, amount, event_type, location_type
+        name, amount, location_types
       });
     }
   }
 
   render () {
-    const { item, eventTypes, locationTypes, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, locationTypes, errorMessage, handleSubmit, onSave } = this.props;
     return (
       <form onSubmit={handleSubmit(promoCode => onSave(promoCode))}>
         <div className="row">
@@ -47,20 +45,12 @@ class PromoCodeForm extends Component {
             <Field name="name" component={renderField} label="PromoCode" />
             <Field name="amount" component={renderField} label="Amount" />
             <Field
-              name="event_type"
+              name="location_types"
               valueField="objectId"
               textField="name"
-              component={renderDropdownList}
-              data={eventTypes.map(({ objectId, name }) => ({ objectId, name }))}
-              label="Event Type"
-            />
-            <Field
-              name="location_type"
-              valueField="objectId"
-              textField="name"
-              component={renderDropdownList}
+              component={renderMultiselect}
               data={locationTypes.map(({ objectId, name }) => ({ objectId, name }))}
-              label="Location Type"
+              label="Location Types"
             />
           </div>
           <div className="col-md-6">
@@ -96,6 +86,5 @@ PromoCodeForm.propTypes = {
 };
 
 export default connect(({
-  eventTypes: { items: eventTypes },
   locationTypes: { items: locationTypes }
-}) => ({ eventTypes, locationTypes }), ({ fetchEventTypes, fetchLocationTypes }))(reduxForm({ form: 'promoCode' })(PromoCodeForm));
+}) => ({ locationTypes }), ({ fetchLocationTypes }))(reduxForm({ form: 'promoCode' })(PromoCodeForm));
