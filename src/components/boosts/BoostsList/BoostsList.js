@@ -24,7 +24,7 @@ function BoostsList({ items }) {
         </tr>
         </thead>
         <tbody>
-        {items.map(({objectId, dates, start_time, max_budget, end_time, createdAt}) => (
+        {items.map(({objectId, dates, start_time, end_time, with_max_budget, max_budget, createdAt}) => (
           <tr key={objectId}>
             <td>
               {size(dates || []) > 0 ? (
@@ -42,8 +42,8 @@ function BoostsList({ items }) {
                 ) : null}
             </td>
             <td>{renderDateTime(start_time)}</td>
-            <td>{renderDateTime(end_time)}</td>
-            <td>{max_budget}</td>
+            <td>{with_max_budget ? null : renderDateTime(end_time)}</td>
+            <td>{with_max_budget ? max_budget : null}</td>
             <td>{renderDate(createdAt)}</td>
             <td>
               <LinkTo className="btn btn-info" url={`boosts/${objectId}`}>Show</LinkTo>

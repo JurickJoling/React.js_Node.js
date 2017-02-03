@@ -5,7 +5,7 @@ import { renderDateTime } from '../../../utils';
 
 function BoostItem({
   item: {
-    objectId, dates, start_time, end_time, max_budget, createdAt
+    objectId, dates, start_time, end_time, with_max_budget, max_budget, createdAt
   }
 }) {
   return (
@@ -40,14 +40,18 @@ function BoostItem({
           <td>Start Time</td>
           <td>{renderDateTime(start_time)}</td>
         </tr>
-        <tr>
-          <td>End Time</td>
-          <td>{renderDateTime(end_time)}</td>
-        </tr>
-        <tr>
-          <td>Max Budget</td>
-          <td>{max_budget}</td>
-        </tr>
+        {with_max_budget ? null : (
+          <tr>
+            <td>End Time</td>
+            <td>{renderDateTime(end_time)}</td>
+          </tr>
+        )}
+        {with_max_budget ? (
+          <tr>
+            <td>Max Budget</td>
+            <td>{max_budget}</td>
+          </tr>
+        ) : null}
         <tr>
           <td>Created</td>
           <td>{renderDateTime(createdAt)}</td>

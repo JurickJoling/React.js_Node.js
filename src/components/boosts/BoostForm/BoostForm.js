@@ -76,9 +76,7 @@ class BoostForm extends Component {
               component={renderDropdownList}
               data={[
                 {name: 'Invites Sent', value: 'invites_sent'},
-                {name: 'Invites Accepted', value: 'invites_accepted'},
-                {name: 'Tickets Purchased', value: 'tickets_purchased'},
-                {name: 'Attendees', value: 'attendees'}
+                {name: 'Invites Accepted', value: 'invites_accepted'}
               ]}
               label="Boost Type"
             />
