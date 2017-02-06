@@ -19,3 +19,4 @@ export { LocationTypesList, LocationTypeItem, LocationTypeForm, LocationTypeDele
 export { PromoCodesList, PromoCodeItem, PromoCodeForm, PromoCodeDelete } from './promoCodes';
 export { UsersList, UserItem, UserForm, UserDelete } from './users';
 export { BoostsList, BoostItem, BoostForm, BoostDelete } from './boosts';
+export { PaymentMethodsList, PaymentMethodItem, PaymentMethodForm, PaymentMethodDelete } from './paymentMethods';

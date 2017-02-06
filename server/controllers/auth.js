@@ -6,6 +6,8 @@ const jwt = require('jwt-simple');
 
 const config = require('../../config');
 
+const stripe = require('stripe')(config.stripeApiKey);
+
 const Partner = require('../models/partner');
 
 const headers = {
@@ -62,34 +64,34 @@ exports.signup = function({
     bcrypt.hash(password, salt, null, function(err, hash) {
       if (err) { return next(err); }
 
-      axios.post(`${config.parseHostURI}/Partner`, {
-        email,
-        password: hash,
-        is_partner: true,
-        first_name,
-        last_name,
-        personal_phone,
-        job_title,
-        phone,
-        address,
-        category_type,
-        business_id,
-        business_type
-      }, { headers })
-        .then(({ data }) => {
-
-          axios.get(`${config.parseHostURI}/Partner?where=${JSON.stringify({ email })}`, { headers })
-            .then(response =>
-              res.json({
-                token: tokenForPartner(data),
-                user: omit(first(response.data.results), 'password') || data
-              })
-            )
-            .catch(() => res.status(500).json({ error: 'Something went wrong' }));
-
-
-        })
-        .catch(() => res.status(500).json({ error: 'Something went wrong' }));
+      stripe.customers.create({ email }).then(customer => {
+        axios.post(`${config.parseHostURI}/Partner`, {
+          email,
+          password: hash,
+          is_partner: true,
+          first_name,
+          last_name,
+          personal_phone,
+          job_title,
+          phone,
+          address,
+          category_type,
+          business_id,
+          business_type,
+          stripe_customer_id: customer.id
+        }, { headers })
+          .then(({ data }) => {
+            axios.get(`${config.parseHostURI}/Partner?where=${JSON.stringify({ email })}`, { headers })
+              .then(response =>
+                res.json({
+                  token: tokenForPartner(data),
+                  user: omit(first(response.data.results), 'password') || data
+                })
+              )
+              .catch(() => res.status(500).json({ error: 'Something went wrong' }));
+          })
+          .catch(() => res.status(500).json({ error: 'Something went wrong' }));
+      })
     });
   });
 };

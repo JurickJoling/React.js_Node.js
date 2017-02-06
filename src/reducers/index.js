@@ -12,3 +12,4 @@ export { default as promoCodes } from './PromoCodeReducer';
 export { default as boosts } from './BoostReducer';
 export { default as users } from './UserReducer';
 export { default as tags } from './TagReducer';
+export { default as paymentMethods } from './PaymentMethodReducer';
