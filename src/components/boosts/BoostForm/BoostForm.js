@@ -8,6 +8,7 @@ import {
   renderDropdownList,
   renderCheckboxField,
   DateStartEndList,
+  DateDayTimeList,
   renderDateTimePicker
 } from '../../../helpers';
 
@@ -45,7 +46,7 @@ class BoostForm extends Component {
           <div className="col-md-6">
             <Field
               name="dates"
-              component={DateStartEndList}
+              component={DateDayTimeList}
               label="Dates"
             />
           </div>
