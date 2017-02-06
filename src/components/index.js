@@ -7,6 +7,8 @@ export { default as Footer } from './Footer/Footer';
 export { default as DataTable } from './DataTable/DataTable';
 export { default as SearchForm } from './SearchForm/SearchForm';
 
+export { default as PendingPayments } from './PendingPayments/PendingPayments';
+
 export { SigninForm, SignupForm } from './auth';
 export { ProfileForm } from './profile';
 export { BundlesList, BundleItem, BundleForm, BundleDelete } from './bundles';

@@ -10,6 +10,24 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
+module.exports.list = function (req, res, next) {
+
+  stripe.charges.create({
+    amount: 60,
+    currency: 'usd',
+    customer: req.user.get('stripe_customer_id')
+  });
+
+  stripe.invoices.list(
+    { customer: req.user.get('stripe_customer_id') },
+    function(err, invoices) {
+      if (err) { return next(err); }
+
+      res.json({ invoices });
+    }
+  );
+};
+
 module.exports.create = function(req, res) {
   const { number, exp_year, exp_month, cvc } = req.body;
 
@@ -23,7 +41,7 @@ module.exports.create = function(req, res) {
     }
   })
     .then(source => axios.post(`${config.parseHostURI}/PaymentMethod`, {
-      number: number.substr(number.length - 5),
+      number: number.substr(number.length - 4),
       exp_year,
       exp_month,
       type: 'stripe',
