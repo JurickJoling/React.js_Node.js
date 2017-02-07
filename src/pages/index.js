@@ -1,5 +1,6 @@
 export { default as Dashboard } from './main/Dashboard';
 export { default as auth } from './auth/routes';
+export { default as business } from './business/routes';
 export { default as profile } from './profile/routes';
 export { default as billing } from './billing/routes';
 export { default as bundles } from './bundles/routes';

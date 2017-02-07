@@ -18,7 +18,7 @@ $(function() {
       data: function (params) {
         return {
           term: params.term,
-          location: $('select[name=metro_city]').val()
+          location: $('select[name=metro_city]').val(),
           page: params.page
         };
       },

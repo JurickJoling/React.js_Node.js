@@ -113,7 +113,10 @@ export function signupUser(user) {
   //   business_type: type
   // }
 
-  return dispatch => apiRequest.authPost('signup', user)
+  return dispatch => apiRequest.authPost('signup', {
+    ...user,
+    business
+  })
     .then(({ data: { token, user } }) => {
       console.log('sign up', token, user);
       dispatch(authUser({ email: user.email, accessToken: token, currentUser: user }));

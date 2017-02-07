@@ -77,9 +77,16 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
           )}
         {isAuthenticated ? (
             <Nav pullRight>
-              <NavItem active={isActive('billing')} href="/billing" onSelect={() => browserHistory.push('/billing')}>
-                Billing
-              </NavItem>
+              {currentUser.is_partner ? (
+                  <NavItem active={isActive('business')} href="/business" onSelect={() => browserHistory.push('/business')}>
+                    Business Profile
+                  </NavItem>
+                ) : null}
+              {currentUser.is_partner ? (
+                  <NavItem active={isActive('billing')} href="/billing" onSelect={() => browserHistory.push('/billing')}>
+                    Billing
+                  </NavItem>
+                ) : null}
               <NavItem active={isActive('profile')} href="/profile" onSelect={() => browserHistory.push('/profile')}>
                 Settings
               </NavItem>

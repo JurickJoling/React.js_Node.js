@@ -33,7 +33,7 @@ function addBase64Id(obj) {
 }
 
 module.exports.index = function(req, res) {
-  const { term, location, address, page } = req.query;
+  const { term, location, page } = req.query;
 
   const limit = 50;
 
@@ -44,7 +44,7 @@ module.exports.index = function(req, res) {
     `&where=${JSON.stringify({
       name: { $regex: term, $options: 'i' },
       metro_city: { $regex: location, $options: 'i' },
-      address: { $regex: address, $options: 'i' },
+      // address: { $regex: address, $options: 'i' },
     })}`
   ].join('');
 
@@ -56,18 +56,18 @@ module.exports.index = function(req, res) {
       if (size(results) > 0) {
         res.json({
           total_count: count,
-          items: results.map(({ objectId, name, phone, address, category }) => addBase64Id({
+          items: results.map(({ objectId, name, phone, category, yelp_id }) => addBase64Id({
             id: objectId,
             name,
             phone,
-            address,
+            // address,
             category,
+            yelp_id,
             type: 'Location'
           }))
         });
       } else {
-        console.log('location', compact([address, location]).join(' '));
-        yelpV3.search({ term, location: compact([address, location]).join(' '), limit, offset: page ? (page - 1) * limit : null })
+        yelpV3.search({ term, location, limit, offset: page ? (page - 1) * limit : null })
           .then(({ businesses, total }) => {
 
             res.json({
@@ -78,6 +78,7 @@ module.exports.index = function(req, res) {
                 phone,
                 address: isObject(location) ? compact([location.address1, location.address2, location.address3]).join(', ') : null,
                 category: (categories || []).map(c => c.title).join(', '),
+                yelp_id: id,
                 type: 'Yelp'
               }))
             });

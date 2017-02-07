@@ -1,8 +1,11 @@
+const isObject = require('lodash/isObject');
+const compact = require('lodash/compact');
 const first = require('lodash/first');
 const omit = require('lodash/omit');
 const axios = require('axios');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jwt-simple');
+const Promise = require('bluebird');
 
 const config = require('../../config');
 
@@ -17,10 +20,43 @@ const headers = {
 };
 
 function tokenForPartner(partner) {
-  console.log('tokenForPartner partner', partner);
   const timestamp = new Date().getTime();
-  console.log('tokenForPartner jwt.encode', { sub: partner.objectId, iat: timestamp });
   return jwt.encode({ sub: partner.objectId, iat: timestamp }, config.authSecret);
+}
+
+function persistLocation({ business }) {
+  return new Promise(function(resolve, reject) {
+    if (business.type === 'Location') {
+      resolve({
+        __type: 'Pointer',
+        className: 'Location',
+        objectId: business.id
+      });
+    } else {
+      axios.post(`http://${config.host}${config.port ===  80 ? '' : `:${config.port}`}/yelp/show`, { id: business.yelp_id })
+        .then(({ data: yelpData }) => axios.post(`${config.parseHostURI}/Location`, {
+          yelp_id: yelpData.id,
+          name: yelpData.name,
+          address: isObject(yelpData.location) ? compact([yelpData.location.address1, yelpData.location.address2, yelpData.location.address3]).join(', ') : null,
+          phone: yelpData.display_phone,
+          category: (yelpData.categories || []).map(c => c.title).join(', '),
+          neighborhood: (yelpData.neighborhoods || []).join(', '),
+          metro_city: isObject(yelpData.location) ? compact([yelpData.location.city, yelpData.location.state]).join(', ') : null,
+          latitude: isObject(yelpData.coordinates) ? yelpData.coordinates.latitude : null,
+          longitude: isObject(yelpData.coordinates) ? yelpData.coordinates.longitude : null,
+          rating: yelpData.rating,
+          neighborhoods: yelpData.neighborhoods || [],
+          hours: yelpData.hours && yelpData.hours[0] ? yelpData.hours[0].open : []
+        }, { headers })
+          .then(({ data: locationData }) => resolve({
+            __type: 'Pointer',
+            className: 'Location',
+            objectId: locationData.objectId
+          }))
+          .catch(err => reject(err)))
+        .catch(err => reject(err));
+    }
+  });
 }
 
 exports.token = function (req, res) {
@@ -39,11 +75,7 @@ exports.signup = function({
     last_name,
     personal_phone,
     job_title,
-    phone,
-    address,
-    category_type,
-    business_id,
-    business_type
+    business
   }
 }, res, next) {
   if (!email || !password) {
@@ -64,34 +96,32 @@ exports.signup = function({
     bcrypt.hash(password, salt, null, function(err, hash) {
       if (err) { return next(err); }
 
-      stripe.customers.create({ email }).then(customer => {
-        axios.post(`${config.parseHostURI}/Partner`, {
-          email,
-          password: hash,
-          is_partner: true,
-          first_name,
-          last_name,
-          personal_phone,
-          job_title,
-          phone,
-          address,
-          category_type,
-          business_id,
-          business_type,
-          stripe_customer_id: customer.id
-        }, { headers })
-          .then(({ data }) => {
-            axios.get(`${config.parseHostURI}/Partner?where=${JSON.stringify({ email })}`, { headers })
-              .then(response =>
-                res.json({
-                  token: tokenForPartner(data),
-                  user: omit(first(response.data.results), 'password') || data
-                })
-              )
-              .catch(() => res.status(500).json({ error: 'Something went wrong' }));
-          })
+      persistLocation({ business })
+        .then(location => {
+          stripe.customers.create({ email })
+            .then(customer =>
+              axios.post(`${config.parseHostURI}/Partner`, {
+                email,
+                password: hash,
+                is_partner: true,
+                first_name,
+                last_name,
+                personal_phone,
+                job_title,
+                location,
+                stripe_customer_id: customer.id
+              }, { headers })
+                .then(({ data }) => axios.get(`${config.parseHostURI}/Partner?where=${JSON.stringify({ email })}`, { headers })
+                  .then(response => res.json({
+                    token: tokenForPartner(data),
+                    user: omit(first(response.data.results), 'password') || data
+                  }))
+                  .catch(() => res.status(500).json({ error: 'Something went wrong' })))
+                .catch(() => res.status(500).json({ error: 'Something went wrong' }))
+            )
+            .catch(() => res.status(500).json({ error: 'Something went wrong' }));
+        })
           .catch(() => res.status(500).json({ error: 'Something went wrong' }));
-      })
     });
   });
 };
