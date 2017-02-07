@@ -1,25 +1,46 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { updateProfile } from '../../actions/UserActions';
+import { fetchLocation, updateBusiness } from '../../actions/LocationActions';
 
-import { ProfileForm } from '../../components';
+import { BusinessProfileForm } from '../../components';
+import { Loading } from '../../helpers';
 
-function BusinessEditPage({ currentUser, currentUser: { objectId }, updateProfile }) {
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-12">
-          <ProfileForm
-            currentUser={currentUser}
-            onSave={user => updateProfile(objectId, user, currentUser)}
-          />
-        </div>
-      </div>
-    </div>
-  );
+class LocationAddPage extends Component {
+
+  static propTypes = {
+    item: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+    fetchLocation: PropTypes.func.isRequired
+  };
+
+  state = {
+    fetched: false
+  };
+
+  componentDidMount() {
+    const { currentUser, fetchLocation } = this.props;
+
+    if (currentUser.location) {
+      fetchLocation(currentUser.location.objectId).then(() => this.setState({ fetched: true }));
+    } else {
+      this.setState({ fetched: true });
+    }
+  }
+
+  render() {
+    const { item, errorMessage, updateBusiness } = this.props;
+    const { fetched } = this.state;
+
+    return (
+      <Loading className="container" loaded={fetched}>
+        <BusinessProfileForm item={item} errorMessage={errorMessage} onSave={location => updateBusiness(item.objectId, location)} />
+      </Loading>
+    );
+  }
 }
 
 export default connect(({
-  auth: { currentUser }
-}) => ({ currentUser }), { updateProfile })(BusinessEditPage);
+  auth: { currentUser },
+  locations: { item, errorMessage }
+}) => ({ currentUser, item, errorMessage }), { fetchLocation, updateBusiness })(LocationAddPage);

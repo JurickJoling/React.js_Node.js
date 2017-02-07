@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Promise from 'bluebird';
 
-import { fetchBoosts } from '../../actions/BoostActions';
 import { fetchPaymentMethods } from '../../actions/PaymentMethodActions';
-import { PaymentMethodsList, SearchForm, PendingPayments } from '../../components';
+
+import { BillingTabs, PaymentMethodsList } from '../../components';
 import { LinkTo, Loading } from '../../helpers';
 
 class PaymentMethodsIndexPage extends Component {
@@ -25,25 +24,20 @@ class PaymentMethodsIndexPage extends Component {
     this.fetchData({ order });
   }
 
-  fetchData({ search, order, filters, include }) {
-    const { currentUser, fetchBoosts, fetchPaymentMethods } = this.props;
-    this.setState({ search, fetched: false }, () => Promise.all([
-      fetchBoosts({ include: '' }, currentUser),
-      fetchPaymentMethods({ order, search, filters }, currentUser),
-    ]).then(() => this.setState({ fetched: true })));
+  fetchData({ search, order, filters }) {
+    const { currentUser, fetchPaymentMethods } = this.props;
+    this.setState({ search, fetched: false }, () => fetchPaymentMethods({ order, search, filters }, currentUser)
+      .then(() => this.setState({ fetched: true })));
   }
 
   render() {
-    const { currentUser, items, boosts, count } = this.props;
-    const { fetched, order } = this.state;
-
-    console.log('currentUser', currentUser);
+    const { items, count } = this.props;
+    const { fetched } = this.state;
 
     return (
       <div className="container">
         <div className="row m-b">
-          <h1>Pending Payments</h1>
-          <PendingPayments boosts={boosts} />
+          <BillingTabs />
         </div>
         <Loading ignoreLoader={(
           <div className="row m-b">
@@ -52,9 +46,6 @@ class PaymentMethodsIndexPage extends Component {
             </div>
             <div className="col-md-4">
               {fetched ? <h4>Payment Methods ({count})</h4> : null}
-            </div>
-            <div className="col-md-6 text-right">
-              <SearchForm onSearch={({ search }) => this.fetchData({ search, order })} />
             </div>
           </div>
         )} loaded={fetched}>
@@ -69,6 +60,5 @@ class PaymentMethodsIndexPage extends Component {
 
 export default connect(({
   auth: { currentUser },
-  boosts: { items: boosts },
   paymentMethods: { items, count }
-}) => ({ items, count, boosts, currentUser }), { fetchBoosts, fetchPaymentMethods })(PaymentMethodsIndexPage);
+}) => ({ items, count, currentUser }), { fetchPaymentMethods })(PaymentMethodsIndexPage);

@@ -97,11 +97,11 @@ export function createLocation(location) {
 export function updateLocation(itemID, location) {
   return dispatch => apiRequest.put('Location', itemID, {
     ...location,
-    location: {
+    location: location.latitude && location.longitude ? {
       __type: 'GeoPoint',
       latitude: location.latitude,
       longitude: location.longitude
-    },
+    } : null,
     location_type: location.location_type ? {
       __type: 'Pointer',
       className: 'LocationType',
@@ -109,6 +109,12 @@ export function updateLocation(itemID, location) {
     } : null,
   })
     .then(() => browserHistory.push('/locations'))
+    .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));
+}
+
+export function updateBusiness(itemID, location) {
+  return dispatch => apiRequest.put('Location', itemID, location)
+    .then(() => browserHistory.push('/business'))
     .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));
 }
 

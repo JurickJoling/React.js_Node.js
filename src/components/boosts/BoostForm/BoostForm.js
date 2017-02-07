@@ -111,8 +111,6 @@ BoostForm.propTypes = {
 function validate({ name, dates, start_time, with_max_budget, max_budget, end_time, boost_type }) {
   const errors = {};
 
-  console.log('validate', name, dates, start_time, with_max_budget, max_budget, end_time, boost_type);
-
   if (!name) {
     errors.name = 'Please enter a Boost Name';
   }

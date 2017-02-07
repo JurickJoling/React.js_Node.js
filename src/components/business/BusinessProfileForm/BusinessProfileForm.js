@@ -2,19 +2,19 @@ import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { LinkTo, renderField } from '../../../helpers';
+import { LinkTo, renderField, renderCheckboxField, WeekdayStartEndList } from '../../../helpers';
 
-class ProfileForm extends Component {
+class BusinessProfileForm extends Component {
   componentDidMount() {
     this.handleInitialize();
   }
 
   handleInitialize() {
-    const { currentUser, currentUser: { first_name, last_name, personal_phone, job_title }, initialize } = this.props;
+    const { item, item: { name, phone, hours, neighborhood, reservations, outdoor }, initialize } = this.props;
 
-    if (!isEmpty(currentUser)) {
+    if (!isEmpty(item)) {
       initialize({
-        first_name, last_name, personal_phone, job_title
+        name, phone, hours, neighborhood, reservations, outdoor
       });
     }
   }
@@ -23,18 +23,21 @@ class ProfileForm extends Component {
     const { errorMessage, handleSubmit, onSave } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(user => onSave(user))}>
-        <Field name="first_name" component={renderField} label="First Name"/>
-        <Field name="last_name" component={renderField} label="Last Name" />
-        <Field name="personal_phone" component={renderField} label="Personal Phone Number"/>
-        <Field name="job_title" component={renderField} label="Job Title" />
+      <form onSubmit={handleSubmit(location => onSave(location))}>
+        <Field name="name" component={renderField} label="Business Name"/>
+        <Field name="phone" component={renderField} label="Phone"/>
+        <Field time name="hours" component={WeekdayStartEndList} label="Hours" />
+        <Field name="neighborhood" component={renderField} label="Neighborhood" />
+        <Field name="reservations" component={renderCheckboxField} label="Takes Reservations?"/>
+        <Field name="outdoor" component={renderCheckboxField} label="Outdoor Seating?"/>
+
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}
             </div>
           ) : null}
         <div className="btn-group">
-          <LinkTo className="btn btn-default" url="profile">Cancel</LinkTo>
+          <LinkTo className="btn btn-default" url="business">Cancel</LinkTo>
           <button action="submit" className="btn btn-primary">Save</button>
         </div>
       </form>
@@ -42,16 +45,16 @@ class ProfileForm extends Component {
   }
 }
 
-ProfileForm.defaultProps = {
-  currentUser: {}
+BusinessProfileForm.defaultProps = {
+  item: {}
 };
 
-ProfileForm.propTypes = {
+BusinessProfileForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
-  currentUser: PropTypes.shape({
+  item: PropTypes.shape({
     objectId: PropTypes.string
   })
 };
 
-export default reduxForm({ form: 'profile' })(ProfileForm);
+export default reduxForm({ form: 'businessProfile' })(BusinessProfileForm);

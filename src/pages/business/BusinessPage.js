@@ -20,7 +20,6 @@ class BusinessPage extends Component {
 
   componentDidMount() {
     const { currentUser, fetchLocation } = this.props;
-    console.log('currentUser', currentUser);
     if (currentUser.location) {
       fetchLocation(currentUser.location.objectId).then(() => this.setState({ fetched: true }));
     } else {

@@ -12,13 +12,13 @@ const headers = {
 
 module.exports.list = function (req, res, next) {
 
-  stripe.charges.create({
-    amount: 60,
-    currency: 'usd',
-    customer: req.user.get('stripe_customer_id')
-  });
+  // stripe.charges.create({
+  //   amount: 65,
+  //   currency: 'usd',
+  //   customer: req.user.get('stripe_customer_id')
+  // });
 
-  stripe.invoices.list(
+  stripe.charges.list(
     { customer: req.user.get('stripe_customer_id') },
     function(err, invoices) {
       if (err) { return next(err); }
