@@ -1,16 +1,19 @@
 import React, { PropTypes } from 'react';
 
-import { Button, LinkTo } from '../../helpers';
+import { LinkTo } from '../../helpers';
+import { renderDate, renderDateTime } from '../../utils';
 
-function PendingPayments({ events }) {
+function PendingPayments({ boosts }) {
   return (
     <table className="table table-bordered table-hover table-striped table-responsive">
       <thead>
         <tr>
-          <th>Event</th>
-          <th>Location</th>
-          <th>Location Type</th>
-          <th>Cost</th>
+          <th>Boost</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Max Budget</th>
+          <th>Boost Type</th>
+          <th>Created</th>
           <th>Invites Sent</th>
           <th>Invites Accepted</th>
           <th>Attendees Count</th>
@@ -23,18 +26,18 @@ function PendingPayments({ events }) {
         </tr>
       </thead>
       <tbody>
-      {events.map(({ objectId, location, cost, invites_sent, invites_accepted, attendees_count, tickets_sold }) => (
+      {boosts.map(({ objectId, name, start_time, end_time, with_max_budget, max_budget, boost_type, createdAt, invites_sent, invites_accepted, attendees_count, tickets_sold, location }) => (
         <tr key={objectId}>
           <td>
-            <LinkTo url={`events/${objectId}`}>{objectId}</LinkTo>
+            <LinkTo url={`boosts/${objectId}`}>{name}</LinkTo>
           </td>
-          <td>
-            {location ? <LinkTo url={`locations/${location.objectId}`}>{location.name}</LinkTo> : null}
-          </td>
-          <td>
-            {location && location.location_type ? <LinkTo url={`locationTypes/${location.location_type.objectId}`}>{location.location_type.name}</LinkTo> : null}
-          </td>
-          <td>{cost ? cost : 'Free'}</td>
+
+          <td>{renderDateTime(start_time)}</td>
+          <td>{with_max_budget ? null : renderDateTime(end_time)}</td>
+          <td>{with_max_budget ? max_budget : null}</td>
+          <td>{boost_type ? boost_type.name : null}</td>
+          <td>{renderDate(createdAt)}</td>
+
           <td>{invites_sent}</td>
           <td>{invites_accepted}</td>
           <td>{attendees_count}</td>
@@ -52,7 +55,7 @@ function PendingPayments({ events }) {
 }
 
 PendingPayments.propTypes = {
-  events: PropTypes.array.isRequired,
+  boosts: PropTypes.array.isRequired,
 };
 
 export default PendingPayments;

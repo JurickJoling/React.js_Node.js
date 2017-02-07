@@ -6,7 +6,7 @@ import { renderDateTime } from '../../../utils';
 
 function BoostItem({
   item: {
-    objectId, dates, start_time, end_time, with_max_budget, max_budget, approved, createdAt
+    objectId, name, dates, start_time, end_time, with_max_budget, max_budget, approved, boost_type, createdAt
   },
   toggleApproved
 }) {
@@ -20,17 +20,19 @@ function BoostItem({
           <td>{objectId}</td>
         </tr>
         <tr>
+          <td>Boost Name</td>
+          <td>{name}</td>
+        </tr>
+        <tr>
           <td>Dates</td>
           <td>
             {size(dates || []) > 0 ? (
                 <table className="table table-bordered table-hover table-striped table-responsive">
                   <tbody>
-                  {dates.map(({ date, name, start, end }, index) => (
+                  {dates.map(({ date, parts }, index) => (
                     <tr key={index}>
                       <td>{date}</td>
-                      <td>{name}</td>
-                      <td>{start}</td>
-                      <td>{end}</td>
+                      <td>{(parts || []).map(part => part.name).join(', ')}</td>
                     </tr>
                   ))}
                   </tbody>
@@ -57,6 +59,10 @@ function BoostItem({
         <tr>
           <td>Approved?</td>
           <td><BooleanField value={approved}/></td>
+        </tr>
+        <tr>
+          <td>Boost Type</td>
+          <td>{boost_type ? boost_type.name : null}</td>
         </tr>
         <tr>
           <td>Created</td>

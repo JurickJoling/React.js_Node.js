@@ -1,4 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
+import size from 'lodash/size';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
@@ -7,8 +8,7 @@ import {
   renderField,
   renderDropdownList,
   renderCheckboxField,
-  DateStartEndList,
-  DateDayTimeList,
+  DateDayPartsList,
   renderDateTimePicker
 } from '../../../helpers';
 
@@ -24,14 +24,14 @@ class BoostForm extends Component {
     const {
       item,
       item: {
-        dates, start_time, with_max_budget, max_budget, end_time, boost_type
+        name, dates, start_time, with_max_budget, max_budget, end_time, boost_type
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
       this.setState({ with_max_budget }, () => initialize({
-        dates, start_time, with_max_budget, max_budget, end_time, boost_type
+        name, dates, start_time, with_max_budget, max_budget, end_time, boost_type
       }));
     }
   }
@@ -44,11 +44,8 @@ class BoostForm extends Component {
       <form onSubmit={handleSubmit(boost => onSave(boost))}>
         <div className="row">
           <div className="col-md-6">
-            <Field
-              name="dates"
-              component={DateDayTimeList}
-              label="Dates"
-            />
+            <Field name="name" component={renderField} label="Boost Name"/>
+            <Field name="dates" component={DateDayPartsList} label="Dates" />
           </div>
           <div className="col-md-6">
             <Field
@@ -111,5 +108,36 @@ BoostForm.propTypes = {
   })
 };
 
+function validate({ name, dates, start_time, with_max_budget, max_budget, end_time, boost_type }) {
+  const errors = {};
 
-export default reduxForm({ form: 'boost' })(BoostForm);
+  console.log('validate', name, dates, start_time, with_max_budget, max_budget, end_time, boost_type);
+
+  if (!name) {
+    errors.name = 'Please enter a Boost Name';
+  }
+
+  if (size(dates) === 0) {
+    errors.dates = 'Please select at least one date';
+  }
+
+  if (!start_time) {
+    errors.start_time = 'Please select Start Time';
+  }
+
+  if (with_max_budget && !max_budget) {
+    errors.max_budget = 'Please enter Max Budget';
+  }
+
+  if (!with_max_budget && !end_time) {
+    errors.end_time = 'Please select End Time';
+  }
+
+  if (!boost_type) {
+    errors.boost_type = 'Please select Boost Type';
+  }
+
+  return errors;
+}
+
+export default reduxForm({ form: 'boost', validate })(BoostForm);
