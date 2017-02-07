@@ -10,6 +10,7 @@ export { default as SearchForm } from './SearchForm/SearchForm';
 export { default as PendingPayments } from './PendingPayments/PendingPayments';
 
 export { SigninForm, SignupForm } from './auth';
+export { BusinessProfile, BusinessProfileForm } from './business';
 export { ProfileForm } from './profile';
 export { BundlesList, BundleItem, BundleForm, BundleDelete } from './bundles';
 export { PlansList, PlanItem, PlanForm, PlanDelete } from './plans';

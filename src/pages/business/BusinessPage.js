@@ -1,45 +1,46 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { LinkTo } from '../../helpers';
+import { fetchLocation } from '../../actions/LocationActions';
 
-function BusinessPage({ currentUser: { first_name, last_name, personal_phone, job_title } }) {
-  return (
-    <div className="container">
-      <div className="row m-b">
-        <div className="col-md-6">
-          <LinkTo className="btn btn-primary" url="profile/edit">Edit Profile</LinkTo>
-        </div>
-        <div className="col-md-6"></div>
-      </div>
-      <div className="row">
-        <div className="col-md-12">
-          <table className="table table-bordered table-hover table-striped table-responsive">
-            <tbody>
-              <tr>
-                <td>First Name</td>
-                <td>{first_name}</td>
-              </tr>
-              <tr>
-                <td>Last Name</td>
-                <td>{last_name}</td>
-              </tr>
-              <tr>
-                <td>Personal Phone Number</td>
-                <td>{personal_phone}</td>
-              </tr>
-              <tr>
-                <td>Job Title</td>
-                <td>{job_title}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
+import { BusinessProfile } from '../../components';
+import { Loading } from '../../helpers';
+
+class BusinessPage extends Component {
+
+  static propTypes = {
+    item: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+    fetchLocation: PropTypes.func.isRequired
+  };
+
+  state = {
+    fetched: false
+  };
+
+  componentDidMount() {
+    const { currentUser, fetchLocation } = this.props;
+    console.log('currentUser', currentUser);
+    if (currentUser.location) {
+      fetchLocation(currentUser.location.objectId).then(() => this.setState({ fetched: true }));
+    } else {
+      this.setState({ fetched: true });
+    }
+  }
+
+  render() {
+    const { item } = this.props;
+    const { fetched } = this.state;
+
+    return (
+      <Loading className="container" loaded={fetched}>
+        <BusinessProfile item={item} />
+      </Loading>
+    );
+  }
 }
 
 export default connect(({
-  auth: { currentUser }
-}) => ({ currentUser }))(BusinessPage);
+  auth: { currentUser },
+  locations: { item }
+}) => ({ currentUser, item }), { fetchLocation })(BusinessPage);

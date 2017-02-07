@@ -36,14 +36,7 @@ export function validateToken() {
     if (email && accessToken) {
       if (!!is_partner) {
         return apiRequest.authToken(accessToken)
-          .then(({ data: { token, user } }) => dispatch(authUser({
-            email,
-            accessToken: token,
-            currentUser: {
-              ...user,
-              objectId: user._id
-            }
-          })))
+          .then(({ data: { token, user } }) => dispatch(authUser({ email, accessToken: token, currentUser: user })))
           .catch(() => dispatch(authError('Bad Login Info')));
       }
 
@@ -100,25 +93,11 @@ export function signupUser(user) {
   const encodedBusiness = cookie.load('business');
   const business = encodedBusiness ? JSON.parse(Base64.decode(encodedBusiness)) : {};
 
-  // const { id, name, phone, address, category, type } = business;
-  //
-  // {
-  //   email,
-  //     password,
-  //     first_name: name,
-  //   phone,
-  //   address,
-  //   category_type: category,
-  //   business_id: id,
-  //   business_type: type
-  // }
-
   return dispatch => apiRequest.authPost('signup', {
     ...user,
     business
   })
     .then(({ data: { token, user } }) => {
-      console.log('sign up', token, user);
       dispatch(authUser({ email: user.email, accessToken: token, currentUser: user }));
       browserHistory.push('/');
     })

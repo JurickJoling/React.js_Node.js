@@ -60,7 +60,22 @@ function persistLocation({ business }) {
 }
 
 exports.token = function (req, res) {
-  res.send({ token: tokenForPartner(req.user), user: req.user });
+  axios.get(`${config.parseHostURI}/Partner/${req.user.get('_id')}`, { headers })
+    .then(({ data }) => {
+
+      console.log('data', data, {
+        token: tokenForPartner(data),
+        user: omit(data, 'password') || data
+      });
+      res.json({
+        token: tokenForPartner(data),
+        user: omit(data, 'password') || data
+      });
+    })
+    .catch(err => {
+      console.log('token err', err);
+      res.status(500).json({ error: 'Something went wrong' })
+    });
 };
 
 exports.signin = function(req, res) {

@@ -34,8 +34,8 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
     if (err) {  return done(err, false); }
 
     if (user) {
-      user.objectId = user._id;
-      user.full_name = [user.first_name, user.last_name].join(' ');
+      // user.objectId = user._id;
+      // user.full_name = [user.first_name, user.last_name].join(' ');
       done(null, user);
     } else {
       done(null, false);
