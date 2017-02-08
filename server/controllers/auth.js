@@ -124,12 +124,24 @@ exports.signup = function({
                     token: tokenForPartner(data),
                     user: omit(first(response.data.results), 'password') || data
                   }))
-                  .catch(() => res.status(500).json({ error: 'Something went wrong' })))
-                .catch(() => res.status(500).json({ error: 'Something went wrong' }))
+                  .catch(err => {
+                    console.log('err1', err);
+                    res.status(500).json({ error: 'Something went wrong' }));
+                  })
+                .catch(err => {
+                  console.log('err2', err);
+                  res.status(500).json({ error: 'Something went wrong' })
+                })
             )
-            .catch(() => res.status(500).json({ error: 'Something went wrong' }));
+            .catch(err => {
+              console.log('err3', err);
+              res.status(500).json({ error: 'Something went wrong' })
+          })
         })
-          .catch(() => res.status(500).json({ error: 'Something went wrong' }));
+          .catch(err => {
+            console.log('err4', err);
+            res.status(500).json({ error: 'Something went wrong' })
+          });
     });
   });
 };
