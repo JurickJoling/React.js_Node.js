@@ -15,7 +15,7 @@ class PromoCodesIndexPage extends Component {
   state = {
     fetched: false,
     search: '',
-    include: 'event_type,location_type',
+    include: 'location_types',
     order: '-createdAt'
   };
 

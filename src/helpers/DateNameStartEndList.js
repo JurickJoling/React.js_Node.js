@@ -2,13 +2,11 @@ import isArray from 'lodash/isArray';
 import size from 'lodash/size';
 import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
-import DropdownList from 'react-widgets/lib/DropdownList'
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import cl from 'classnames';
 
 import { Button } from '../helpers';
-import { weekDays, capitalize } from '../utils';
 
 momentLocalizer(moment);
 

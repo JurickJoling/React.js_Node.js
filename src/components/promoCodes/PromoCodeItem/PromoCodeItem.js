@@ -5,7 +5,7 @@ import { renderDateTime } from '../../../utils';
 
 function PromoCodeItem({
   item: {
-    objectId, name, amount, event_type, location_type, createdAt
+    objectId, name, amount, location_types, createdAt
   }
 }) {
   return (
@@ -26,15 +26,13 @@ function PromoCodeItem({
           <td>{amount}</td>
         </tr>
         <tr>
-          <td>Event Type</td>
+          <td>Location Types</td>
           <td>
-            {event_type ? <LinkTo url={`eventTypes/${event_type.objectId}`}>{event_type.name}</LinkTo> : null}
-          </td>
-        </tr>
-        <tr>
-          <td>Location Type</td>
-          <td>
-            {location_type ? <LinkTo url={`locationTypes/${location_type.objectId}`}>{location_type.name}</LinkTo> : null}
+            {(location_types || []).map((location_type, index) => (
+              <span key={location_type.objectId}>
+                <LinkTo url={`locationTypes/${location_type.objectId}`}>{location_type.name}</LinkTo>{location_types.length - 1 === index ? '' : ', '}
+              </span>
+            ))}
           </td>
         </tr>
         <tr>

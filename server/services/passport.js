@@ -9,9 +9,7 @@ const config = require('../../config');
 
 const localOptions = { usernameField: 'email' };
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-  console.log('LocalStrategy', email, password);
   Partner.findOne({ email }, function(err, partner) {
-    console.log('LocalStrategy partner', partner);
     if (err) { return done(err); }
     if (!partner) { return done(null, false); }
 
@@ -20,7 +18,6 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
       if (!isMatch) { return done(null, false); }
 
       partner.objectId = partner._id;
-      console.log('LocalStrategy partner.objectId', partner);
       return done(null, partner);
     });
   });
@@ -33,14 +30,12 @@ const jwtOptions = {
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
-  console.log('payload.sub', payload);
   Partner.findById(payload.sub, function(err, user) {
     if (err) {  return done(err, false); }
 
     if (user) {
-      user.objectId = user._id;
-      user.full_name = [user.first_name, user.last_name].join(' ');
-      console.log('jwtLogin user', user);
+      // user.objectId = user._id;
+      // user.full_name = [user.first_name, user.last_name].join(' ');
       done(null, user);
     } else {
       done(null, false);

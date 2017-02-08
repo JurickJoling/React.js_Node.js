@@ -8,7 +8,7 @@ import { isActive } from '../../utils';
 
 function Header({ isAuthenticated, currentUser, logoutUser }) {
   return (
-    <Navbar collapseOnSelect>
+    <Navbar fluid collapseOnSelect>
       <Navbar.Header>
         <Navbar.Brand>
           <LinkTo className="navbar-brand" href="#">Leaf Admin</LinkTo>
@@ -43,6 +43,11 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
                     Specials
                   </NavItem>
                 ) : null}
+              {currentUser.is_admin || currentUser.is_partner ? (
+                  <NavItem active={isActive('boosts')} href="/boosts" onSelect={() => browserHistory.push('/boosts')}>
+                    Boosts
+                  </NavItem>
+                ) : null}
               {currentUser.is_admin ? (
                   <NavItem active={isActive('locations')} href="/locations" onSelect={() => browserHistory.push('/locations')}>
                     Locations
@@ -72,6 +77,16 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
           )}
         {isAuthenticated ? (
             <Nav pullRight>
+              {currentUser.is_partner ? (
+                  <NavItem active={isActive('business')} href="/business" onSelect={() => browserHistory.push('/business')}>
+                    Business Profile
+                  </NavItem>
+                ) : null}
+              {currentUser.is_partner ? (
+                  <NavItem active={isActive('billing')} href="/billing" onSelect={() => browserHistory.push('/billing')}>
+                    Billing
+                  </NavItem>
+                ) : null}
               <NavItem active={isActive('profile')} href="/profile" onSelect={() => browserHistory.push('/profile')}>
                 Settings
               </NavItem>

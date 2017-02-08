@@ -79,7 +79,6 @@ export function fetchLocation(itemId) {
 export function createLocation(location) {
   return dispatch => apiRequest.post('Location', {
     ...location,
-    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null,
     location: {
       __type: 'GeoPoint',
       latitude: location.latitude,
@@ -98,12 +97,11 @@ export function createLocation(location) {
 export function updateLocation(itemID, location) {
   return dispatch => apiRequest.put('Location', itemID, {
     ...location,
-    birthday: location.birthday ? moment(location.birthday).format('MM/DD/YYYY') : null,
-    location: {
+    location: location.latitude && location.longitude ? {
       __type: 'GeoPoint',
       latitude: location.latitude,
       longitude: location.longitude
-    },
+    } : null,
     location_type: location.location_type ? {
       __type: 'Pointer',
       className: 'LocationType',
@@ -111,6 +109,12 @@ export function updateLocation(itemID, location) {
     } : null,
   })
     .then(() => browserHistory.push('/locations'))
+    .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));
+}
+
+export function updateBusiness(itemID, location) {
+  return dispatch => apiRequest.put('Location', itemID, location)
+    .then(() => browserHistory.push('/business'))
     .catch(({ response: { data: { error } } }) => dispatch(locationError(error)));
 }
 

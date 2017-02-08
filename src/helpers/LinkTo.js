@@ -7,6 +7,7 @@ function LinkTo({
   url, href,
   button,
   color, size, icon, buttonFix, xsButtonFix, buttonTopFix, outline, rounded, flat,
+  active,
   pureLink,
   onClick,
   children
@@ -23,7 +24,8 @@ function LinkTo({
       'b-button-top-fix': buttonTopFix,
       'btn-outline': outline,
       'btn-rounded': rounded,
-      'btn-flat': flat
+      'btn-flat': flat,
+      active
     });
 
   const linkIcon = icon ? <i className={cl('fa', `fa-${icon}`)} /> : null;
@@ -68,6 +70,7 @@ LinkTo.propTypes = {
   outline: PropTypes.bool,
   rounded: PropTypes.bool,
   flat: PropTypes.bool,
+  active: PropTypes.bool,
   pureLink: PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.string,

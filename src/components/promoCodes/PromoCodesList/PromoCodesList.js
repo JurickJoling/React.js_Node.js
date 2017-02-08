@@ -10,8 +10,7 @@ function PromoCodesList({ items }) {
       <tr>
         <th>Name</th>
         <th>Amount</th>
-        <th>Event Type</th>
-        <th>Location Type</th>
+        <th>Location Types</th>
         <th>Created</th>
         <th />
         <th />
@@ -19,15 +18,16 @@ function PromoCodesList({ items }) {
       </tr>
       </thead>
       <tbody>
-      {items.map(({ objectId, name, amount, event_type, location_type, createdAt }) => (
+      {items.map(({ objectId, name, amount, location_types, createdAt }) => (
         <tr key={objectId}>
           <td>{name}</td>
           <td>{amount}</td>
           <td>
-            {event_type ? <LinkTo url={`eventTypes/${event_type.objectId}`}>{event_type.name}</LinkTo> : null}
-          </td>
-          <td>
-            {location_type ? <LinkTo url={`locationTypes/${location_type.objectId}`}>{location_type.name}</LinkTo> : null}
+            {(location_types || []).map((location_type, index) => (
+              <span key={location_type.objectId}>
+                <LinkTo url={`locationTypes/${location_type.objectId}`}>{location_type.name}</LinkTo>{location_types.length - 1 === index ? '' : ', '}
+              </span>
+            ))}
           </td>
           <td>{renderDate(createdAt)}</td>
           <td>

@@ -38,44 +38,22 @@ class EventForm extends Component {
       item,
       item: {
         event_type, dates, start_time, end_time, location, description, redemption, eventbrite, cost,
-        add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
-        boost_invites_sent, boost_invites_accepted, boost_attendees, special
+        add_criteria, gender, age, comments_for_reviewer, boost_status, special
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
-      this.setState({ add_criteria, boost, redemption: redemption ? redemption.value : null }, () => initialize({
+      this.setState({ add_criteria, redemption: redemption ? redemption.value : null }, () => initialize({
         event_type, dates, start_time, end_time, location, description, redemption, eventbrite, cost,
-        add_criteria, gender, age, boost, boost_type, comments_for_reviewer, boost_status,
-        boost_invites_sent, boost_invites_accepted, boost_attendees, special
+        add_criteria, gender, age, comments_for_reviewer, boost_status, special
       }));
     }
   }
 
   render () {
     const { item, eventTypes, locations, specials, errorMessage, handleSubmit, onSave } = this.props;
-    const { add_criteria, boost, redemption, free } = this.state;
-
-    // <Field
-    //   name="event_type"
-    //   valueField="value"
-    //   textField="name"
-    //   component={renderDropdownList}
-    //   data={[
-    //     {name: 'Birthday', value: 'birthday'},
-    //     {name: 'Live Music', value: 'live_music'},
-    //     {name: 'Theatre', value: 'theatre'},
-    //     {name: 'Comedy', value: 'comedy'},
-    //     {name: 'Improv', value: 'improv'},
-    //     {name: 'Sports', value: 'sports'},
-    //     {name: 'VIP', value: 'vip'},
-    //     {name: 'Ladies Night', value: 'ladies_night'},
-    //     {name: 'Holiday', value: 'holiday'},
-    //     {name: 'Special Event', value: 'special_event'},
-    //   ]}
-    //   label="Event Type"
-    // />
+    const { add_criteria, redemption } = this.state;
 
     return (
       <form onSubmit={handleSubmit(event => {onSave(event)})}>
@@ -142,7 +120,6 @@ class EventForm extends Component {
               component={TextCheckboxField}
               label="Cost"
               addon=".00"
-              afterCheckboxChange={free => this.setState({ free })}
             />
             <Field
               name="add_criteria"
@@ -177,27 +154,6 @@ class EventForm extends Component {
                   {name: 'Any', value: 'any'}
                 ]}
                 label="Age Criteria"
-              />
-              ) : null}
-            <Field
-              name="boost"
-              component={renderCheckboxField}
-              label="Boost?"
-              afterChange={({ target: { checked } }) => this.setState({ boost: checked })}
-            />
-            {boost ? (
-              <Field
-                name="boost_type"
-                valueField="value"
-                textField="name"
-                component={renderDropdownList}
-                data={compact([
-                  {name: 'Invites Sent', value: 'invites_sent'},
-                  {name: 'Invites Accepted', value: 'invites_accepted'},
-                  (free ? null : {name: 'Tickets Purchased', value: 'tickets_purchased'}),
-                  {name: 'Attendees', value: 'attendees'}
-                ])}
-                label="Boost Type"
               />
               ) : null}
             <Field
