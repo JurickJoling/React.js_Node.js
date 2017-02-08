@@ -61,10 +61,17 @@ function persistLocation({ business }) {
 
 exports.token = function (req, res) {
   axios.get(`${config.parseHostURI}/Partner/${req.user.get('_id')}`, { headers })
-    .then(({ data }) => res.json({
-      token: tokenForPartner(data),
-      user: omit(data, 'password') || data
-    }))
+    .then(({ data }) => {
+
+      console.log('data', data, {
+        token: tokenForPartner(data),
+        user: omit(data, 'password') || data
+      });
+      res.json({
+        token: tokenForPartner(data),
+        user: omit(data, 'password') || data
+      });
+    })
     .catch(err => {
       console.log('token err', err);
       res.status(500).json({ error: 'Something went wrong' })
@@ -124,24 +131,12 @@ exports.signup = function({
                     token: tokenForPartner(data),
                     user: omit(first(response.data.results), 'password') || data
                   }))
-                  .catch(err => {
-                    console.log('err1', err);
-                    res.status(500).json({ error: 'Something went wrong' })
-                  })
-                .catch(err => {
-                  console.log('err2', err);
-                  res.status(500).json({ error: 'Something went wrong' })
-                })
+                  .catch(err1 => res.status(500).json({ err1: console.log('err1', err1), error: 'Something went wrong' })))
+                .catch(err2 => res.status(500).json({ err2: console.log('err2', err2), error: 'Something went wrong' }))
             )
-            .catch(err => {
-              console.log('err3', err);
-              res.status(500).json({ error: 'Something went wrong' })
-          })
+            .catch(err3 => res.status(500).json({ err3: console.log('err3', err3), error: 'Something went wrong' }));
         })
-          .catch(err => {
-            console.log('err4', err);
-            res.status(500).json({ error: 'Something went wrong' })
-          });
+          .catch(err4 => res.status(500).json({ err4: console.log('err4', err4), error: 'Something went wrong' }));
     });
   });
 };
