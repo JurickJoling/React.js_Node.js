@@ -10,8 +10,7 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-module.exports.list = function (req, res, next) {
-
+module.exports.week = function(req, res, next) {
   // stripe.charges.create({
   //   amount: 65,
   //   currency: 'usd',
@@ -19,6 +18,20 @@ module.exports.list = function (req, res, next) {
   //   description: 'Charge for Boost "Test Max Budget" 13 Feb - 19 Feb'
   // });
 
+  axios.get(`${config.parseHostURI}/Boost?include="user"`, { headers })
+    .then(({ data }) => {
+
+      console.log('data', data);
+
+      res.json(data);
+
+    })
+
+
+
+};
+
+module.exports.list = function (req, res, next) {
   stripe.charges.list(
     { customer: req.user.get('stripe_customer_id'), limit: 100, 'include[]': 'total_count' },
     function(err, invoices) {
