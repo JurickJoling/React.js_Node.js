@@ -132,7 +132,7 @@ exports.signup = function({
                   console.log('err2', err);
                   res.status(500).json({ error: 'Something went wrong' })
                 })
-            )
+
             .catch(err => {
               console.log('err3', err);
               res.status(500).json({ error: 'Something went wrong' })
