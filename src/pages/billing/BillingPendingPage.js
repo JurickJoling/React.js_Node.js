@@ -41,12 +41,12 @@ class PaymentMethodsIndexPage extends Component {
     return (
       <div className="container">
         <div className="row m-b">
-          <BillingTabs />
+          <BillingTabs active="billing/pending" />
         </div>
         <Loading loaded={fetched}>
           <div className="row">
             <h1>Pending Payments</h1>
-            <PendingPayments boosts={boosts} location_type={location ? location.location_type : null} />
+            {location && location.location_type ? <PendingPayments boosts={boosts} location_type={location ? location.location_type : null} /> : <h1>Your location is not approved</h1>}
           </div>
         </Loading>
       </div>

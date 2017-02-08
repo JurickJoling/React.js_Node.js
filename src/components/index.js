@@ -9,6 +9,7 @@ export { default as SearchForm } from './SearchForm/SearchForm';
 
 export { default as BillingTabs } from './BillingTabs/BillingTabs';
 export { default as PendingPayments } from './PendingPayments/PendingPayments';
+export { default as PaymentsHistory } from './PaymentsHistory/PaymentsHistory';
 
 export { SigninForm, SignupForm } from './auth';
 export { BusinessProfile, BusinessProfileForm } from './business';

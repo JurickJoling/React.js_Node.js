@@ -15,11 +15,12 @@ module.exports.list = function (req, res, next) {
   // stripe.charges.create({
   //   amount: 65,
   //   currency: 'usd',
-  //   customer: req.user.get('stripe_customer_id')
+  //   customer: req.user.get('stripe_customer_id'),
+  //   description: 'Charge for Boost "Test Max Budget" 13 Feb - 19 Feb'
   // });
 
   stripe.charges.list(
-    { customer: req.user.get('stripe_customer_id') },
+    { customer: req.user.get('stripe_customer_id'), limit: 100, 'include[]': 'total_count' },
     function(err, invoices) {
       if (err) { return next(err); }
 

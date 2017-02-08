@@ -2,7 +2,7 @@ import pickBy from 'lodash/pickBy';
 import isNull from 'lodash/isNull';
 import { browserHistory } from 'react-router';
 
-import { ADD_PAYMENT_METHODS, ADD_PAYMENT_METHOD, PAYMENT_METHOD_ERROR, SHOW_PAYMENT_METHOD, REMOVE_PAYMENT_METHOD } from '../constants/PaymentMethod';
+import { ADD_PAYMENT_METHODS, ADD_PAYMENT_HISTORY, ADD_PAYMENT_METHOD, PAYMENT_METHOD_ERROR, SHOW_PAYMENT_METHOD, REMOVE_PAYMENT_METHOD } from '../constants/PaymentMethod';
 
 import { apiRequest } from '../utils';
 
@@ -11,6 +11,14 @@ export function addPaymentMethods(items = [], count = 0) {
     type: ADD_PAYMENT_METHODS,
     items,
     count
+  };
+}
+
+export function addPaymentHistory(items = [], has_more = false) {
+  return {
+    type: ADD_PAYMENT_HISTORY,
+    items,
+    has_more
   };
 }
 
@@ -65,6 +73,12 @@ export function fetchPaymentMethods({ search, include, order }, { is_admin, obje
 
   return dispatch => apiRequest.get(url)
     .then(({ data: { results, count } }) => dispatch(addPaymentMethods(results, count)));
+}
+
+export function fetchPaymentHistory({ search, include, order }) {
+  const accessToken = localStorage.getItem('token');
+  return dispatch => apiRequest.stripeGet(accessToken, 'list')
+    .then(({ data: { invoices: { data, has_more } } }) => dispatch(addPaymentHistory(data, has_more)));
 }
 
 export function fetchPaymentMethod(itemId) {

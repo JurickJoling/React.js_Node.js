@@ -42,8 +42,8 @@ export default class apiRequest {
     return axios.post(`${UPLOAD_HOST}/${path}`, data);
   }
 
-  static stripeGet(token) {
-    return axios.get(`${UPLOAD_HOST}/stripe`, { headers: { authorization: token } });
+  static stripeGet(token, path = null) {
+    return axios.get(`${UPLOAD_HOST}/${compact(['stripe', path]).join('/')}`, { headers: { authorization: token } });
   }
 
   static stripePost(token, data = {}) {

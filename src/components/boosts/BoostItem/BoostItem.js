@@ -6,7 +6,7 @@ import { renderDateTime } from '../../../utils';
 
 function BoostItem({
   item: {
-    objectId, name, dates, start_time, end_time, with_max_budget, max_budget, approved, boost_type, createdAt
+    objectId, name, dates, start_time, end_time, with_max_budget, max_budget, approved, boost_type, invites_sent, invites_accepted, createdAt
   },
   toggleApproved
 }) {
@@ -63,6 +63,14 @@ function BoostItem({
         <tr>
           <td>Boost Type</td>
           <td>{boost_type ? boost_type.name : null}</td>
+        </tr>
+        <tr>
+          <td>Invites Sent</td>
+          <td>{invites_sent}</td>
+        </tr>
+        <tr>
+          <td>Invites Accepted</td>
+          <td>{invites_accepted}</td>
         </tr>
         <tr>
           <td>Created</td>

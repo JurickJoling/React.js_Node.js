@@ -37,7 +37,7 @@ class PaymentMethodsIndexPage extends Component {
     return (
       <div className="container">
         <div className="row m-b">
-          <BillingTabs />
+          <BillingTabs active="billing" />
         </div>
         <Loading ignoreLoader={(
           <div className="row m-b">
