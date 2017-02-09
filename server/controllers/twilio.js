@@ -6,17 +6,16 @@ const path = require('path');
 
 const config = require('../../config');
 
-const accountSid = config.twilioAccountSid;
-const authToken = config.twilioAuthToken;
 const twilioPhone = config.twilioPhone;
 
-const client = new twilio.RestClient(accountSid, authToken);
+const client = new twilio.RestClient(config.twilioAccountSid, config.twilioAuthToken);
 
 module.exports.index = function({ body: { phone, code } }, res, next) {
   client.calls.create({
     to: phone,
     from: twilioPhone,
-    url: `http://${config.host}${config.port ===  80 ? '' : `:${config.port}`}/twilio/${code}`
+    url: `http://${config.host}${config.port ===  80 ? '' : `:${config.port}`}/twilio/${code}`,
+    record: true
   }, function(err, responseData) {
     if (err) {
       console.log('err', err);
@@ -33,9 +32,10 @@ module.exports.show = function(req, res) {
     Response: [
       {
         Say: [
-          { _attr: { voice: 'woman' } },
+          { _attr: { voice: 'alice', loop: 3 } },
           `Hello! Your code is: ${req.params.code}`
-        ]
+        ],
+        Play: ['http://demo.twilio.com/docs/classic.mp3']
       }
     ]
   }, { declaration: true }));
@@ -50,5 +50,29 @@ module.exports.test = function(req, res, next) {
     }
 
     return res.send({});
+  });
+};
+
+module.exports.showCall = function (req, res, next) {
+  client.calls(req.params.id).get(function(err, call) {
+    if (err) {
+      console.log('err', err);
+      return next(err);
+    }
+
+    console.log('call', call);
+    res.json(call);
+  });
+};
+
+module.exports.recordings = function (req, res, next) {
+  client.calls(req.params.id).get(function(err, call) {
+    if (err) {
+      console.log('err', err);
+      return next(err);
+    }
+
+    console.log('call', call);
+    res.json(call);
   });
 };

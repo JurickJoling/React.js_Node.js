@@ -1,3 +1,4 @@
+import size from 'lodash/size';
 import React, { Component, PropTypes } from 'react';
 
 import { LinkTo } from '../../helpers';
@@ -9,30 +10,6 @@ export default class PendingPayments extends Component {
     boosts: PropTypes.array.isRequired,
     location_type: PropTypes.object.isRequired,
   };
-  //
-  // <th>Invites Sent</th>
-  // <th>Invites Accepted</th>
-  // <th>Attendees Count</th>
-  // <th>Tickets Sold</th>
-  //
-  // <th>Price per invite sent</th>
-  // <th>Price per invite accepted</th>
-  // <th>Price per attendee</th>
-  // <th>Price per ticket sold</th>
-  //
-
-  //
-  // <td>{invites_sent}</td>
-  // <td>{invites_accepted}</td>
-  // <td>{attendees_count}</td>
-  // <td>{tickets_sold}</td>
-  //
-  // <td>{location_type ? location_type.price_per_invite_sent : null}</td>
-  // <td>{location_type ? location_type.price_per_invite_accepted : null}</td>
-  // <td>{location_type ? location_type.price_per_attendee : null}</td>
-  // <td>{location_type ? location_type.price_per_ticket_sold : null}</td>
-  // <td>${location_type ? invites_sent * location_type.price_per_invite_sent + invites_accepted * location_type.price_per_invite_accepted + attendees_count * location_type.price_per_attendee + tickets_sold * location_type.price_per_ticket_sold : null}</td>
-  //
 
   renderResults({ boost_type, boost: { invites_accepted, invites_sent } }) {
     switch (boost_type.value) {
@@ -70,48 +47,54 @@ export default class PendingPayments extends Component {
   render() {
     const { boosts, location_type } = this.props;
 
-    return (
-      <table className="table table-bordered table-hover table-striped table-responsive">
-        <thead>
-        <tr>
-          <th>Boost</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Max Budget</th>
-          <th>Boost Type</th>
-          <th>Created</th>
-          <th>Location Type</th>
+    if (size(boosts) > 0) {
+      return (
+        <table className="table table-bordered table-hover table-striped table-responsive">
+          <thead>
+          <tr>
+            <th>Boost</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Max Budget</th>
+            <th>Boost Type</th>
+            <th>Created</th>
+            <th>Location Type</th>
 
-          <th>Results</th>
-          <th>Cost</th>
+            <th>Results</th>
+            <th>Cost</th>
 
-          <th>Total</th>
-          <th>Total Spend</th>
-        </tr>
-        </thead>
-        <tbody>
-        {boosts.map(({ objectId, name, start_time, end_time, with_max_budget, max_budget, boost_type, createdAt, total_spend, ...rest }) => (
-          <tr key={objectId}>
-            <td>
-              <LinkTo url={`boosts/${objectId}`}>{name}</LinkTo>
-            </td>
-
-            <td>{renderDateTime(start_time)}</td>
-            <td>{with_max_budget ? null : renderDateTime(end_time)}</td>
-            <td>{with_max_budget ? max_budget : null}</td>
-            <td>{boost_type ? boost_type.name : null}</td>
-            <td>{renderDate(createdAt)}</td>
-
-            <td>{location_type ? location_type.name : null}</td>
-
-            <td>{this.renderResults({ boost_type, boost: rest })}</td>
-            <td>{this.renderCost({ boost_type, boost: rest })}</td>
-            <td>{this.renderTotal({ boost_type, total_spend, boost: rest })}</td>
-            <td>{with_max_budget ? `$${total_spend} of $${max_budget}` : `$${total_spend}`}</td>
+            <th>Total</th>
+            <th>Total Spend</th>
           </tr>
-        ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          {boosts.map(({ objectId, name, start_time, end_time, with_max_budget, max_budget, boost_type, createdAt, total_spend, ...rest }) => (
+            <tr key={objectId}>
+              <td>
+                <LinkTo url={`boosts/${objectId}`}>{name}</LinkTo>
+              </td>
+
+              <td>{renderDateTime(start_time)}</td>
+              <td>{with_max_budget ? null : renderDateTime(end_time)}</td>
+              <td>{with_max_budget ? max_budget : null}</td>
+              <td>{boost_type ? boost_type.name : null}</td>
+              <td>{renderDate(createdAt)}</td>
+
+              <td>{location_type ? location_type.name : null}</td>
+
+              <td>{this.renderResults({ boost_type, boost: rest })}</td>
+              <td>{this.renderCost({ boost_type, boost: rest })}</td>
+              <td>{this.renderTotal({ boost_type, total_spend, boost: rest })}</td>
+              <td>{with_max_budget ? `$${total_spend} of $${max_budget}` : `$${total_spend}`}</td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
+      );
+    }
+
+    return (
+      <h2>No Items</h2>
     );
   }
 }
