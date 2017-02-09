@@ -28,6 +28,7 @@ module.exports = app => {
   app.post('/twilio', twilioController.index);
   app.post('/twilio/test', twilioController.test);
   app.get('/twilio/:code', twilioController.show);
+  app.post('/twilio/:id', twilioController.showCall);
   app.get('/search', searchController.index);
   app.get('/stripe/list', requireAuth, stripeController.list);
   app.post('/stripe/week', requireAuth, stripeController.week);
