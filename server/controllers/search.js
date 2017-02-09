@@ -43,8 +43,10 @@ module.exports.index = function(req, res) {
     page && (page > 1) ? `&skip=${(page - 1) * limit}` : null,
     `&where=${JSON.stringify({
       name: { $regex: term, $options: 'i' },
-      metro_city: { $regex: location, $options: 'i' },
-      // address: { $regex: address, $options: 'i' },
+      $or: [
+        { metro_city: { $regex: location, $options: 'i' } },
+        { 'metro_city2.name': { $regex: location, $options: 'i' } },
+      ]
     })}`
   ].join('');
 
@@ -56,11 +58,11 @@ module.exports.index = function(req, res) {
       if (size(results) > 0) {
         res.json({
           total_count: count,
-          items: results.map(({ objectId, name, phone, category, yelp_id }) => addBase64Id({
+          items: results.map(({ objectId, name, phone, address, category, yelp_id }) => addBase64Id({
             id: objectId,
             name,
             phone,
-            // address,
+            address,
             category,
             yelp_id,
             type: 'Location'
