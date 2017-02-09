@@ -33,9 +33,11 @@ module.exports.show = function(req, res) {
       {
         Say: [
           { _attr: { voice: 'alice', loop: 3 } },
-          `Hello! Your code is: ${req.params.code}`
-        ],
-        Play: ['http://demo.twilio.com/docs/classic.mp3']
+          `Hello! Your verification code is: ${req.params.code}`
+        ]
+      },
+      {
+        Play: 'http://demo.twilio.com/docs/classic.mp3'
       }
     ]
   }, { declaration: true }));
