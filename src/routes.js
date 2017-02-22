@@ -21,6 +21,6 @@ export default (
     {promoCodes}
     {users}
     {boosts}
-    <Route path="*" component={Error404}/>
+    <Route path="*" component={Error404} />
   </Route>
 );
