@@ -28,6 +28,7 @@ class SpecialShowPage extends Component {
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
+        <h3 className="specials-details-title">Special Details</h3>
         <Tabs modelsName="specials" itemID={itemID} />
         <SpecialItem item={item} />
       </Loading>

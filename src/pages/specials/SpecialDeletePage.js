@@ -11,6 +11,7 @@ class SpecialDeletePage extends Component {
     const { params: { itemID }, deleteSpecial } = this.props;
     return (
       <div className="container">
+          <h3 className="special-delete-title">Delete Special</h3>
         <Tabs modelsName="specials" itemID={itemID} />
         <SpecialDelete itemID={itemID} onDelete={id => deleteSpecial(id)} />
       </div>

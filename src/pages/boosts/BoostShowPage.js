@@ -29,6 +29,7 @@ class BoostShowPage extends Component {
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
+        <h3 className="boost-show-title">Boost Details</h3>
         <Tabs modelsName="boosts" itemID={itemID} />
         <BoostItem item={item} toggleApproved={() => updateBoost(objectId, { approved: !approved })} />
       </Loading>

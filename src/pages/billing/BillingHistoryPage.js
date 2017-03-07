@@ -37,6 +37,7 @@ class PaymentMethodsIndexPage extends Component {
     return (
       <div className="container">
         <div className="row m-b">
+          <h3 className="billing-history-title">Billing History</h3>
           <BillingTabs active="billing/history" />
         </div>
         <Loading loaded={fetched}>

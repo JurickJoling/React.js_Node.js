@@ -28,6 +28,7 @@ class SpecialAddPage extends Component {
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
+        <h3 className="special-edit-title">Edit special</h3>
         <Tabs modelsName="specials" itemID={itemID} />
         <SpecialForm item={item} errorMessage={errorMessage} onSave={special => updateSpecial(itemID, special, item)} />
       </Loading>

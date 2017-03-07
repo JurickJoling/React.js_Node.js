@@ -28,6 +28,7 @@ class EventAddPage extends Component {
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
+        <h3 className="events-edit-title">Edit Event</h3>
         <Tabs modelsName="events" itemID={itemID} />
         <EventForm item={item} errorMessage={errorMessage} onSave={event => updateEvent(itemID, event, item)} />
       </Loading>

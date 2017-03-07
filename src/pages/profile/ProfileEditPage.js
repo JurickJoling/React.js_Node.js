@@ -9,7 +9,8 @@ function ProfileEditPage({ currentUser, currentUser: { objectId }, updateProfile
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-md-6">
+            <h3 className="settings-profile-edit-title">Edit Profile</h3>
           <ProfileForm
             currentUser={currentUser}
             onSave={user => updateProfile(objectId, user, currentUser)}

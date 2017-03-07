@@ -32,7 +32,8 @@ class BusinessPage extends Component {
     const { fetched } = this.state;
 
     return (
-      <Loading className="container" loaded={fetched}>
+      <Loading className="container business-profile" loaded={fetched}>
+        <h3 className="business-title">Business</h3>
         <BusinessProfile item={item} />
       </Loading>
     );

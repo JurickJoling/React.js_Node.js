@@ -36,8 +36,9 @@ class BoostsIndexPage extends Component {
     return (
       <Loading className="container" ignoreLoader={(
         <div className="row m-b">
-          <div className="col-md-2">
-            <LinkTo className="btn btn-success" url="boosts/new">Create Boost</LinkTo>
+            <h3 className="boost-index-title">Boost</h3>
+          <div className="col-md-2 pull-right">
+            <LinkTo className="btn default-btn" url="boosts/new">Create Boost</LinkTo>
           </div>
           <div className="col-md-4">
             {fetched ? <h4>Boosts ({count})</h4> : null}

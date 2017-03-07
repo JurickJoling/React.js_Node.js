@@ -8,6 +8,7 @@ function ProfilePage({ currentUser: { first_name, last_name, personal_phone, job
     <div className="container">
       <div className="row m-b">
         <div className="col-md-6">
+          <h3 className="settings-profile-edit-title">Settings</h3>
           <LinkTo className="btn btn-primary" url="profile/edit">Edit Profile</LinkTo>
         </div>
         <div className="col-md-6"></div>

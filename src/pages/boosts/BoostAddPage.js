@@ -15,6 +15,7 @@ class BoostAddPage extends Component {
     const { errorMessage, currentUser, createBoost } = this.props;
     return (
       <div className="container">
+        <h3 className="boost-add-title">Add Boost</h3>
         <BoostForm errorMessage={errorMessage} onSave={boost => createBoost(boost, currentUser)} />
       </div>
     );

@@ -15,6 +15,7 @@ class LocationAddPage extends Component {
     const { errorMessage, createLocation } = this.props;
     return (
       <div className="container">
+
         <LocationForm errorMessage={errorMessage} onSave={location => createLocation(location)} />
       </div>
     );

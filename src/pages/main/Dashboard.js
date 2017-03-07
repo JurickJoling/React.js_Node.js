@@ -14,7 +14,7 @@ function Dashboard({ isAuthenticated, errorMessage, currentUser, facebookLoginUs
       <div className="row">
         <div className="col-md-12 text-center">
           {isAuthenticated ? (
-              <h1>Dashboard</h1>
+              <h3 className="dashboard-title">Dashboard</h3>
             ) : (
               <div>
                 <FacebookLogin

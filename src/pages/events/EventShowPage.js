@@ -28,6 +28,7 @@ class EventShowPage extends Component {
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
+        <h3 className="events-details-title">Event Details</h3>
         <Tabs modelsName="events" itemID={itemID} />
         <EventItem item={item} />
       </Loading>

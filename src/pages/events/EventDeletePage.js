@@ -11,6 +11,7 @@ class EventDeletePage extends Component {
     const { params: { itemID }, deleteEvent } = this.props;
     return (
       <div className="container">
+          <h3 className="events-delete-title">Delete Evenet</h3>
         <Tabs modelsName="events" itemID={itemID} />
         <EventDelete itemID={itemID} onDelete={id => deleteEvent(id)} />
       </div>

@@ -5,6 +5,8 @@ import { AppContainer } from 'react-hot-loader';
 
 import 'react-widgets/dist/css/react-widgets.css'
 import './styles/main.css';
+import './styles/admin.css';
+import './styles/sidebar.css';
 
 import App from './App';
 import routes from './routes';

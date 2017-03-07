@@ -36,8 +36,9 @@ class SpecialsIndexPage extends Component {
     return (
       <Loading className="container" ignoreLoader={(
         <div className="row m-b">
-          <div className="col-md-2">
-            <LinkTo className="btn btn-success" url="specials/new">Create Special</LinkTo>
+            <h3 className="specials-title">Specials</h3>
+          <div className="col-md-2 pull-right">
+            <LinkTo className="btn default-btn" url="specials/new">Create Special</LinkTo>
           </div>
           <div className="col-md-4">
             {fetched ? <h4>Specials ({count})</h4> : null}

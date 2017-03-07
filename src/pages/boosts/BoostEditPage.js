@@ -28,6 +28,7 @@ class BoostAddPage extends Component {
     const { fetched } = this.state;
     return (
       <Loading className="container" loaded={fetched}>
+        <h3 className="boost-edit-title">Edit Boost</h3>
         <Tabs modelsName="boosts" itemID={itemID} />
         <BoostForm item={item} errorMessage={errorMessage} onSave={boost => updateBoost(itemID, boost, item)} />
       </Loading>

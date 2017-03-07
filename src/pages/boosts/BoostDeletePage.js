@@ -11,6 +11,7 @@ class BoostDeletePage extends Component {
     const { params: { itemID }, deleteBoost } = this.props;
     return (
       <div className="container">
+          <h3 className="boost-delete-title">Delete Boost</h3>
         <Tabs modelsName="boosts" itemID={itemID} />
         <BoostDelete itemID={itemID} onDelete={id => deleteBoost(id)} />
       </div>
