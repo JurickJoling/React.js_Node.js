@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
-import 'react-widgets/dist/css/react-widgets.css'
+import 'react-widgets/dist/css/react-widgets.css';
+import 'font-awesome/css/font-awesome.min.css';
 import './styles/main.css';
 import './styles/admin.css';
 import './styles/sidebar.css';

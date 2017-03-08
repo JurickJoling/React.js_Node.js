@@ -1,5 +1,5 @@
 module.exports = {
-  host: process.env.HOST || '35.167.2.20',
+  host: process.env.HOST || 'localhost',
   port: process.env.PORT || 4545,
 
   mongodb: process.env.MONGODB,
