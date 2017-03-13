@@ -8,6 +8,7 @@ import Promise from 'bluebird';
 
 import { searchLocation } from '../../../actions/LocationActions';
 import { fetchLocationTypes } from '../../../actions/LocationTypeActions';
+import { fetchTags } from '../../../actions/TagActions';
 
 import {
   LinkTo,
@@ -15,7 +16,8 @@ import {
   YelpFinder,
   renderField,
   renderDropdownList,
-  renderCheckboxField
+  renderCheckboxField,
+  renderMultiselect
 } from '../../../helpers';
 
 const asyncValidate = ({ objectId, yelp_id, }, dispatch) => {
@@ -29,9 +31,10 @@ const asyncValidate = ({ objectId, yelp_id, }, dispatch) => {
 
 class LocationForm extends Component {
   componentDidMount() {
-    const { fetchLocationTypes } = this.props;
+    const { fetchLocationTypes, fetchTags } = this.props;
     Promise.all([
-      fetchLocationTypes({})
+      fetchLocationTypes({}),
+      fetchTags({})
     ]).then(() => this.handleInitialize());
   }
 
@@ -40,7 +43,7 @@ class LocationForm extends Component {
       item,
       item: {
         objectId, yelp_id, name, address, phone, category, neighborhood, opentable_id, metro_city, metro_city2, hours, reservations,
-        latitude, longitude, rating, groups, outdoor, location_type, verified
+        latitude, longitude, rating, groups, outdoor, location_type, verified, tags
       },
       initialize
     } = this.props;
@@ -49,7 +52,7 @@ class LocationForm extends Component {
       initialize({
         objectId, yelp_id, name, address, phone, category, neighborhood, opentable_id, metro_city,
         metro_city2,
-        hours, reservations, latitude, longitude, rating, groups, outdoor, location_type, verified
+        hours, reservations, latitude, longitude, rating, groups, outdoor, location_type, verified, tags
       });
     } else {
       initialize({
@@ -59,7 +62,7 @@ class LocationForm extends Component {
   }
 
   render () {
-    const { item, locationTypes, errorMessage, handleSubmit, onSave, initialize } = this.props;
+    const { item, locationTypes, tags, errorMessage, handleSubmit, onSave, initialize } = this.props;
 
     return (
       <form onSubmit={handleSubmit(location => onSave(location))}>
@@ -141,6 +144,12 @@ class LocationForm extends Component {
             <Field name="rating" component={renderField} label="Rating"/>
             <Field name="outdoor" component={renderCheckboxField} label="Outdoor Seating?"/>
             <Field name="verified" component={renderCheckboxField} label="Verified?"/>
+            <Field
+              name="tags"
+              component={renderMultiselect}
+              data={tags.map(({ tag }) => tag)}
+              label="Tags"
+            />
           </div>
         </div>
         {errorMessage ? (
@@ -188,5 +197,6 @@ function validate({ yelp_id, location_type, ...rest }) {
 }
 
 export default connect(({
-  locationTypes: { items: locationTypes }
-}) => ({ locationTypes }), ({ fetchLocationTypes }))(reduxForm({ form: 'location', validate, asyncValidate })(LocationForm));
+  locationTypes: { items: locationTypes },
+  tags: { items: tags }
+}) => ({ locationTypes, tags }), ({ fetchTags, fetchLocationTypes }))(reduxForm({ form: 'location', validate, asyncValidate })(LocationForm));
