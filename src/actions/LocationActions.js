@@ -43,7 +43,7 @@ export function removeLocation(itemId) {
 
 export function searchLocation({ yelp_id }) {
   const url = [
-    'Location?count=1',
+    'Location?count=1&limit=1000',
     yelp_id ? `&where=${JSON.stringify({
         $or: [
           { yelp_id: { $regex: yelp_id, $options: 'i' } }

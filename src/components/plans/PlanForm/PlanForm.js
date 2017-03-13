@@ -205,9 +205,9 @@ function validate(values) {
 
   const errors = {};
 
-  if (!bundle || isEmpty(bundle)) {
-    errors.bundle = 'Bundle is required';
-  }
+  // if (!bundle || isEmpty(bundle)) {
+  //   errors.bundle = 'Bundle is required';
+  // }
 
   if (size(tags) === 0) {
     errors.tags = 'Tags are required';

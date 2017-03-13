@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { browserHistory } from 'react-router';
-import cl from 'classnames';
 
 import { LinkTo } from '../../helpers';
 import { isActive } from '../../utils';
