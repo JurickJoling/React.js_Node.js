@@ -40,7 +40,7 @@ class EventTypesIndexPage extends Component {
             <LinkTo className="btn btn-success" url="eventTypes/new">Create EventType</LinkTo>
           </div>
           <div className="col-md-4">
-            {fetched ? <h4>EventTypes ({count})</h4> : null}
+            {fetched ? <h4 class="event-types-count">EventTypes ({count})</h4> : null}
           </div>
           <div className="col-md-6 text-right">
             <SearchForm onSearch={({ search }) => this.fetchData({ search, order })} />

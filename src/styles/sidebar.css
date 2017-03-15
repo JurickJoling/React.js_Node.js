@@ -1,7 +1,7 @@
 /* Navbar Admin */
 
 .navbar-admin {
-    width: 60px;
+    width: 50px;
     position: fixed;
     margin-left: 0 !important;
     overflow: hidden !important;
@@ -16,8 +16,14 @@
 }
 
 .navbar-admin:hover {
-    width: 200px;
+    width: 150px;
 
+}
+
+ul.nav.navbar-nav {
+    transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
 }
 
 .navbar-admin .container-fluid {
@@ -28,6 +34,20 @@
 
 .navbar-admin .container-fluid .navbar-collapse {
     padding-left: 0px;
+    margin-top: -60px;
+    margin-left: -22px;
+}
+
+.navbar-collapse.collapse ul li a {
+    margin-left: 5px;
+}
+
+ul.nav.navbar-nav.navbar-right li:first-of-type {
+    margin-top: -83px;
+}
+
+li.logout-nav {
+    margin-top: -28px;
 }
 
 li[role="presentation"] {
@@ -52,16 +72,102 @@ li[role="presentation"] a:hover {
 
 
 li.signin-nav:before {
-     content: '';
-     position: absolute;
+    content: '';
+    position: absolute;
     -webkit-mask-image: url('http://i.share.pho.to/ba97ea61_o.png');
-     background-color: #fff;
-     width: 25px;
-     height: 25px;
-     display: block;
-     margin: 18px 18px;
-     z-index: 1;
- }
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 18px 22px;
+    z-index: 1;
+}
+
+li.bundles-nav:before {
+    content: '';
+    position: absolute;
+    -webkit-mask-image: url('http://i.share.pho.to/ea4d0ad5_o.png');
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 18px 22px;
+    z-index: 1;
+}
+
+li.plans-nav:before {
+    content: '';
+    position: absolute;
+    -webkit-mask-image: url('http://i.share.pho.to/251445b7_o.png');
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 18px 22px;
+    z-index: 1;
+}
+
+li.eventtypes-nav:before {
+    content: '';
+    position: absolute;
+    -webkit-mask-image: url('http://i.share.pho.to/d1f3c66a_o.png');
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 18px 22px;
+    z-index: 1;
+}
+
+
+li.locations-nav:before {
+    content: '';
+    position: absolute;
+    -webkit-mask-image: url('http://i.share.pho.to/219ced28_o.png');
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 18px 22px;
+    z-index: 1;
+}
+
+li.locationtypes-nav:before {
+    content: '';
+    position: absolute;
+    -webkit-mask-image: url('http://i.share.pho.to/d1baf452_o.png');
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 18px 22px;
+    z-index: 1;
+}
+
+li.users-nav:before {
+    content: '';
+    position: absolute;
+    -webkit-mask-image: url('http://i.share.pho.to/0edd765b_o.png');
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 18px 22px;
+    z-index: 1;
+}
+
+li.promo-nav:before {
+    content: '';
+    position: absolute;
+    -webkit-mask-image: url('http://i.share.pho.to/a84cebc9_o.png');
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 18px 22px;
+    z-index: 1;
+}
+
 
 li.signup-nav:before {
     content: '';
@@ -71,7 +177,7 @@ li.signup-nav:before {
     width: 25px;
     height: 25px;
     display: block;
-    margin: 18px 18px;
+    margin: 18px 22px;
     z-index: 1;
 }
 
@@ -83,7 +189,7 @@ li.events-nav:before {
     width: 25px;
     height: 25px;
     display: block;
-    margin: 18px 18px;
+    margin: 18px 22px;
     z-index: 1;
 }
 
@@ -95,7 +201,7 @@ li.specials-nav:before {
     width: 25px;
     height: 25px;
     display: block;
-    margin: 18px 18px;
+    margin: 18px 22px;
     z-index: 1;
 }
 
@@ -107,7 +213,7 @@ li.boosts-nav:before {
     width: 25px;
     height: 25px;
     display: block;
-    margin: 18px 18px;
+    margin: 18px 22px;
     z-index: 1;
 }
 
@@ -119,7 +225,7 @@ li.business-nav:before {
     width: 25px;
     height: 25px;
     display: block;
-    margin: 18px 18px;
+    margin: 18px 22px;
     z-index: 1;
 }
 
@@ -131,7 +237,7 @@ li.billing-nav:before {
     width: 25px;
     height: 25px;
     display: block;
-    margin: 18px 18px;
+    margin: 18px 22px;
     z-index: 1;
 }
 
@@ -143,7 +249,7 @@ li.profile-nav:before {
     width: 25px;
     height: 25px;
     display: block;
-    margin: 18px 18px;
+    margin: 18px 22px;
     z-index: 1;
 }
 
@@ -155,7 +261,7 @@ li.logout-nav:before {
     width: 25px;
     height: 25px;
     display: block;
-    margin: 18px 18px;
+    margin: 18px 22px;
     z-index: 1;
 }
 

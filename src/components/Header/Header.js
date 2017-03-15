@@ -18,22 +18,22 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
         {isAuthenticated ? (
             <Nav>
               {currentUser.is_admin ? (
-                <NavItem active={isActive('bundles')} href="/bundles" className="bundles-nav" onSelect={() => browserHistory.push('/bundles')}>
-                  Bundles
-                </NavItem>
-              ) : null}
+                  <NavItem active={isActive('bundles')} href="/bundles" className="bundles-nav" onSelect={() => browserHistory.push('/bundles')}>
+                    Bundles
+                  </NavItem>
+                ) : null}
               {currentUser.is_admin ? (
                   <NavItem active={isActive('plans')} href="/plans" className="plans-nav" onSelect={() => browserHistory.push('/plans')}>
                     Plans
                   </NavItem>
                 ) : null}
               {currentUser.is_admin || currentUser.is_partner ? (
-                  <NavItem active={isActive('events')} href="/events" className="events-nav" onSelect={() => browserHistory.push('/events')}>
+                  <NavItem  active={isActive('events')} href="/events" className="events-nav" onSelect={() => browserHistory.push('/events')}>
                     Events
                   </NavItem>
                 ) : null}
               {currentUser.is_admin ? (
-                  <NavItem active={isActive('eventTypes')} href="/eventTypes" onSelect={() => browserHistory.push('/eventTypes')}>
+                  <NavItem active={isActive('eventTypes')} href="/eventTypes" className="eventtypes-nav" onSelect={() => browserHistory.push('/eventTypes')}>
                     Event Types
                   </NavItem>
                 ) : null}
@@ -53,12 +53,12 @@ function Header({ isAuthenticated, currentUser, logoutUser }) {
                   </NavItem>
                 ) : null}
               {currentUser.is_admin ? (
-                  <NavItem active={isActive('locationTypes')} href="/locationTypes" onSelect={() => browserHistory.push('/locationTypes')}>
+                  <NavItem active={isActive('locationTypes')} href="/locationTypes" className="locationtypes-nav" onSelect={() => browserHistory.push('/locationTypes')}>
                     Location Types
                   </NavItem>
                 ) : null}
               {currentUser.is_admin ? (
-                  <NavItem active={isActive('promoCodes')} href="/promoCodes" onSelect={() => browserHistory.push('/promoCodes')}>
+                  <NavItem active={isActive('promoCodes')} href="/promoCodes" className="promo-nav" onSelect={() => browserHistory.push('/promoCodes')}>
                     PromoCodes
                   </NavItem>
                 ) : null}
