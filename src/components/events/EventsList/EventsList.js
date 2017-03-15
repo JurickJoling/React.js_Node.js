@@ -34,7 +34,7 @@ function EventsList({ items }) {
             </td>
             <td>
               {size(dates || []) > 0 ? (
-                  <table className="table table-bordered table-hover table-striped table-responsive">
+                  <table className="table table-bordered table-hover table-striped table-responsive events-created">
                     <tbody>
                     {(dates || []).map(({ date, name, start, end }, index) => (
                       <tr key={index}>
