@@ -1,5 +1,6 @@
 const Yelp = require('yelp');
 const YelpV3 = require('yelp-v3');
+const urlencode = require('urlencode');
 
 const config = require('../../config');
 
@@ -52,7 +53,7 @@ module.exports.index = function(req, res) {
 };
 
 module.exports.show = function(req, res) {
-  yelpV3.businesses(replaceDiacritics(req.body.id))
+  yelpV3.businesses(urlencode(req.body.id))
     .then(business => {
       yelp.business(business.id)
         .then(data => {
