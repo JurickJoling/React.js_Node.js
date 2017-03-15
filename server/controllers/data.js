@@ -9,6 +9,8 @@ const Promise = require('bluebird');
 
 const User = require('../models/user');
 const EventDetail = require('../models/event_detail');
+const Installation = require('../models/installation');
+const EventNotification = require('../models/event_notification');
 
 module.exports = function(req, res) {
   Promise.all([
@@ -41,27 +43,48 @@ module.exports = function(req, res) {
             }
           });
 
-          User.find({ createdAt: { $gte: moment().startOf('month').toDate().toISOString() } }, function(err, new_users) {
+          User.count({ createdAt: { $gte: moment().startOf('month').toDate().toISOString() } }, function(err, new_users_count) {
             if (err) { return reject(err); }
 
-            EventDetail.find({ 'date.iso': { $gte: moment().startOf('month').toDate().toISOString() } }, function(err, event_details) {
+            EventDetail.count({ 'date.iso': { $gte: moment().startOf('month').toDate().toISOString() } }, function(err, event_details_count) {
               if (err) { return reject(err); }
 
-              EventDetail.find({
+              EventDetail.count({
                 'date.iso': {
                   $gte: moment().startOf('day').toDate().toISOString(),
                   $lte: moment().startOf('day').add(7, 'days').toDate().toISOString()
                 }
-              }, function(err, plans_expiring) {
+              }, function(err, plans_expiring_count) {
                 if (err) { return reject(err); }
 
-                resolve({
-                  users_count,
-                  users_ages,
-                  new_users_count: size(new_users),
-                  event_details_count: size(event_details),
-                  plans_expiring_count: size(plans_expiring)
-                });
+                Installation.count({
+                  createdAt: {
+                    $gte: moment().startOf('year').add(-1, 'year').toDate().toISOString()
+                  }
+                }, function(err, installations_count) {
+                  if (err) { return reject(err); }
+
+                  EventNotification.count({}, function(err, event_notifications_count) {
+                    if (err) { return reject(err); }
+
+                    EventNotification.count({ status: 'Accepted' }, function(err, accepted_event_notifications_count) {
+                      if (err) { return reject(err); }
+
+
+
+                      resolve({
+                        users_count,
+                        users_ages,
+                        new_users_count,
+                        event_details_count,
+                        plans_expiring_count,
+                        installations_count,
+                        event_notifications_count,
+                        accepted_event_notifications_count
+                      });
+                    });
+                  });
+                })
               });
             });
           });
@@ -75,7 +98,10 @@ module.exports = function(req, res) {
       users_ages: values[0].users_ages,
       new_users_count: values[0].new_users_count,
       available_itineraries: values[0].event_details_count,
-      plans_expiring_count: values[0].plans_expiring_count
+      plans_expiring_count: values[0].plans_expiring_count,
+      installations_count: values[0].installations_count,
+      event_notifications_count: values[0].event_notifications_count,
+      accepted_event_notifications_count: values[0].accepted_event_notifications_count
     });
   });
 };
