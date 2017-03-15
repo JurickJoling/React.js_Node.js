@@ -39,7 +39,7 @@ module.exports.index = function(req, res) {
 
   const url = [
     `${config.parseHostURI}/Location?count=1`,
-    limit ? `&limit=${limit}` : null,
+    `&limit=${limit ? limit : '1000'}`,
     page && (page > 1) ? `&skip=${(page - 1) * limit}` : null,
     `&where=${JSON.stringify({
       name: { $regex: term, $options: 'i' },

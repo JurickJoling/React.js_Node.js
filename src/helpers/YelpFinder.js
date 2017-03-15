@@ -45,11 +45,9 @@ export default class YelpFinder extends Component {
   }
 
   onSelect(business) {
-    const { onSelect } = this.props;
-
     axios.post(`${YELP_HOST_URI}/show`, { id: business.id })
       .then(({ data }) => {
-        this.toggleModal(() => onSelect({
+        this.toggleModal(() => this.props.onSelect({
           ...business,
           neighborhoods: data.neighborhoods || [],
           hours: data.hours && data.hours[0] ? data.hours[0].open : []

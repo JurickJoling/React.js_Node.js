@@ -17,7 +17,8 @@ import {
   renderField,
   renderDropdownList,
   renderCheckboxField,
-  renderMultiselect
+  renderMultiselect,
+  renderTextareaField
 } from '../../../helpers';
 
 const asyncValidate = ({ objectId, yelp_id, }, dispatch) => {
@@ -150,6 +151,7 @@ class LocationForm extends Component {
               data={tags.map(({ tag }) => tag)}
               label="Tags"
             />
+            <Field name="notes" component={renderTextareaField} label="Notes"/>
           </div>
         </div>
         {errorMessage ? (

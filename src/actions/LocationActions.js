@@ -56,7 +56,7 @@ export function searchLocation({ yelp_id }) {
 
 export function fetchLocations({ search, include, order }) {
   const url = [
-    'Location?count=1',
+    'Location?count=1&limit=1000',
     order ? `&order=${order}` : null,
     include ? `&include=${include}` : null,
     search ? `&where=${JSON.stringify({
