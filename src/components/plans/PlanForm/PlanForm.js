@@ -80,14 +80,6 @@ class PlanForm extends Component {
         </div>
         <div className="row">
           <div className="col-md-6">
-            <Field
-              name="bundle"
-              valueField="objectId"
-              textField="heading"
-              component={renderDropdownList}
-              data={bundles.map(({ objectId, heading }) => ({ objectId, heading }))}
-              label="Bundle"
-            />
             <Field name="image" component={renderField} label="URL of banner"/>
             <Field name="title_event" component={renderField} label="Title"/>
             <Field name="description_event" component={renderTextareaField} max={250} label="Description" />

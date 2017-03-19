@@ -174,7 +174,7 @@ export function updatePlan(itemID, {
     featured, featured_name, featured_link, first_message
   })
     .then(() => {
-      const objectId = item.bundle.objectId;
+      const objectId = item.bundle ? item.bundle.objectId : null;
 
       if (objectId) {
         apiRequest.get(`EventBundle/${objectId}?include=event`, objectId).then(({ data }) =>
@@ -204,7 +204,10 @@ export function updatePlan(itemID, {
       }
     })
     .then(() => browserHistory.push('/plans'))
-    .catch(({ response: { data: { error } } }) => dispatch(planError(error)));
+    .catch(response => {
+      console.log('response', response)
+      // dispatch(planError(error))
+    });
 }
 
 export function deletePlan(itemID) {

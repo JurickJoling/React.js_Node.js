@@ -10,7 +10,6 @@ function PlansList({ items }) {
       <thead>
       <tr>
         <th>Banner</th>
-        <th>Bundle</th>
         <th>Title</th>
         <th>Tags</th>
         <th>Neighborhood</th>
@@ -32,13 +31,6 @@ function PlansList({ items }) {
             {image ? (
                 <LinkTo url={`plans/${objectId}`}>
                   <img className="list-image img-responsive" src={image} alt="" />
-                </LinkTo>
-              ) : null}
-          </td>
-          <td>
-            {bundle ? (
-                <LinkTo url={`bundles/${bundle.objectId}`}>
-                  {bundle.heading}
                 </LinkTo>
               ) : null}
           </td>
