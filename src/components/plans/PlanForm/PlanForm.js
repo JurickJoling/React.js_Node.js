@@ -1,3 +1,5 @@
+import compact from 'lodash/compact';
+import flatten from 'lodash/flatten';
 import first from 'lodash/first';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
@@ -45,6 +47,7 @@ class PlanForm extends Component {
 
     if (!isEmpty(item)) {
       console.log('locations', locations);
+      console.log('tags', tags);
       initialize({
         bundle: bundle ? { objectId: bundle.objectId } : null,
         start_day: (start_day ? start_day.iso : null),
@@ -59,7 +62,9 @@ class PlanForm extends Component {
   }
 
   render () {
-    const { item, bundles, locations, tags, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, bundles, locations, tags, values, errorMessage, handleSubmit, onSave, initialize } = this.props;
+
+    console.log('values', values);
 
     return (
       <form onSubmit={handleSubmit(plan => {onSave(plan)})}>
@@ -94,8 +99,13 @@ class PlanForm extends Component {
               valueField="objectId"
               textField="name"
               component={LocationsTimeArray}
-              data={locations.map(({ objectId, name, address }) => ({ objectId, name, address }))}
+              data={locations.map(({ objectId, name, address, tags }) => ({ objectId, name, address, tags }))}
               label="Select Location"
+              afterChange={locationsTimes => {
+                const selectedTags = compact(flatten(locationsTimes.map(lt => lt.location.tags)));
+                console.log('afterChange', locationsTimes, selectedTags);
+                initialize({ tags: selectedTags });
+              }}
             />
             <Field name="partner" component={renderCheckboxField} label="Partner" />
             <Field

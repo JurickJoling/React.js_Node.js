@@ -33,7 +33,7 @@ export default class LocationsTimeArray extends Component {
   }
 
   render() {
-    const { input, label, meta: { touched, error, warning }, data } = this.props;
+    const { input, label, meta: { touched, error, warning }, data, afterChange } = this.props;
     const { value, values } = this.state;
 
     return (
@@ -51,7 +51,10 @@ export default class LocationsTimeArray extends Component {
                 value={value.location ? value.location.name : null}
                 itemComponent={NameAddressItem}
                 valueComponent={NameAddressValue}
-                onChange={location => this.setState({ value: { ...value, location } })}
+                onChange={location => {
+                  console.log('location', location);
+                  this.setState({ value: { ...value, location } });
+                }}
               />
             </td>
             <td>
@@ -65,7 +68,12 @@ export default class LocationsTimeArray extends Component {
               <Button
                 color="primary"
                 disabled={!value.location || !value.time}
-                onClick={() => this.setState({ value: {}, values: [...values, value] }, () => input.onChange(this.state.values))}
+                onClick={() => this.setState({ value: {}, values: [...values, value] }, () => {
+                  input.onChange(this.state.values);
+                  if (afterChange) {
+                    afterChange(this.state.values);
+                  }
+                })}
               >
                 Add
               </Button>
@@ -81,7 +89,12 @@ export default class LocationsTimeArray extends Component {
                   onClick={() =>
                     this.setState({
                       values: values.filter(({ location, time }) => (val.location !== location && val.time !== time))
-                    }, () => input.onChange(this.state.values))
+                    }, () => {
+                      input.onChange(this.state.values);
+                      if (afterChange) {
+                        afterChange(this.state.values);
+                      }
+                    })
                   }
                 >
                   Remove
