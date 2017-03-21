@@ -26,6 +26,11 @@ import {
 import { weekDays, capitalize } from '../../../utils';
 
 class PlanForm extends Component {
+
+  state = {
+    selectedTags: []
+  };
+
   componentDidMount() {
     const { fetchBundles, fetchTags, fetchLocations } = this.props;
     Promise.all([
@@ -58,13 +63,12 @@ class PlanForm extends Component {
         reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
         featured, featured_name, featured_link, first_message
       });
+      this.setState({ selectedTags: (tags || []) })
     }
   }
 
   render () {
-    const { item, bundles, locations, tags, values, errorMessage, handleSubmit, onSave, initialize } = this.props;
-
-    console.log('values', values);
+    const { item, locations, tags, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
       <form onSubmit={handleSubmit(plan => {onSave(plan)})}>
@@ -101,11 +105,6 @@ class PlanForm extends Component {
               component={LocationsTimeArray}
               data={locations.map(({ objectId, name, address, tags }) => ({ objectId, name, address, tags }))}
               label="Select Location"
-              afterChange={locationsTimes => {
-                const selectedTags = compact(flatten(locationsTimes.map(lt => lt.location.tags)));
-                console.log('afterChange', locationsTimes, selectedTags);
-                initialize({ tags: selectedTags });
-              }}
             />
             <Field name="partner" component={renderCheckboxField} label="Partner" />
             <Field

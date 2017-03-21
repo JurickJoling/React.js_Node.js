@@ -51,10 +51,6 @@ export default class LocationsTimeArray extends Component {
                 value={value.location ? value.location.name : null}
                 itemComponent={NameAddressItem}
                 valueComponent={NameAddressValue}
-                onChange={location => {
-                  console.log('location', location);
-                  this.setState({ value: { ...value, location } });
-                }}
               />
             </td>
             <td>

@@ -1,6 +1,6 @@
 module.exports = {
   host: process.env.HOST || 'localhost',
-  port: process.env.PORT || 4545,
+  port: process.env.PORT || 4546,
 
   mongodb: process.env.MONGODB,
 

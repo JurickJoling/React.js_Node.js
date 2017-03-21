@@ -97,23 +97,23 @@ class DataTable extends Component {
 
         <table className="square">
           <tbody>
-            <tr className="table">
-              <th className="table-cell text">Cities</th>
-            </tr>
-            <tr>
-              <td>
-                <table className="table table-bordered table-hover table-striped table-responsive">
-                  <tbody className="cell-ages">
-                    {take(item.users_ages || [], 10).map(({ age, per_cent }, index) => (
-                      <tr key={index}>
-                        <td>{age}</td>
-                        <td>{per_cent.toFixed(2)}%</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </td>
-            </tr>
+          <tr className="table">
+            <th className="table-cell text">Cities</th>
+          </tr>
+          <tr>
+            <td>
+              <table className="table table-bordered table-hover table-striped table-responsive">
+                <tbody className="cell-ages">
+                {take(item.users_ages || [], 10).map(({ age, per_cent }, index) => (
+                  <tr key={index}>
+                    <td>{age}</td>
+                    <td>{per_cent.toFixed(2)}%</td>
+                  </tr>
+                ))}
+                </tbody>
+              </table>
+            </td>
+          </tr>
           </tbody>
         </table>
 
