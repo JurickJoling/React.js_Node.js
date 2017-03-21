@@ -1,3 +1,5 @@
+import compact from 'lodash/compact';
+import flatten from 'lodash/flatten';
 import first from 'lodash/first';
 import range from 'lodash/range';
 import isEmpty from 'lodash/isEmpty';
@@ -24,6 +26,11 @@ import {
 import { weekDays, capitalize } from '../../../utils';
 
 class PlanForm extends Component {
+
+  state = {
+    selectedTags: []
+  };
+
   componentDidMount() {
     const { fetchBundles, fetchTags, fetchLocations } = this.props;
     Promise.all([
@@ -45,6 +52,7 @@ class PlanForm extends Component {
 
     if (!isEmpty(item)) {
       console.log('locations', locations);
+      console.log('tags', tags);
       initialize({
         bundle: bundle ? { objectId: bundle.objectId } : null,
         start_day: (start_day ? start_day.iso : null),
@@ -55,11 +63,12 @@ class PlanForm extends Component {
         reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
         featured, featured_name, featured_link, first_message
       });
+      this.setState({ selectedTags: (tags || []) })
     }
   }
 
   render () {
-    const { item, bundles, locations, tags, errorMessage, handleSubmit, onSave } = this.props;
+    const { item, locations, tags, errorMessage, handleSubmit, onSave } = this.props;
 
     return (
       <form onSubmit={handleSubmit(plan => {onSave(plan)})}>
@@ -80,14 +89,6 @@ class PlanForm extends Component {
         </div>
         <div className="row">
           <div className="col-md-6">
-            <Field
-              name="bundle"
-              valueField="objectId"
-              textField="heading"
-              component={renderDropdownList}
-              data={bundles.map(({ objectId, heading }) => ({ objectId, heading }))}
-              label="Bundle"
-            />
             <Field name="image" component={renderField} label="URL of banner"/>
             <Field name="title_event" component={renderField} label="Title"/>
             <Field name="description_event" component={renderTextareaField} max={250} label="Description" />
@@ -102,7 +103,7 @@ class PlanForm extends Component {
               valueField="objectId"
               textField="name"
               component={LocationsTimeArray}
-              data={locations.map(({ objectId, name, address }) => ({ objectId, name, address }))}
+              data={locations.map(({ objectId, name, address, tags }) => ({ objectId, name, address, tags }))}
               label="Select Location"
             />
             <Field name="partner" component={renderCheckboxField} label="Partner" />

@@ -25,10 +25,6 @@ function PlanItem({
           <td>{objectId}</td>
         </tr>
         <tr>
-          <td>Bundle</td>
-          <td>{bundle ? <LinkTo url={`bundles/${bundle.objectId}`}>{bundle.objectId}</LinkTo> : null}</td>
-        </tr>
-        <tr>
           <td>Title Event</td>
           <td>{title_event}</td>
         </tr>
