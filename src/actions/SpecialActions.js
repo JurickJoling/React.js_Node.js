@@ -82,6 +82,14 @@ export function createSpecial(special, { objectId }) {
       className: 'Partner',
       objectId
     },
+    start_date: special.start_date ? {
+      __type: 'Date',
+      iso: special.start_date
+    } : null,
+    end_date: special.end_date ? {
+      __type: 'Date',
+      iso: special.end_date
+    } : null
   })
     .then(() => browserHistory.push('/specials'))
     .catch(({ response: { data: { error } } }) => dispatch(specialError(error)));
@@ -90,7 +98,15 @@ export function createSpecial(special, { objectId }) {
 export function updateSpecial(itemID, special) {
   return dispatch => apiRequest.put('Special', itemID, {
     ...special,
-    status: 'active'
+    status: 'active',
+    start_date: special.start_date ? {
+      __type: 'Date',
+      iso: special.start_date
+    } : null,
+    end_date: special.end_date ? {
+      __type: 'Date',
+      iso: special.end_date
+    } : null
   })
     .then(() => browserHistory.push('/specials'))
     .catch(({ response: { data: { error } } }) => dispatch(specialError(error)));

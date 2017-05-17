@@ -24,7 +24,7 @@ class BusinessProfileForm extends Component {
 
     return (
       <form onSubmit={handleSubmit(location => onSave(location))}>
-        <Field name="name" component={renderField} label="Business Name"/>
+        <Field disabled name="name" component={renderField} label="Business Name"/>
         <Field name="phone" component={renderField} label="Phone"/>
         <Field time name="hours" component={WeekdayStartEndList} label="Hours" />
         <Field name="neighborhood" component={renderField} label="Neighborhood" />

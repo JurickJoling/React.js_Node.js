@@ -15,7 +15,7 @@ class EventAddPage extends Component {
     const { errorMessage, currentUser, createEvent } = this.props;
     return (
       <div className="container">
-        <h3 className="events-add-title">Events Add</h3>
+        <h3 className="events-add-title">Add Event</h3>
         <EventForm errorMessage={errorMessage} onSave={event => createEvent(event, currentUser)} />
       </div>
     );

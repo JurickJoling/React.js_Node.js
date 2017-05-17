@@ -10,16 +10,13 @@ class SignupPage extends Component {
   render() {
     const { errorMessage, signupUser } = this.props;
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <h3 className="signup-title">Sign Up</h3>
-            <SignupForm
-              errorMessage={errorMessage}
-              onSignup={user => signupUser(user)}
-            />
-          </div>
-        </div>
+      <div className="middle-box text-center loginscreen animated fadeInDown">
+        <h2 className="logo-name">Leaf</h2>
+
+        <SignupForm
+          errorMessage={errorMessage}
+          onSignup={user => signupUser(user)}
+        />
       </div>
     );
   }

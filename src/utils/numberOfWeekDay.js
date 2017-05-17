@@ -1,18 +1,18 @@
 export default function (weekday) {
   switch (weekday) {
     case 'monday':
-      return 0;
-    case 'tuesday':
       return 1;
-    case 'wednesday':
+    case 'tuesday':
       return 2;
-    case 'thursday':
+    case 'wednesday':
       return 3;
-    case 'friday':
+    case 'thursday':
       return 4;
-    case 'saturday':
+    case 'friday':
       return 5;
-    case 'sunday':
+    case 'saturday':
       return 6;
+    case 'sunday':
+      return 7;
   }
 }

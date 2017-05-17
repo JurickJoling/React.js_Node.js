@@ -1,10 +1,12 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
+import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { facebookLoginUser } from '../../actions/AuthActions';
 
 import { DataTable } from '../../components';
+import { LinkTo } from '../../helpers';
 
 import { FACEBOOK_APP_ID } from '../../config';
 
@@ -13,9 +15,7 @@ function Dashboard({ isAuthenticated, errorMessage, currentUser, facebookLoginUs
     <div className="container">
       <div className="row">
         <div className="col-md-12 text-center">
-          {isAuthenticated ? (
-              <h3 className="dashboard-title">Dashboard</h3>
-            ) : (
+          {isAuthenticated ? null : (
               <div>
                 <FacebookLogin
                   appId={FACEBOOK_APP_ID}
@@ -29,6 +29,39 @@ function Dashboard({ isAuthenticated, errorMessage, currentUser, facebookLoginUs
         </div>
       </div>
       {isAuthenticated && currentUser.is_admin ? <DataTable /> : null}
+      {isAuthenticated && currentUser.is_partner ? (
+        <div className="row">
+          <div className="col-md-12">
+            <div className="row m-b">
+              <div className="col-md-12">
+                <div className="ibox-content text-center">
+                  <h2>Promote your location during certain times of the day.</h2>
+                  <br />
+                  <LinkTo button color="success" href="boosts">Boost</LinkTo>
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-md-6">
+                <div className="ibox-content text-center">
+                  <h2>Add current specials or create new ones that will be shared with Leaf users</h2>
+                  <br />
+                  <LinkTo button color="success" href="specials">Add A Special</LinkTo>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="ibox-content text-center">
+                  <h2>Add curent events or create new ones that will be shared with Lead users.</h2>
+                  <br />
+                  <LinkTo button color="success" href="events">Add An Event</LinkTo>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

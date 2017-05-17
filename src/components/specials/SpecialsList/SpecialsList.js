@@ -31,7 +31,7 @@ function SpecialsList({ items }) {
         </tr>
         </thead>
         <tbody>
-        {items.map(({objectId, incentive_name, category, incentive_type, attendee_min, item_name, redemption_options, promo_code, days, start_date, end_date, status, createdAt}) => (
+        {items.map(({objectId, incentive_name, category, incentive_type, attendee_min, item_name, redemption_options, promo_code, days, start_date, end_date, status, without_end_date, createdAt}) => (
           <tr key={objectId}>
             <td>{incentive_name}</td>
             <td>{category ? category.name : null}</td>
@@ -65,8 +65,8 @@ function SpecialsList({ items }) {
                   </OverlayTrigger>
                 ) : null}
             </td>
-            <td>{renderDateTime(start_date)}</td>
-            <td>{renderDateTime(end_date)}</td>
+            <td>{start_date ? renderDate(start_date) : null}</td>
+            <td>{without_end_date ? 'Without End date' : renderDate(end_date)}</td>
             <td>{isObject(status) ? status.name : status}</td>
             <td>{renderDate(createdAt)}</td>
             <td>

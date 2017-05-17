@@ -11,16 +11,13 @@ class LoginPage extends Component {
     const { errorMessage, signinUser } = this.props;
 
     return (
-      <div className="container">
-        <h2>Login</h2>
-        <div className="row">
-          <div className="col-md-12">
-            <SigninForm
-              errorMessage={errorMessage}
-              onSignin={({ email, password }) => signinUser({ email, password })}
-            />
-          </div>
-        </div>
+      <div className="middle-box text-center loginscreen animated fadeInDown">
+        <h2 className="logo-name">Leaf</h2>
+
+        <SigninForm
+          errorMessage={errorMessage}
+          onSignin={({ email, password }) => signinUser({ email, password })}
+        />
       </div>
     );
   }

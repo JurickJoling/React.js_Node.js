@@ -78,7 +78,8 @@ export function fetchUser(itemId) {
 export function createUser(user) {
   return dispatch => apiRequest.post('User', {
     ...user,
-    birthday: user.birthday ? moment(user.birthday).format('MM/DD/YYYY') : null
+    birthday: user.birthday ? moment(user.birthday).format('MM/DD/YYYY') : null,
+    username: user.user_email
   })
     .then(() => browserHistory.push('/users'))
     .catch(({ response: { data: { error } } }) => dispatch(userError(error)));

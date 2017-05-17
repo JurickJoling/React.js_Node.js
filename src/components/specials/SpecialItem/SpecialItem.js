@@ -2,7 +2,7 @@ import isObject from 'lodash/isObject';
 import size from 'lodash/size';
 import React, { PropTypes } from 'react';
 
-import { capitalize, fileUrl, renderDateTime, renderHours, weekDays } from '../../../utils';
+import { capitalize, fileUrl, renderDate, renderDateTime, renderHours, weekDays } from '../../../utils';
 
 function SpecialItem({
   item: {
@@ -75,11 +75,11 @@ function SpecialItem({
         </tr>
         <tr>
           <td>Start Date</td>
-          <td>{renderDateTime(start_date)}</td>
+          <td>{start_date ? renderDate(start_date) : null}</td>
         </tr>
         <tr>
           <td>End Date</td>
-          <td>{without_end_date ? 'Without End date' : renderDateTime(end_date)}</td>
+          <td>{without_end_date ? 'Without End date' : renderDate(end_date)}</td>
         </tr>
         <tr>
           <td>Image</td>

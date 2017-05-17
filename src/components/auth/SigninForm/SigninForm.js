@@ -9,14 +9,14 @@ class SigninForm extends Component {
 
     return (
       <form onSubmit={handleSubmit(({ email, password }) => onSignin({ email, password }))}>
-        <Field name="email" component={renderField} className="form-control" label="Email" />
-        <Field name="password" component={renderField} className="form-control" label="Password" type="password" />
+        <Field name="email" component={renderField} className="form-control" placeholder="Email" />
+        <Field name="password" component={renderField} className="form-control" placeholder="Password" type="password" />
         {errorMessage ? (
             <div className="alert alert-danger">
               <strong>Oops!</strong> {errorMessage}
             </div>
           ) : null}
-        <button action="submit" className="btn btn-primary">Sign In</button>
+        <button action="submit" className="btn btn-primary block full-width m-b">Login</button>
       </form>
     );
   }

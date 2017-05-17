@@ -51,13 +51,7 @@ function BoostsList({ items }) {
             <td>{boost_type ? boost_type.name : null}</td>
             <td>{renderDate(createdAt)}</td>
             <td>
-              <LinkTo className="btn btn-info" url={`boosts/${objectId}`}>Show</LinkTo>
-            </td>
-            <td>
               <LinkTo className="btn btn-primary" url={`boosts/${objectId}/edit`}>Edit</LinkTo>
-            </td>
-            <td>
-              <LinkTo className="btn btn-danger" url={`boosts/${objectId}/delete`}>Delete</LinkTo>
             </td>
           </tr>
         ))}

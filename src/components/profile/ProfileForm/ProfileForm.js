@@ -26,7 +26,7 @@ class ProfileForm extends Component {
       <form onSubmit={handleSubmit(user => onSave(user))}>
         <Field name="first_name" component={renderField} label="First Name"/>
         <Field name="last_name" component={renderField} label="Last Name" />
-        <Field name="personal_phone" component={renderField} label="Personal Phone Number"/>
+        <Field name="personal_phone" component={renderField} label="Personal Phone Number" mask="(111) 111-1111" />
         <Field name="job_title" component={renderField} label="Job Title" />
         {errorMessage ? (
             <div className="alert alert-danger">

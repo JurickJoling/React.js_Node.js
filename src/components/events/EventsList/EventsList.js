@@ -15,14 +15,8 @@ function EventsList({ items }) {
           <th>Dates</th>
           <th>Start Time</th>
           <th>End Time</th>
-          <th>Location</th>
           <th>Redemption</th>
-          <th>Cost</th>
-          <th>Special</th>
-          <th>Boost</th>
           <th>Created</th>
-          <th />
-          <th />
           <th />
         </tr>
         </thead>
@@ -50,20 +44,10 @@ function EventsList({ items }) {
             </td>
             <td>{renderDateTime(start_time)}</td>
             <td>{renderDateTime(end_time)}</td>
-            <td>{location ? <LinkTo url={`locations/${location.objectId}`}>{location.name}</LinkTo> : null}</td>
             <td>{redemption ? redemption.name : null}</td>
-            <td>{cost ? cost : 'Free'}</td>
-            <td>{special ? <LinkTo url={`specials/${special.objectId}`}>{special.incentive_name}</LinkTo> : null}</td>
-            <td><BooleanField value={boost} /></td>
             <td>{renderDate(createdAt)}</td>
             <td>
-              <LinkTo className="btn btn-info" url={`events/${objectId}`}>Show</LinkTo>
-            </td>
-            <td>
               <LinkTo className="btn btn-primary" url={`events/${objectId}/edit`}>Edit</LinkTo>
-            </td>
-            <td>
-              <LinkTo className="btn btn-danger" url={`events/${objectId}/delete`}>Delete</LinkTo>
             </td>
           </tr>
         ))}

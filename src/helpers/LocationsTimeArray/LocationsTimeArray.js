@@ -1,5 +1,6 @@
 import size from 'lodash/size';
 import isArray from 'lodash/isArray';
+import isEqual from 'lodash/isEqual';
 import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
 import DropdownList from 'react-widgets/lib/DropdownList'
@@ -51,6 +52,7 @@ export default class LocationsTimeArray extends Component {
                 value={value.location ? value.location.name : null}
                 itemComponent={NameAddressItem}
                 valueComponent={NameAddressValue}
+                onChange={location => this.setState({ value: { ...value, location } })}
               />
             </td>
             <td>
@@ -67,7 +69,7 @@ export default class LocationsTimeArray extends Component {
                 onClick={() => this.setState({ value: {}, values: [...values, value] }, () => {
                   input.onChange(this.state.values);
                   if (afterChange) {
-                    afterChange(this.state.values);
+                    afterChange(this.state.values, value);
                   }
                 })}
               >
@@ -84,7 +86,7 @@ export default class LocationsTimeArray extends Component {
                   color="danger"
                   onClick={() =>
                     this.setState({
-                      values: values.filter(({ location, time }) => (val.location !== location && val.time !== time))
+                      values: values.filter(({location, time}) => !isEqual(val, { location, time }))
                     }, () => {
                       input.onChange(this.state.values);
                       if (afterChange) {

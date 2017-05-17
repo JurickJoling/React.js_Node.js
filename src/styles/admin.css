@@ -204,7 +204,7 @@ table.table.table-bordered.table-hover.table-striped.table-responsive tbody tr t
 }
 
 tbody tr:nth-child(1) td {
-    padding-top: 30px !important;
+    /*padding-top: 30px !important;*/
 }
 
 table.table.table-bordered.table-hover.table-striped.table-responsive:nth-child(2) {
@@ -371,8 +371,8 @@ h3.settings-profile-edit-title {
 .square {
     float:left;
     position: relative;
-    width: 30%;
-    padding-bottom : 30%; /* = width for a 1:1 aspect ratio */
+    width: 21.6%;
+    padding-bottom: 18%;/* = width for a 1:1 aspect ratio */
     margin:1.66%;
     background-color: white;
     overflow:hidden;
@@ -384,13 +384,10 @@ h3.settings-profile-edit-title {
 
 span.table-cell.text,
 .table-cell.text {
-    bottom: -5px;
-    height: 54px;
-    margin-bottom: auto;
-    margin-top: auto;
-    position: absolute;
     text-align: center;
     width: 100%;
+    display: block;
+    font-size: 1.4em;
 }
 
 .cell-ages {
@@ -398,7 +395,8 @@ span.table-cell.text,
     width: 220px;
     font-size: 14px;
     display: inline-table;
-    margin: 45px;
+    margin: 45px 0;
+    margin-bottom: 0;
 }
 
 .cell-ages tr:first-of-type {
@@ -406,24 +404,28 @@ span.table-cell.text,
 }
 
 .table-cell.numbers {
-    top:35px;
-    height: 54px;
-    margin-bottom: auto;
-    margin-top: auto;
-    position: absolute;
     text-align: center;
     width: 100%;
-    font-size: 12vw;
+    font-size: 4em;
 }
 
 
 .content {
     position:absolute;
-    height:90%; /* = 100% - 2*5% padding */
-    width:90%; /* = 100% - 2*5% padding */
-    padding: 5%;
-
+    height: 100%;
+    width: 100%;
+    padding: 1%;
 }
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width:100%;
+    height:100%;
+}
+
 .table{
     display:table;
     width:100%;
@@ -487,4 +489,24 @@ span.table-cell.text,
 #bottom a:hover{
     background:#ECECEC;
     border:1px solid #fff;
+}
+
+
+.b-input-group {
+    background-color: #f1f1f1;
+    display: flex;
+}
+
+.b-input-group__input,
+.b-input-group__addon {
+    padding: 15px;
+}
+
+.b-input-group__input {
+    flex-basis: 100%;
+}
+
+.b-input-group__addon {
+    background-color: #e8e8e8;
+    flex-basis: 40%;
 }

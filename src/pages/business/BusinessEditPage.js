@@ -34,7 +34,7 @@ class LocationAddPage extends Component {
 
     return (
       <Loading className="container" loaded={fetched}>
-        <h3 className="business-edit-title">Edit Business</h3>
+        <h3 className="business-edit-title">Edit Business Profile</h3>
         <BusinessProfileForm item={item} errorMessage={errorMessage} onSave={location => updateBusiness(item.objectId, location)} />
       </Loading>
     );

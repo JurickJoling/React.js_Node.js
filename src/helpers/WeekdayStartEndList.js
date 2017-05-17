@@ -61,9 +61,9 @@ export default class WeekdayStartEndList extends Component {
                   <DateTimePicker
                     calendar={false}
                     disabled={value.allDay}
-                    value={value.start ? moment(value.start, 'HHmm').toDate() : null}
+                    value={value.start ? moment(value.start, 'HH:mm').toDate() : null}
                     onChange={(_, start) =>
-                      this.setState({ value: { ...value, start: moment(start, 'hh:mm A').format('HHmm') } })
+                      this.setState({ value: { ...value, start: moment(start, 'hh:mm A').format('HH:mm') } })
                     }
                   />
                 ) : (
@@ -79,9 +79,9 @@ export default class WeekdayStartEndList extends Component {
                   <DateTimePicker
                     calendar={false}
                     disabled={value.allDay}
-                    value={value.end ? moment(value.end, 'HHmm').toDate() : null}
+                    value={value.end ? moment(value.end, 'HH:mm').toDate() : null}
                     onChange={(_, end) =>
-                      this.setState({ value: { ...value, end: moment(end, 'hh:mm A').format('HHmm') } })
+                      this.setState({ value: { ...value, end: moment(end, 'hh:mm A').format('HH:mm') } })
                     }
                   />
                 ) : (
@@ -96,7 +96,7 @@ export default class WeekdayStartEndList extends Component {
               <Checkbox
                 checked={value.allDay}
                 onChange={({ target: { checked } }) =>
-                  this.setState({ value: { ...value, allDay: checked, start: '0000', end: '2359' } })
+                  this.setState({ value: { ...value, allDay: checked, start: '00:00', end: '23:59' } })
                 }>
                 All day
               </Checkbox>
@@ -114,8 +114,8 @@ export default class WeekdayStartEndList extends Component {
           {values.map((val, index) => (
             <tr key={index}>
               <td>{capitalize(weekDays[val.day])}</td>
-              <td>{moment(val.start, 'HHmm').format('hh:mm A')}</td>
-              <td>{moment(val.end, 'HHmm').format('hh:mm A')}</td>
+              <td>{moment(val.start, 'HH:mm').format('hh:mm A')}</td>
+              <td>{moment(val.end, 'HH:mm').format('hh:mm A')}</td>
               <td>
                 <Button
                   color="danger"

@@ -39,7 +39,7 @@ class EventsIndexPage extends Component {
         <div className="row m-b">
           <h3 className="events-title">Events</h3>
           <div className="col-md-2 pull-right">
-            <LinkTo className="btn default-btn" url="events/new">Create Event</LinkTo>
+            <LinkTo button color="primary" url="events/new">Create Event</LinkTo>
           </div>
           <div className="col-md-4">
             {fetched ? <h4>Events ({count})</h4> : null}

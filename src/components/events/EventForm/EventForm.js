@@ -26,6 +26,7 @@ class EventForm extends Component {
 
   componentDidMount() {
     const { currentUser, fetchEventTypes, fetchLocations, fetchSpecials } = this.props;
+
     Promise.all([
       fetchEventTypes({}),
       fetchLocations({}),
@@ -58,14 +59,14 @@ class EventForm extends Component {
     return (
       <form onSubmit={handleSubmit(event => {onSave(event)})}>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-8">
             <Field
               name="event_type"
               valueField="objectId"
               textField="name"
               component={renderDropdownList}
               data={eventTypes.map(({ objectId, name }) => ({ objectId, name }))}
-              label="Location Type"
+              label="Event Type"
             />
             <Field
               name="dates"
@@ -92,8 +93,6 @@ class EventForm extends Component {
               label="Location"
             />
             <Field name="description" component={renderTextareaField} label="Description"/>
-          </div>
-          <div className="col-md-6">
             <Field
               name="redemption"
               valueField="value"
@@ -134,13 +133,13 @@ class EventForm extends Component {
                 textField="name"
                 component={renderDropdownList}
                 data={[
-                  {name: 'Male', value: 'male'},
-                  {name: 'Female', value: 'female'},
-                  {name: 'Any', value: 'any'},
+                  { name: 'Male', value: 'male' },
+                  { name: 'Female', value: 'female' },
+                  { name: 'Any', value: 'any' },
                 ]}
                 label="Gender Criteria"
               />
-              ) : null}
+            ) : null}
             {add_criteria ? (
               <Field
                 name="age"
@@ -148,29 +147,21 @@ class EventForm extends Component {
                 textField="name"
                 component={renderDropdownList}
                 data={[
-                  {name: '18-24', value: '18-24'},
-                  {name: '25-35', value: '25-35'},
-                  {name: '35+', value: '35+'},
-                  {name: 'Any', value: 'any'}
+                  { name: '18-24', value: '18-24' },
+                  { name: '25-35', value: '25-35' },
+                  { name: '35+', value: '35+' },
+                  { name: 'Any', value: 'any' }
                 ]}
                 label="Age Criteria"
               />
-              ) : null}
-            <Field
-              name="special"
-              valueField="objectId"
-              textField="incentive_name"
-              component={renderDropdownList}
-              data={specials.map(({ objectId, incentive_name }) => ({ objectId, incentive_name }))}
-              label="Special"
-            />
+            ) : null}
           </div>
         </div>
         {errorMessage ? (
-            <div className="alert alert-danger">
-              <strong>Oops!</strong> {errorMessage}
-            </div>
-          ) : null}
+          <div className="alert alert-danger">
+            <strong>Oops!</strong> {errorMessage}
+          </div>
+        ) : null}
         <div className="btn-group">
           <LinkTo className="btn btn-default" url="events">Cancel</LinkTo>
           <button action="submit" className="btn btn-primary">
@@ -194,10 +185,13 @@ EventForm.propTypes = {
   })
 };
 
-
 export default connect(({
   auth: { currentUser },
   eventTypes: { items: eventTypes },
   specials: { items: specials },
   locations: { items: locations },
-}) => ({ eventTypes, locations, specials, currentUser }), ({ fetchEventTypes, fetchLocations, fetchSpecials }))(reduxForm({ form: 'event' })(EventForm));
+}) => ({ eventTypes, locations, specials, currentUser }), ({
+  fetchEventTypes,
+  fetchLocations,
+  fetchSpecials
+}))(reduxForm({ form: 'event' })(EventForm));

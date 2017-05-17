@@ -8,6 +8,8 @@ const yelpController = require('./controllers/yelp');
 const twilioController = require('./controllers/twilio');
 const searchController = require('./controllers/search');
 const stripeController = require('./controllers/stripe');
+const pushServerController = require('./controllers/push_server');
+const locations = require('./controllers/locations');
 
 const passportService = require('./services/passport');
 
@@ -35,4 +37,11 @@ module.exports = app => {
   app.post('/stripe/week', requireAuth, stripeController.week);
   app.post('/stripe', requireAuth, stripeController.create);
   app.delete('/stripe/:id', requireAuth, stripeController.remove);
+
+  app.get('/get_four_location', locations.get_four_location);
+
+  app.post('/seven_days_before_plan_expires', pushServerController.seven_days_before_plan_expires); // 1 time per day at 02:00
+  app.post('/one_hour_before_the_invitation_is_about_to_expire', pushServerController.one_hour_before_the_invitation_is_about_to_expire); // 1 time per hour at HH:30
+  app.post('/four_hours_before_plan_start', pushServerController.four_hours_before_plan_start); // 1 time per hour at HH:45
+  app.post('/day_before_plan_starts', pushServerController.day_before_plan_starts); // 1 time per hour at HH:45
 };

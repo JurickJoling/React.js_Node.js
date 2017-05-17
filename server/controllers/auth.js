@@ -1,3 +1,4 @@
+const isEmpty = require('lodash/isEmpty');
 const isObject = require('lodash/isObject');
 const compact = require('lodash/compact');
 const first = require('lodash/first');
@@ -25,6 +26,10 @@ function tokenForPartner(partner) {
 }
 
 function persistLocation({ business }) {
+  if (isEmpty(business)) {
+    return Promise.resolve();
+  }
+
   return new Promise(function(resolve, reject) {
     if (business.type === 'Location') {
       resolve({

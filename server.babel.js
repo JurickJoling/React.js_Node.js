@@ -13,3 +13,4 @@ try {
 }
 
 require('babel-register')(config);
+require('babel-polyfill');

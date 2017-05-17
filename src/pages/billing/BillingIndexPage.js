@@ -43,7 +43,7 @@ class PaymentMethodsIndexPage extends Component {
         <Loading ignoreLoader={(
           <div className="row m-b">
             <div className="col-md-4 pull-right">
-              <LinkTo className="btn default-btn" url="billing/new">Create Payment Method</LinkTo>
+              <LinkTo button color="primary" url="billing/new">Create Payment Method</LinkTo>
             </div>
             <div className="col-md-4">
               {fetched ? <h4 className="payment-methods-title">Payment Methods ({count})</h4> : null}

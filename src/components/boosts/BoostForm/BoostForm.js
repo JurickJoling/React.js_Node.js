@@ -46,8 +46,6 @@ class BoostForm extends Component {
           <div className="col-md-6">
             <Field name="name" component={renderField} label="Boost Name"/>
             <Field name="dates" component={DateDayPartsList} label="Dates" />
-          </div>
-          <div className="col-md-6">
             <Field
               name="start_time"
               component={renderDateTimePicker}

@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { renderField } from '../../../helpers';
+import { renderFieldWithExplanations } from '../../../helpers';
 
 class SignupForm extends Component {
 
   render() {
     const { errorMessage, handleSubmit, onSignup } = this.props;
+    
+    const addon = null;
 
     return (
       <form onSubmit={handleSubmit(user => onSignup(user))}>
-        <Field name="first_name" component={renderField} className="form-control" label="First Name" />
-        <Field name="last_name" component={renderField} className="form-control" label="Last Name" />
-        <Field name="email" component={renderField} className="form-control" label="Email" />
-        <Field name="password" component={renderField} className="form-control" type="password" label="Password" />
-        <Field name="passwordConfirmation" component={renderField} className="form-control" type="password" label="Confirm Password" />
-        <Field name="personal_phone" component={renderField} className="form-control" label="Personal Phone Number" />
-        <Field name="job_title" component={renderField} className="form-control" label="Job Title" />
-        {errorMessage ? (
-            <div className="alert alert-danger">
-              <strong>Oops!</strong> {errorMessage}
-            </div>
-          ) : null}
-        <button action="submit" className="btn btn-primary">Sign Up</button>
+        <Field name="first_name" component={renderFieldWithExplanations} className="form-control" label="First Name" />
+        <Field name="last_name" component={renderFieldWithExplanations} className="form-control" label="Last Name" />
+        <Field name="email" component={renderFieldWithExplanations} className="form-control" label="Email" />
+        <Field name="password" component={renderFieldWithExplanations} className="form-control" type="password" label="Password" />
+        <Field name="passwordConfirmation" component={renderFieldWithExplanations} className="form-control" type="password" label="Confirm Password" />
+        <Field name="personal_phone" component={renderFieldWithExplanations} className="form-control" label="Personal Phone Number" />
+        <Field name="job_title" component={renderFieldWithExplanations} className="form-control" label="Job Title" addon={addon} />
+        {errorMessage && (
+          <div className="alert alert-danger">
+            <strong>Oops!</strong> {errorMessage}
+          </div>
+        )}
+        <button action="submit" className="btn btn-primary block full-width m-b">Sign Up</button>
       </form>
     );
   }

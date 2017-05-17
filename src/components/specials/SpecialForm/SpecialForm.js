@@ -126,8 +126,6 @@ class SpecialForm extends Component {
               data={locations.map(({ objectId, name }) => ({ objectId, name }))}
               label="Location"
             />
-          </div>
-          <div className="col-md-6">
             <Field
               name="redemption_options"
               valueField="value"
@@ -141,12 +139,6 @@ class SpecialForm extends Component {
               label="Redemption Options"
               afterChange={({ value }) => this.setState({ redemption_options: value })}
             />
-            {redemption_options === 'mobile_image' ? (
-                <Field name="image" component={renderFileUploadField} label="Image Upload" />
-              ) : null}
-            {redemption_options === 'promo_code' ? (
-                <Field name="promo_code" component={renderField} label="Promo Code" />
-              ) : null}
             <Field
               time
               name="days"
@@ -170,6 +162,14 @@ class SpecialForm extends Component {
               label="No End Date"
               afterChange={({ target: { checked } }) => this.setState({ without_end_date: checked })}
             />
+          </div>
+          <div className="col-md-6">
+            {redemption_options === 'mobile_image' ? (
+              <Field name="image" component={renderFileUploadField} label="Image Upload" />
+            ) : null}
+            {redemption_options === 'promo_code' ? (
+              <Field name="promo_code" component={renderField} label="Promo Code" />
+            ) : null}
           </div>
         </div>
         {errorMessage ? (

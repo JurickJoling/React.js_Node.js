@@ -5,9 +5,12 @@ import { AppContainer } from 'react-hot-loader';
 
 import 'react-widgets/dist/css/react-widgets.css';
 import 'font-awesome/css/font-awesome.min.css';
-import './styles/main.css';
-import './styles/admin.css';
-import './styles/sidebar.css';
+// import './styles/main.css';
+// import './styles/admin.css';
+// import './styles/sidebar.css'; // deprecated => old theme
+
+import './styles/inspinia/inspinia.css';
+import './styles/inspinia/custom.css';
 
 import App from './App';
 import routes from './routes';

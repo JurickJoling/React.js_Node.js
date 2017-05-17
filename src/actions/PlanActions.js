@@ -47,7 +47,7 @@ export function fetchPlans({ search, include, order, limit, page }) {
   const url = [
     'EventDetail?count=1',
     limit ? `&limit=${limit}` : null,
-    page && (page > 1) ? `&skip=${page * limit}` : null,
+    page && (page > 1) ? `&skip=${(page - 1) * limit}` : null,
     order ? `&order=${order}` : null,
     include ? `&include=${include}` : null,
     search ? `&where=${JSON.stringify({
@@ -74,9 +74,8 @@ export function createPlan({
   tags, locations, location,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
   reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
-  featured, featured_name, featured_link, first_message
+  featured, featured_name, featured_link, first_message, draft
 }) {
-  console.log('locations', locations);
   return dispatch => apiRequest.post('EventDetail', {
     bundle: bundle ? {
       __type: 'Pointer',
@@ -108,7 +107,7 @@ export function createPlan({
     tags, location,
     partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost,
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
-    featured, featured_name, featured_link, first_message
+    featured, featured_name, featured_link, first_message, draft
   })
     .then(({ data }) => {
       const eventId = data.objectId;
@@ -138,7 +137,7 @@ export function updatePlan(itemID, {
   tags, locations, location,
   partner, start_day, count_attended, is21_age, estimated_cost, end_day,
   reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
-  featured, featured_name, featured_link, first_message
+  featured, featured_name, featured_link, first_message, draft
 }, item) {
   return dispatch => apiRequest.put('EventDetail', itemID, {
     bundle: bundle ? {
@@ -171,7 +170,7 @@ export function updatePlan(itemID, {
     tags, location,
     partner, count_attended: parseInt(count_attended, 10), is21_age, estimated_cost,
     reoccur_monday, reoccur_tuesday, reoccur_wednesday, reoccur_thursday, reoccur_friday, reoccur_saturday, reoccur_sunday,
-    featured, featured_name, featured_link, first_message
+    featured, featured_name, featured_link, first_message, draft
   })
     .then(() => {
       const objectId = item.bundle ? item.bundle.objectId : null;

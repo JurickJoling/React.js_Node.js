@@ -30,24 +30,27 @@ class BoostsIndexPage extends Component {
   }
 
   render() {
-    const { items, count } = this.props;
+    const { items } = this.props;
     const { fetched, order } = this.state;
 
     return (
-      <Loading className="container" ignoreLoader={(
+      <Loading
+        className="container"
+        ignoreLoader={(
         <div className="row m-b">
-            <h3 className="boost-index-title">Boost</h3>
+          <h3 className="boost-index-title">Boost</h3>
           <div className="col-md-2 pull-right">
-            <LinkTo className="btn default-btn" url="boosts/new">Create Boost</LinkTo>
+            <LinkTo button color="primary" url="boosts/new">Create Boost</LinkTo>
           </div>
           <div className="col-md-4">
-            {fetched ? <h4>Boosts ({count})</h4> : null}
+            {fetched ? <h4>Boosts</h4> : null}
           </div>
           <div className="col-md-6 text-right">
             <SearchForm onSearch={({ search }) => this.fetchData({ search, order })} />
           </div>
         </div>
-      )} loaded={fetched}>
+      )}
+        loaded={fetched}>
         <BoostsList items={items} />
       </Loading>
     );

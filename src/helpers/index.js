@@ -9,6 +9,7 @@ export { default as YelpFinder } from './YelpFinder';
 export { default as LocationsTimeArray } from './LocationsTimeArray/LocationsTimeArray';
 export { default as EventbriteFinder } from './EventbriteFinder';
 export { default as renderField } from './renderField';
+export { default as renderFieldWithExplanations } from './renderFieldWithExplanations';
 export { default as DateStartEndList } from './DateStartEndList';
 export { default as DateDayTimeList } from './DateDayTimeList';
 export { default as DateDayPartsList } from './DateDayPartsList';

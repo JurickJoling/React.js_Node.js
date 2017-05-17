@@ -15,7 +15,7 @@ class SpecialAddPage extends Component {
     const { errorMessage, currentUser, createSpecial } = this.props;
     return (
       <div className="container">
-        <h3 className="special-add-title">Add a special</h3>
+        <h3 className="special-add-title">Add A Special</h3>
         <SpecialForm errorMessage={errorMessage} onSave={special => createSpecial(special, currentUser)} />
       </div>
     );

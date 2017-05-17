@@ -54,6 +54,10 @@ export function searchLocation({ yelp_id }) {
   return dispatch => apiRequest.get(url);
 }
 
+export function fetchFourLocations() {
+  return dispatch => apiRequest.authGet(`get_four_location`).then(({ data }) => data);
+}
+
 export function fetchLocations({ search, include, order }) {
   const url = [
     'Location?count=1&limit=1000',
