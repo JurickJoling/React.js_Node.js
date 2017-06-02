@@ -11,8 +11,7 @@ class SignupPage extends Component {
     const { errorMessage, signupUser } = this.props;
     return (
       <div className="middle-box text-center loginscreen animated fadeInDown">
-        <h2 className="logo-name">Leaf</h2>
-
+        <p className="logo-name">Signup New Account</p>
         <SignupForm
           errorMessage={errorMessage}
           onSignup={user => signupUser(user)}

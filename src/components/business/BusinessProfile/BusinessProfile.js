@@ -1,5 +1,6 @@
 import size from 'lodash/size';
 import React from 'react';
+import ReactBootstrap from 'react-bootstrap';
 
 import { BooleanField, LinkTo } from '../../../helpers';
 import { capitalize, renderHours, weekDays } from '../../../utils';
@@ -18,16 +19,16 @@ function BusinessProfile({ item: { name, phone, hours, neighborhood, reservation
           <table className="table table-bordered table-hover table-striped table-responsive">
             <tbody>
             <tr>
-              <td>Business Name</td>
-              <td>{name}</td>
+              <td className="col-md-6">Business Name</td>
+              <td className="col-md-3">{name}</td>
             </tr>
             <tr>
-              <td>Phone</td>
-              <td>{phone}</td>
+              <td className="col-md-6">Phone</td>
+              <td className="col-md-3">{phone}</td>
             </tr>
             <tr>
-              <td>Hours</td>
-              <td>
+              <td className="col-md-6">Hours</td>
+              <td className="col-md-3">
                 {size(hours || []) > 0 ? (
                     <table className="table table-bordered table-hover table-striped table-responsive">
                       <tbody>
@@ -44,16 +45,16 @@ function BusinessProfile({ item: { name, phone, hours, neighborhood, reservation
               </td>
             </tr>
             <tr>
-              <td>Neighborhood</td>
-              <td>{neighborhood}</td>
+              <td className="col-md-6">Neighborhood</td>
+              <td className="col-md-3">{neighborhood}</td>
             </tr>
             <tr>
-              <td>Takes Reservations</td>
-              <td><BooleanField value={reservations} /></td>
+              <td className="col-md-6">Takes Reservations</td>
+              <td className="col-md-3"><BooleanField value={reservations} /></td>
             </tr>
             <tr>
-              <td>Outdoor Seating</td>
-              <td><BooleanField value={outdoor} /></td>
+              <td className="col-md-6">Outdoor Seating</td>
+              <td className="col-md-3"><BooleanField value={outdoor} /></td>
             </tr>
             </tbody>
           </table>

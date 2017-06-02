@@ -1,10 +1,12 @@
 import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
 import {
   LinkTo,
   renderField,
+  renderDatePicker,
 } from '../../../helpers';
 
 class PaymentMethodForm extends Component {
@@ -19,14 +21,14 @@ class PaymentMethodForm extends Component {
     const {
       item,
       item: {
-        number, exp_year, exp_month, cvc
+        payment_name, number, exp_year, exp_month, cvc
       },
       initialize
     } = this.props;
 
     if (!isEmpty(item)) {
       initialize({
-        number, exp_year, exp_month, cvc
+        payment_name, number, exp_year, exp_month, cvc
       });
     }
   }
@@ -38,10 +40,11 @@ class PaymentMethodForm extends Component {
       <form onSubmit={handleSubmit(paymentMethod => onSave(paymentMethod))}>
         <div className="row">
           <div className="col-md-6">
-            <Field name="number" component={renderField} label="Number" />
-            <Field name="exp_year" component={renderField} label="Year" />
-            <Field name="exp_month" component={renderField} label="Month" />
-            <Field name="cvc" component={renderField} label="CVC" />
+            <Field name="payment_name" component={renderField} label="Payment Nickname(Optional)" />
+            <Field name="number" component={renderField} label="Credit Card Number" />
+            <Field name="exp_year" component={renderDatePicker} label="Expiration Year" />
+            <Field name="exp_month" component={renderDatePicker} label="Expiration Month" />
+            <Field name="cvc" component={renderField} label="CVV" />
           </div>
           <div className="col-md-6">
           </div>
@@ -54,7 +57,7 @@ class PaymentMethodForm extends Component {
         <div className="btn-group">
           <LinkTo className="btn btn-default" url="billing">Cancel</LinkTo>
           <button action="submit" className="btn btn-primary">
-            {isEmpty(item) ? 'Create PaymentMethod' : 'Update PaymentMethod'}
+            {isEmpty(item) ? 'Save' : 'Save'}
           </button>
         </div>
       </form>

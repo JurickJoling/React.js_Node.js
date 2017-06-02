@@ -2,7 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { LinkTo, renderField, renderCheckboxField, WeekdayStartEndList } from '../../../helpers';
+import { LinkTo, renderField, renderCheckboxField, renderFileUploadField, WeekdayStartEndList } from '../../../helpers';
 
 class BusinessProfileForm extends Component {
   componentDidMount() {
@@ -24,7 +24,8 @@ class BusinessProfileForm extends Component {
 
     return (
       <form onSubmit={handleSubmit(location => onSave(location))}>
-        <Field disabled name="name" component={renderField} label="Business Name"/>
+        <Field name="name" component={renderField} label="Business Name"/>
+        <Field name="image" component={renderFileUploadField} label="Image Upload" />
         <Field name="phone" component={renderField} label="Phone"/>
         <Field time name="hours" component={WeekdayStartEndList} label="Hours" />
         <Field name="neighborhood" component={renderField} label="Neighborhood" />

@@ -2,7 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import React, { PropTypes, Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import { LinkTo, renderField } from '../../../helpers';
+import { LinkTo, renderField, renderFileUploadField, } from '../../../helpers';
 
 class ProfileForm extends Component {
   componentDidMount() {
@@ -10,11 +10,11 @@ class ProfileForm extends Component {
   }
 
   handleInitialize() {
-    const { currentUser, currentUser: { first_name, last_name, personal_phone, job_title }, initialize } = this.props;
+    const { currentUser, currentUser: { first_name, last_name, image, email, personal_phone, job_title }, initialize } = this.props;
 
     if (!isEmpty(currentUser)) {
       initialize({
-        first_name, last_name, personal_phone, job_title
+        first_name, last_name, image, email, personal_phone, job_title
       });
     }
   }
@@ -26,6 +26,8 @@ class ProfileForm extends Component {
       <form onSubmit={handleSubmit(user => onSave(user))}>
         <Field name="first_name" component={renderField} label="First Name"/>
         <Field name="last_name" component={renderField} label="Last Name" />
+        <Field name="image" component={renderFileUploadField} label="Image Upload" />
+        <Field name="email" component={renderField} label="email" />
         <Field name="personal_phone" component={renderField} label="Personal Phone Number" mask="(111) 111-1111" />
         <Field name="job_title" component={renderField} label="Job Title" />
         {errorMessage ? (
@@ -40,6 +42,15 @@ class ProfileForm extends Component {
       </form>
     );
   }
+}
+function validate({ email}) {
+  const errors = {};
+
+  if (!email) {
+    errors.email = 'Please enter an email';
+  }
+
+  return errors;
 }
 
 ProfileForm.defaultProps = {

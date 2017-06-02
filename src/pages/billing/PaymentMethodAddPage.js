@@ -15,6 +15,9 @@ class PaymentMethodAddPage extends Component {
     const { errorMessage, currentUser, createPaymentMethod } = this.props;
     return (
       <div className="container">
+        <div className="row m-b">
+            <h3 className="addbilling">Add a Payment Method</h3>
+        </div>
         <PaymentMethodForm errorMessage={errorMessage} onSave={paymentMethod => createPaymentMethod(paymentMethod, currentUser)} />
       </div>
     );

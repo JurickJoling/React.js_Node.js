@@ -12,8 +12,7 @@ class LoginPage extends Component {
 
     return (
       <div className="middle-box text-center loginscreen animated fadeInDown">
-        <h2 className="logo-name">Leaf</h2>
-
+        <p className="logo-name">Login  to your account</p>
         <SigninForm
           errorMessage={errorMessage}
           onSignin={({ email, password }) => signinUser({ email, password })}
